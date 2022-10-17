@@ -587,11 +587,11 @@ public class ImportCsv extends AbstractCsvTool {
           AtomicReference<Boolean> isFail = new AtomicReference<>(false);
 
           // read data from record
-          for (String measurement : headerNameMap.values()) {
-            String value = record.get(measurement);
+          for (Map.Entry<String, String> headerName : headerNameMap.entrySet()) {
+            String value = record.get(headerName.getValue());
             if (!"".equals(value)) {
               TSDataType type;
-              if (!headerTypeMap.containsKey(headerNameMap.get(measurement))) {
+              if (!headerTypeMap.containsKey(headerNameMap.get(headerName.getKey()))) {
                 boolean hasResult = false;
                 // query the data type in iotdb
                 if (!typeQueriedDevice.contains(deviceName.get())) {
@@ -607,26 +607,29 @@ public class ImportCsv extends AbstractCsvTool {
                 if (!hasResult) {
                   type = typeInfer(value);
                   if (type != null) {
-                    headerTypeMap.put(measurement, type);
+                    headerTypeMap.put(headerName.getKey(), type);
                   } else {
                     System.out.printf(
                         "Line '%s', column '%s': '%s' unknown type%n",
-                        record.getRecordNumber(), measurement, value);
+                        record.getRecordNumber(), headerName.getKey(), value);
                     isFail.set(true);
                   }
                 }
               }
-              type = headerTypeMap.get(headerNameMap.get(measurement));
+              type = headerTypeMap.get(headerNameMap.get(headerName.getKey()));
               if (type != null) {
                 Object valueTrans = typeTrans(value, type);
                 if (valueTrans == null) {
                   isFail.set(true);
                   System.out.printf(
                       "Line '%s', column '%s': '%s' can't convert to '%s'%n",
-                      record.getRecordNumber(), headerNameMap.get(measurement), value, type);
+                      record.getRecordNumber(),
+                      headerNameMap.get(headerName.getKey()),
+                      value,
+                      type);
                 } else {
                   values.add(valueTrans);
-                  measurements.add(headerNameMap.get(measurement));
+                  measurements.add(headerNameMap.get(headerName.getKey()));
                   types.add(type);
                   pointSize.getAndIncrement();
                 }
