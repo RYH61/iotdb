@@ -19,10 +19,10 @@
 package org.apache.iotdb.integration.env;
 
 import org.apache.iotdb.itbase.env.BaseEnv;
-import org.apache.iotdb.jdbc.Config;
-import org.apache.iotdb.jdbc.Constant;
-import org.apache.iotdb.jdbc.IoTDBConnection;
 
+import com.bonc.cirrotimes.jdbc.Config;
+import com.bonc.cirrotimes.jdbc.Constant;
+import com.bonc.cirrotimes.jdbc.IoTDBConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +37,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.apache.iotdb.jdbc.Config.VERSION;
+import static com.bonc.cirrotimes.jdbc.Config.VERSION;
 import static org.junit.Assert.fail;
 
 public abstract class ClusterEnvBase implements BaseEnv {

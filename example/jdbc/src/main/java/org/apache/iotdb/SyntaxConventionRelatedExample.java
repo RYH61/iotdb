@@ -18,7 +18,7 @@
  */
 package org.apache.iotdb;
 
-import org.apache.iotdb.jdbc.IoTDBSQLException;
+import com.bonc.cirrotimes.jdbc.IoTDBSQLException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -62,7 +62,7 @@ public class SyntaxConventionRelatedExample {
   private static final String DEVICE = "root.sg1";
 
   public static void main(String[] args) throws ClassNotFoundException, SQLException {
-    Class.forName("org.apache.iotdb.jdbc.IoTDBDriver");
+    Class.forName("com.bonc.cirrotimes.jdbc.IoTDBDriver");
     try (Connection connection =
             DriverManager.getConnection(
                 "jdbc:iotdb://127.0.0.1:6667?version=V_0_13", "root", "root");

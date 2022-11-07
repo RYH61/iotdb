@@ -63,7 +63,7 @@ Requires that you include the packages containing the JDBC classes needed for da
 
 ```Java
 import java.sql.*;
-import org.apache.iotdb.jdbc.IoTDBSQLException;
+import com.bonc.cirrotimes.jdbc.IoTDBSQLException;
 
 public class JDBCExample {
   /**

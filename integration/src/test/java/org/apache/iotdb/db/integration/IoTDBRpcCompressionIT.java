@@ -23,9 +23,9 @@ import org.apache.iotdb.db.conf.IoTDBDescriptor;
 import org.apache.iotdb.integration.env.ConfigFactory;
 import org.apache.iotdb.integration.env.EnvFactory;
 import org.apache.iotdb.itbase.category.LocalStandaloneTest;
-import org.apache.iotdb.jdbc.Config;
 import org.apache.iotdb.rpc.RpcTransportFactory;
 
+import com.bonc.cirrotimes.jdbc.Config;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

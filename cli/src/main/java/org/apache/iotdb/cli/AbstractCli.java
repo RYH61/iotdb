@@ -19,14 +19,14 @@
 package org.apache.iotdb.cli;
 
 import org.apache.iotdb.exception.ArgsErrorException;
-import org.apache.iotdb.jdbc.AbstractIoTDBJDBCResultSet;
-import org.apache.iotdb.jdbc.IoTDBConnection;
-import org.apache.iotdb.jdbc.IoTDBJDBCResultSet;
 import org.apache.iotdb.rpc.IoTDBConnectionException;
 import org.apache.iotdb.rpc.RpcUtils;
 import org.apache.iotdb.service.rpc.thrift.ServerProperties;
 import org.apache.iotdb.tool.ImportCsv;
 
+import com.bonc.cirrotimes.jdbc.AbstractIoTDBJDBCResultSet;
+import com.bonc.cirrotimes.jdbc.IoTDBConnection;
+import com.bonc.cirrotimes.jdbc.IoTDBJDBCResultSet;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;

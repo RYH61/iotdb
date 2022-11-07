@@ -19,8 +19,8 @@
 package org.apache.iotdb.db.utils.datastructure;
 
 import org.apache.iotdb.db.utils.EnvironmentUtils;
-import org.apache.iotdb.jdbc.Config;
 
+import com.bonc.cirrotimes.jdbc.Config;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

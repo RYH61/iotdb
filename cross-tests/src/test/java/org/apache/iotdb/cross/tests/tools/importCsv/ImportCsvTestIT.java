@@ -20,8 +20,8 @@
 package org.apache.iotdb.cross.tests.tools.importCsv;
 
 import org.apache.iotdb.db.utils.EnvironmentUtils;
-import org.apache.iotdb.jdbc.Config;
 
+import com.bonc.cirrotimes.jdbc.Config;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;

@@ -20,11 +20,12 @@ package org.apache.iotdb.it.env;
 
 import org.apache.iotdb.confignode.rpc.thrift.IConfigNodeRPCService;
 import org.apache.iotdb.itbase.env.BaseEnv;
-import org.apache.iotdb.jdbc.Config;
-import org.apache.iotdb.jdbc.Constant;
 import org.apache.iotdb.rpc.IoTDBConnectionException;
 import org.apache.iotdb.session.ISession;
 import org.apache.iotdb.session.Session;
+
+import com.bonc.cirrotimes.jdbc.Config;
+import com.bonc.cirrotimes.jdbc.Constant;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -33,7 +34,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import static org.apache.iotdb.jdbc.Config.VERSION;
+import static com.bonc.cirrotimes.jdbc.Config.VERSION;
 import static org.junit.Assert.fail;
 
 public class RemoteServerEnv implements BaseEnv {

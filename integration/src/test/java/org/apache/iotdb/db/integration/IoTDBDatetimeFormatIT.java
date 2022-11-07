@@ -22,8 +22,8 @@ import org.apache.iotdb.integration.env.EnvFactory;
 import org.apache.iotdb.itbase.category.ClusterTest;
 import org.apache.iotdb.itbase.category.LocalStandaloneTest;
 import org.apache.iotdb.itbase.category.RemoteTest;
-import org.apache.iotdb.jdbc.IoTDBConnection;
 
+import com.bonc.cirrotimes.jdbc.IoTDBConnection;
 import org.apache.thrift.TException;
 import org.junit.After;
 import org.junit.Assert;

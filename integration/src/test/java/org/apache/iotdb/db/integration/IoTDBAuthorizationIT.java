@@ -23,8 +23,8 @@ import org.apache.iotdb.db.auth.AuthorityChecker;
 import org.apache.iotdb.db.qp.logical.Operator;
 import org.apache.iotdb.db.utils.EnvironmentUtils;
 import org.apache.iotdb.itbase.category.LocalStandaloneTest;
-import org.apache.iotdb.jdbc.Config;
 
+import com.bonc.cirrotimes.jdbc.Config;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

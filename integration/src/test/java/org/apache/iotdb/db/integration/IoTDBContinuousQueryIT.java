@@ -23,9 +23,9 @@ import org.apache.iotdb.commons.exception.IllegalPathException;
 import org.apache.iotdb.commons.path.PartialPath;
 import org.apache.iotdb.db.utils.EnvironmentUtils;
 import org.apache.iotdb.itbase.category.LocalStandaloneTest;
-import org.apache.iotdb.jdbc.Config;
 import org.apache.iotdb.tsfile.utils.Pair;
 
+import com.bonc.cirrotimes.jdbc.Config;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

@@ -24,10 +24,10 @@ import org.apache.iotdb.db.engine.trigger.sink.local.LocalIoTDBEvent;
 import org.apache.iotdb.db.engine.trigger.sink.local.LocalIoTDBHandler;
 import org.apache.iotdb.db.exception.query.QueryProcessException;
 import org.apache.iotdb.db.utils.EnvironmentUtils;
-import org.apache.iotdb.jdbc.Config;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSDataType;
 import org.apache.iotdb.tsfile.utils.Binary;
 
+import com.bonc.cirrotimes.jdbc.Config;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

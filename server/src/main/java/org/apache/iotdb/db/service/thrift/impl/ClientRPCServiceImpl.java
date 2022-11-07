@@ -160,6 +160,15 @@ public class ClientRPCServiceImpl implements IClientRPCServiceWithHandler {
 
   @Override
   public TSOpenSessionResp openSession(TSOpenSessionReq req) throws TException {
+
+    if (!checkSeriseName(req)) {
+      TSStatus checkSeriseNameStatus =
+          RpcUtils.getStatus(
+              TSStatusCode.SERIES_CODE_ERROR,
+              "Connection failed. The jdbc series code is incorrect, please use the correct version .");
+      return new TSOpenSessionResp(checkSeriseNameStatus, CURRENT_RPC_VERSION);
+    }
+
     IoTDBConstant.ClientVersion clientVersion = parseClientVersion(req);
     TSStatus loginStatus;
     try {
@@ -208,7 +217,16 @@ public class ClientRPCServiceImpl implements IClientRPCServiceWithHandler {
 
     TSStatus tsStatus = RpcUtils.getStatus(openSessionResp.getCode(), openSessionResp.getMessage());
     TSOpenSessionResp resp = new TSOpenSessionResp(tsStatus, CURRENT_RPC_VERSION);
+    resp.putToConfiguration("serverSeriesName", IoTDBConstant.SERVER_SERIES_NAME);
     return resp.setSessionId(openSessionResp.getSessionId());
+  }
+
+  private boolean checkSeriseName(TSOpenSessionReq req) {
+    Map<String, String> configuration = req.configuration;
+    if (configuration != null && configuration.containsKey("jdbcSeriesName")) {
+      return IoTDBConstant.JDBC_SERIES_NAME.equals(configuration.get("jdbcSeriesName"));
+    }
+    return false;
   }
 
   private IoTDBConstant.ClientVersion parseClientVersion(TSOpenSessionReq req) {

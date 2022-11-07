@@ -18,7 +18,7 @@
  */
 package org.apache.iotdb.itbase.runtime;
 
-import org.apache.iotdb.jdbc.Config;
+import com.bonc.cirrotimes.jdbc.Config;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
