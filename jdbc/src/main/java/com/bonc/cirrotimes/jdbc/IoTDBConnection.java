@@ -493,7 +493,7 @@ public class IoTDBConnection implements Connection {
       // validate connection
       RpcUtils.verifySuccess(openResp.getStatus());
 
-      if (!Config.SERVER_SERIES_NAME.equals(openResp.getConfiguration().get("serverSeriesName"))) {
+      if (!checkServerSeriesName(openResp)) {
         throw new TException(
             "Connection failed. The server series code is incorrect. Please use the correct version");
       }
@@ -532,6 +532,16 @@ public class IoTDBConnection implements Connection {
       throw new IoTDBSQLException(e.getMessage(), openResp.getStatus());
     }
     isClosed = false;
+  }
+
+  private boolean checkServerSeriesName(TSOpenSessionResp openResp) {
+    if (openResp.getConfiguration() == null) {
+      return false;
+    } else {
+      return !openResp.getConfiguration().containsKey("serverSeriesName")
+          ? false
+          : "bonc-cirrotimes-server".equals(openResp.getConfiguration().get("serverSeriesName"));
+    }
   }
 
   boolean reconnect() {
