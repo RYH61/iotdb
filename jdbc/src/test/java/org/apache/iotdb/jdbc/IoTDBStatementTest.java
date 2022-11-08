@@ -24,6 +24,7 @@ import org.apache.iotdb.service.rpc.thrift.TSFetchMetadataReq;
 import org.apache.iotdb.service.rpc.thrift.TSFetchMetadataResp;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -96,8 +97,8 @@ public class IoTDBStatementTest {
   @Test
   public void setTimeoutTest() throws SQLException {
     IoTDBStatement statement = new IoTDBStatement(connection, client, sessionId, zoneID, 60);
-    assertEquals(60, statement.getQueryTimeout());
+    Assert.assertEquals(60, statement.getQueryTimeout());
     statement.setQueryTimeout(100);
-    assertEquals(100, statement.getQueryTimeout());
+    Assert.assertEquals(100, statement.getQueryTimeout());
   }
 }

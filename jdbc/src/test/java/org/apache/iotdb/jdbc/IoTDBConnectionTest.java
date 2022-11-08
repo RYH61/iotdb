@@ -27,6 +27,7 @@ import org.apache.iotdb.service.rpc.thrift.TSSetTimeZoneReq;
 
 import org.apache.thrift.TException;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -115,6 +116,6 @@ public class IoTDBConnectionTest {
   @Test
   public void setTimeoutTest() throws SQLException {
     connection.setQueryTimeout(60);
-    assertEquals(60, connection.getQueryTimeout());
+    Assert.assertEquals(60, connection.getQueryTimeout());
   }
 }
