@@ -22,7 +22,7 @@ Bundle-Activator: \
   org.apache.iotdb.jdbc.Activator
 
 Provide-Capability: \
-  osgi.service;objectClass=org.osgi.service.jdbc.DataSourceFactory;osgi.jdbc.driver.class=com.bonc.cirrotimes.IoTDBDriver;osgi.jdbc.driver.name=iotdb
+  osgi.service;objectClass=org.osgi.service.jdbc.DataSourceFactory;osgi.jdbc.driver.class=com.bonc.cirrotimes.jdbc.IoTDBDriver;osgi.jdbc.driver.name=iotdb
 
 Private-Package: \
   org.apache.iotdb.jdbc
