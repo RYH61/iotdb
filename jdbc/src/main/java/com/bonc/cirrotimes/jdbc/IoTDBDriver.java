@@ -18,6 +18,9 @@
  */
 package com.bonc.cirrotimes.jdbc;
 
+import org.apache.iotdb.jdbc.Config;
+import org.apache.iotdb.jdbc.IoTDBConnection;
+
 import org.apache.thrift.transport.TTransportException;
 import org.osgi.service.component.annotations.Component;
 

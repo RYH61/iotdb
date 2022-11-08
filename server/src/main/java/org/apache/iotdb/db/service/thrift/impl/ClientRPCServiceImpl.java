@@ -223,8 +223,8 @@ public class ClientRPCServiceImpl implements IClientRPCServiceWithHandler {
 
   private boolean checkSeriseName(TSOpenSessionReq req) {
     Map<String, String> configuration = req.configuration;
-    if (configuration != null && configuration.containsKey("jdbcSeriesName")) {
-      return IoTDBConstant.JDBC_SERIES_NAME.equals(configuration.get("jdbcSeriesName"));
+    if (configuration != null && configuration.containsKey("clientSeriesName")) {
+      return IoTDBConstant.CLIENT_SERIES_NAME.equals(configuration.get("clientSeriesName"));
     }
     return false;
   }

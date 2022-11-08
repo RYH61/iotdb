@@ -20,9 +20,9 @@ package org.apache.iotdb.cli;
 
 import org.apache.iotdb.cli.AbstractCli.OperationResult;
 import org.apache.iotdb.exception.ArgsErrorException;
+import org.apache.iotdb.jdbc.IoTDBConnection;
+import org.apache.iotdb.jdbc.IoTDBDatabaseMetadata;
 
-import com.bonc.cirrotimes.jdbc.IoTDBConnection;
-import com.bonc.cirrotimes.jdbc.IoTDBDatabaseMetadata;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;

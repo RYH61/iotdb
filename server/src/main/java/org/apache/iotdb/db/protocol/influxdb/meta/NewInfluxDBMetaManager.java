@@ -19,6 +19,7 @@
 package org.apache.iotdb.db.protocol.influxdb.meta;
 
 import org.apache.iotdb.common.rpc.thrift.TSStatus;
+import org.apache.iotdb.commons.conf.IoTDBConstant;
 import org.apache.iotdb.db.protocol.influxdb.handler.NewQueryHandler;
 import org.apache.iotdb.db.protocol.influxdb.util.QueryResultUtils;
 import org.apache.iotdb.db.service.thrift.impl.ClientRPCServiceImpl;
@@ -55,9 +56,10 @@ public class NewInfluxDBMetaManager extends AbstractInfluxDBMetaManager {
   public void recover() {
     long sessionID = 0;
     try {
-      TSOpenSessionResp tsOpenSessionResp =
-          clientRPCService.openSession(
-              new TSOpenSessionReq().setUsername("root").setPassword("root"));
+      TSOpenSessionReq tsOpenSessionReq =
+          new TSOpenSessionReq().setUsername("root").setPassword("root");
+      tsOpenSessionReq.putToConfiguration("clientSeriesName", IoTDBConstant.CLIENT_SERIES_NAME);
+      TSOpenSessionResp tsOpenSessionResp = clientRPCService.openSession(tsOpenSessionReq);
       sessionID = tsOpenSessionResp.getSessionId();
       TSExecuteStatementResp resp =
           NewQueryHandler.executeStatement(SELECT_TAG_INFO_SQL, sessionID);

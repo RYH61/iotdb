@@ -70,7 +70,7 @@ class IoTDBRDD private[iotdb](
       taskInfo = "task Id: " + taskContext.taskAttemptId() + " partition Id: " + taskContext.partitionId()
     }
 
-    Class.forName("org.apache.iotdb.jdbc.IoTDBDriver")
+    Class.forName("com.bonc.cirrotimes.IoTDBDriver")
     val conn: Connection = DriverManager.getConnection(options.url, options.user, options.password)
     val stmt: Statement = conn.createStatement()
 

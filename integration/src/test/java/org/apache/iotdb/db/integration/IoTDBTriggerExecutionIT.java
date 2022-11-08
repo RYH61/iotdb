@@ -27,11 +27,11 @@ import org.apache.iotdb.db.exception.TriggerManagementException;
 import org.apache.iotdb.db.service.IoTDB;
 import org.apache.iotdb.db.utils.EnvironmentUtils;
 import org.apache.iotdb.itbase.category.LocalStandaloneTest;
+import org.apache.iotdb.jdbc.Config;
 import org.apache.iotdb.tsfile.file.metadata.enums.CompressionType;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSDataType;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSEncoding;
 
-import com.bonc.cirrotimes.jdbc.Config;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

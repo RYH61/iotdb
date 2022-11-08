@@ -20,8 +20,8 @@ package org.apache.iotdb.db.integration;
 
 import org.apache.iotdb.integration.env.EnvFactory;
 import org.apache.iotdb.itbase.category.LocalStandaloneTest;
+import org.apache.iotdb.jdbc.AbstractIoTDBJDBCResultSet;
 
-import com.bonc.cirrotimes.jdbc.AbstractIoTDBJDBCResultSet;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

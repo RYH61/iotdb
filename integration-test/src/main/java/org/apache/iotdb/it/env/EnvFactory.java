@@ -20,8 +20,8 @@ package org.apache.iotdb.it.env;
 
 import org.apache.iotdb.it.framework.IoTDBTestLogger;
 import org.apache.iotdb.itbase.env.BaseEnv;
+import org.apache.iotdb.jdbc.Config;
 
-import com.bonc.cirrotimes.jdbc.Config;
 import org.slf4j.Logger;
 
 public class EnvFactory {

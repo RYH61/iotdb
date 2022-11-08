@@ -18,7 +18,7 @@
  */
 package org.apache.iotdb;
 
-import com.bonc.cirrotimes.jdbc.IoTDBSQLException;
+import org.apache.iotdb.jdbc.IoTDBSQLException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

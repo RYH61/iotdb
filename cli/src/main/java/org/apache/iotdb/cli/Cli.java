@@ -20,10 +20,10 @@ package org.apache.iotdb.cli;
 
 import org.apache.iotdb.cli.utils.JlineUtils;
 import org.apache.iotdb.exception.ArgsErrorException;
+import org.apache.iotdb.jdbc.Config;
+import org.apache.iotdb.jdbc.IoTDBConnection;
 import org.apache.iotdb.rpc.RpcUtils;
 
-import com.bonc.cirrotimes.jdbc.Config;
-import com.bonc.cirrotimes.jdbc.IoTDBConnection;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;

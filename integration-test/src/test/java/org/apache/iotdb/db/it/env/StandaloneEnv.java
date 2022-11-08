@@ -23,14 +23,13 @@ import org.apache.iotdb.db.utils.EnvironmentUtils;
 import org.apache.iotdb.it.env.ConfigNodeWrapper;
 import org.apache.iotdb.it.env.DataNodeWrapper;
 import org.apache.iotdb.itbase.env.BaseEnv;
+import org.apache.iotdb.jdbc.Config;
+import org.apache.iotdb.jdbc.Constant;
 import org.apache.iotdb.rpc.IoTDBConnectionException;
 import org.apache.iotdb.session.ISession;
 import org.apache.iotdb.session.Session;
 import org.apache.iotdb.session.SessionConfig;
 import org.apache.iotdb.session.util.Version;
-
-import com.bonc.cirrotimes.jdbc.Config;
-import com.bonc.cirrotimes.jdbc.Constant;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -39,7 +38,7 @@ import java.sql.SQLException;
 import java.time.ZoneId;
 import java.util.List;
 
-import static com.bonc.cirrotimes.jdbc.Config.VERSION;
+import static org.apache.iotdb.jdbc.Config.VERSION;
 import static org.junit.Assert.fail;
 
 /** This class is used by EnvFactory with using reflection. */

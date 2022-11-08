@@ -31,13 +31,13 @@ import org.apache.iotdb.itbase.runtime.NodeConnection;
 import org.apache.iotdb.itbase.runtime.ParallelRequestDelegate;
 import org.apache.iotdb.itbase.runtime.RequestDelegate;
 import org.apache.iotdb.itbase.runtime.SerialRequestDelegate;
+import org.apache.iotdb.jdbc.Config;
+import org.apache.iotdb.jdbc.Constant;
+import org.apache.iotdb.jdbc.IoTDBConnection;
 import org.apache.iotdb.rpc.IoTDBConnectionException;
 import org.apache.iotdb.session.ISession;
 import org.apache.iotdb.session.Session;
 
-import com.bonc.cirrotimes.jdbc.Config;
-import com.bonc.cirrotimes.jdbc.Constant;
-import com.bonc.cirrotimes.jdbc.IoTDBConnection;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -54,7 +54,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.bonc.cirrotimes.jdbc.Config.VERSION;
+import static org.apache.iotdb.jdbc.Config.VERSION;
 import static org.junit.Assert.fail;
 
 public abstract class AbstractEnv implements BaseEnv {

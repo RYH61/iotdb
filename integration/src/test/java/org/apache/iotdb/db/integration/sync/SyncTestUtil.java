@@ -20,9 +20,9 @@ package org.apache.iotdb.db.integration.sync;
 
 import org.apache.iotdb.db.engine.modification.ModificationFile;
 import org.apache.iotdb.db.engine.storagegroup.TsFileResource;
+import org.apache.iotdb.jdbc.Config;
 import org.apache.iotdb.tsfile.utils.FilePathUtils;
 
-import com.bonc.cirrotimes.jdbc.Config;
 import org.junit.Assert;
 
 import java.io.File;

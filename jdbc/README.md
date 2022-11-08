@@ -63,7 +63,7 @@ Requires that you include the packages containing the JDBC classes needed for da
 
 ```Java
 import java.sql.*;
-import com.bonc.cirrotimes.jdbc.IoTDBSQLException;
+import org.apache.iotdb.jdbc.IoTDBSQLException;
 
 public class JDBCExample {
   /**
@@ -158,7 +158,7 @@ public class JDBCExample {
 
   public static Connection getConnection() {
     // JDBC driver name and database URL
-    String driver = "org.apache.iotdb.jdbc.IoTDBDriver";
+    String driver = "com.bonc.cirrotimes.IoTDBDriver";
     String url = "jdbc:iotdb://127.0.0.1:6667/";
 
     // Database credentials
@@ -266,7 +266,7 @@ feature:install iotdb-feature
 Start a data source instance (supposed you have started IoTDB):
 
 ```
-jdbc:ds-create -dc org.apache.iotdb.jdbc.IoTDBDriver -u root -p root -url "jdbc:iotdb://127.0.0.1:6667/" IoTDB
+jdbc:ds-create -dc com.bonc.cirrotimes.IoTDBDriver -u root -p root -url "jdbc:iotdb://127.0.0.1:6667/" IoTDB
 ```
 Try query:
 `jdbc:query IoTDB "select * from root"`

@@ -149,7 +149,7 @@ Grafana 以网页的 dashboard 形式为您展示数据，在使用时请您打�
 spring.datasource.url=jdbc:iotdb://127.0.0.1:6667/
 spring.datasource.username=root
 spring.datasource.password=root
-spring.datasource.driver-class-name=org.apache.iotdb.jdbc.IoTDBDriver
+spring.datasource.driver-class-name=com.bonc.cirrotimes.IoTDBDriver
 server.port=8888
 # Use this value to set timestamp precision as "ms", "us" or "ns", which must to be same with the timestamp
 # precision of Apache IoTDB engine.

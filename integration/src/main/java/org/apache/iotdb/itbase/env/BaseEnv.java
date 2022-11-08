@@ -18,7 +18,7 @@
  */
 package org.apache.iotdb.itbase.env;
 
-import com.bonc.cirrotimes.jdbc.Constant;
+import org.apache.iotdb.jdbc.Constant;
 
 import java.sql.Connection;
 import java.sql.SQLException;

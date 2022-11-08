@@ -18,7 +18,7 @@
  */
 package org.apache.iotdb.db.integration.aligned;
 
-import com.bonc.cirrotimes.jdbc.Config;
+import org.apache.iotdb.jdbc.Config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

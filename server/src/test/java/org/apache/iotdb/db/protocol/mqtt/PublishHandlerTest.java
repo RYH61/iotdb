@@ -18,8 +18,8 @@
 package org.apache.iotdb.db.protocol.mqtt;
 
 import org.apache.iotdb.db.utils.EnvironmentUtils;
+import org.apache.iotdb.jdbc.Config;
 
-import com.bonc.cirrotimes.jdbc.Config;
 import io.moquette.interception.messages.InterceptConnectMessage;
 import io.moquette.interception.messages.InterceptDisconnectMessage;
 import io.moquette.interception.messages.InterceptPublishMessage;

@@ -20,9 +20,9 @@ package org.apache.iotdb.db.integration.env;
 
 import org.apache.iotdb.db.utils.EnvironmentUtils;
 import org.apache.iotdb.itbase.env.BaseEnv;
+import org.apache.iotdb.jdbc.Config;
+import org.apache.iotdb.jdbc.Constant;
 
-import com.bonc.cirrotimes.jdbc.Config;
-import com.bonc.cirrotimes.jdbc.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +30,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import static com.bonc.cirrotimes.jdbc.Config.VERSION;
+import static org.apache.iotdb.jdbc.Config.VERSION;
 import static org.junit.Assert.fail;
 
 /** This class is used by org.apache.iotdb.integration.env.EnvFactory with using reflection. */

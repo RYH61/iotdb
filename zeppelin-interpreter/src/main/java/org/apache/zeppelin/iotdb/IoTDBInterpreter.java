@@ -16,13 +16,13 @@
  */
 package org.apache.zeppelin.iotdb;
 
+import org.apache.iotdb.jdbc.Config;
+import org.apache.iotdb.jdbc.IoTDBConnection;
+import org.apache.iotdb.jdbc.IoTDBJDBCResultSet;
 import org.apache.iotdb.rpc.IoTDBConnectionException;
 import org.apache.iotdb.rpc.RpcUtils;
 import org.apache.iotdb.rpc.StatementExecutionException;
 
-import com.bonc.cirrotimes.jdbc.Config;
-import com.bonc.cirrotimes.jdbc.IoTDBConnection;
-import com.bonc.cirrotimes.jdbc.IoTDBJDBCResultSet;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.thrift.TException;
 import org.apache.zeppelin.interpreter.AbstractInterpreter;
