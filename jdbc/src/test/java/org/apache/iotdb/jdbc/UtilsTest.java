@@ -73,7 +73,7 @@ public class UtilsTest {
   @Test
   public void testParseDomainName() throws IoTDBURLException {
     Properties properties = new Properties();
-    final IoTDBConnectionParams params = Utils.parseUrl("jdbc:cirrotimes://test:6667", properties);
+    final IoTDBConnectionParams params = Utils.parseUrl("jdbc:iotdb://test:6667", properties);
 
     assertEquals("test", params.getHost());
     assertEquals(6667, params.getPort());
@@ -130,7 +130,7 @@ public class UtilsTest {
   @Test
   public void testRpcCompress() throws IoTDBURLException {
     Properties properties = new Properties();
-    Utils.parseUrl("jdbc:cirrotimes://127.0.0.1:6667?rpc_compress=true", properties);
+    Utils.parseUrl("jdbc:iotdb://127.0.0.1:6667?rpc_compress=true", properties);
     assertTrue(Config.rpcThriftCompressionEnable);
   }
 }
