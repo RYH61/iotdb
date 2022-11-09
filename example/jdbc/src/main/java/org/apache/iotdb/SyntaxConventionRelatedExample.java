@@ -62,7 +62,7 @@ public class SyntaxConventionRelatedExample {
   private static final String DEVICE = "root.sg1";
 
   public static void main(String[] args) throws ClassNotFoundException, SQLException {
-    Class.forName("com.bonc.cirrotimes.jdbc.IoTDBDriver");
+    Class.forName("org.apache.iotdb.jdbc.IoTDBDriver");
     try (Connection connection =
             DriverManager.getConnection(
                 "jdbc:iotdb://127.0.0.1:6667?version=V_0_13", "root", "root");

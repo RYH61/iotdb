@@ -19,7 +19,6 @@
 package org.apache.iotdb.db.service.thrift.impl;
 
 import org.apache.iotdb.common.rpc.thrift.TSStatus;
-import org.apache.iotdb.commons.conf.IoTDBConstant;
 import org.apache.iotdb.db.protocol.influxdb.dto.IoTDBPoint;
 import org.apache.iotdb.db.protocol.influxdb.handler.AbstractQueryHandler;
 import org.apache.iotdb.db.protocol.influxdb.handler.NewQueryHandler;
@@ -74,7 +73,6 @@ public class NewInfluxDBServiceImpl implements IInfluxDBServiceWithHandler {
   @Override
   public InfluxOpenSessionResp openSession(InfluxOpenSessionReq req) throws TException {
     TSOpenSessionReq tsOpenSessionReq = InfluxReqAndRespUtils.convertOpenSessionReq(req);
-    tsOpenSessionReq.putToConfiguration("clientSeriesName", IoTDBConstant.CLIENT_SERIES_NAME);
     TSOpenSessionResp tsOpenSessionResp = clientRPCService.openSession(tsOpenSessionReq);
     return InfluxReqAndRespUtils.convertOpenSessionResp(tsOpenSessionResp);
   }

@@ -29,7 +29,7 @@ import java.sql.Timestamp;
 public class PrepareStatementDemo {
 
   public static void main(String[] args) throws ClassNotFoundException, SQLException {
-    Class.forName("com.bonc.cirrotimes.jdbc.IoTDBDriver");
+    Class.forName("org.apache.iotdb.jdbc.IoTDBDriver");
     try (Connection connection =
             DriverManager.getConnection("jdbc:iotdb://127.0.0.1:6667/", "root", "root");
         PreparedStatement preparedStatement =

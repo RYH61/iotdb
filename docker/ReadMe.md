@@ -128,7 +128,7 @@ docker run -it -p 8888:8888 apache/iotdb:<version>-grafana -e SPRING_DATASOURCE_
 | SPRING_DATASOURCE_URL               | jdbc:iotdb://127.0.0.1:6667/      |
 | SPRING_DATASOURCE_USERNAME          | root                              |
 | SPRING_DATASOURCE_PASSWORD          | root                              |
-| SPRING_DATASOURCE_DRIVER_CLASS_NAME | com.bonc.cirrotimes.jdbc.IoTDBDriver |
+| SPRING_DATASOURCE_DRIVER_CLASS_NAME | org.apache.iotdb.jdbc.IoTDBDriver |
 | SERVER_PORT                         | 8888                              |
 | TIMESTAMP_PRECISION                 | ms                                |
 | ISDOWNSAMPLING                      | true                              |

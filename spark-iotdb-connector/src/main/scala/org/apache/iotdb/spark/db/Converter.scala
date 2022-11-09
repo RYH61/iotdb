@@ -49,7 +49,7 @@ object Converter {
 
   def toSparkSchema(options: IoTDBOptions): StructType = {
 
-    Class.forName("com.bonc.cirrotimes.jdbc.IoTDBDriver")
+    Class.forName("org.apache.iotdb.jdbc.IoTDBDriver")
     val sqlConn: Connection = DriverManager.getConnection(options.url, options.user, options.password)
     val sqlStatement: Statement = sqlConn.createStatement()
     val hasResultSet: Boolean = sqlStatement.execute(options.sql)

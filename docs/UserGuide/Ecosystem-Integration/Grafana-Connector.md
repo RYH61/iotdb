@@ -145,7 +145,7 @@ Add diagrams in dashboard and customize your query. See http://docs.grafana.org/
 spring.datasource.url=jdbc:iotdb://127.0.0.1:6667/
 spring.datasource.username=root
 spring.datasource.password=root
-spring.datasource.driver-class-name=com.bonc.cirrotimes.jdbc.IoTDBDriver
+spring.datasource.driver-class-name=org.apache.iotdb.jdbc.IoTDBDriver
 server.port=8888
 # Use this value to set timestamp precision as "ms", "us" or "ns", which must to be same with the timestamp
 # precision of Apache IoTDB engine.

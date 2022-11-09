@@ -44,7 +44,7 @@ public class PulsarConsumerThread implements Runnable {
   public PulsarConsumerThread(Consumer<?> consumer, SessionPool pool)
       throws ClassNotFoundException {
     this.consumer = consumer;
-    Class.forName("com.bonc.cirrotimes.jdbc.IoTDBDriver");
+    Class.forName("org.apache.iotdb.jdbc.IoTDBDriver");
   }
   /** insert data to IoTDB */
   private void insert(String data) throws IoTDBConnectionException, StatementExecutionException {

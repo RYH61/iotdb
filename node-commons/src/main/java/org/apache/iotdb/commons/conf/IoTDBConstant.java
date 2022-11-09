@@ -281,7 +281,5 @@ public class IoTDBConstant {
     V_0_13
   }
 
-  public static final String CLIENT_SERIES_NAME = "bonc-cirrotimes-client";
-
   public static final String SERVER_SERIES_NAME = "bonc-cirrotimes-server";
 }
