@@ -16,7 +16,6 @@
  */
 package org.apache.iotdb.jdbc;
 
-import com.bonc.cirrotimes.jdbc.IoTDBDriver;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.jdbc.DataSourceFactory;

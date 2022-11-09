@@ -16,4 +16,4 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-com.bonc.cirrotimes.jdbc.IoTDBDriver
+org.apache.iotdb.jdbc.IoTDBDriver

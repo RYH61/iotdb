@@ -16,7 +16,6 @@
  */
 package org.apache.iotdb.jdbc;
 
-import com.bonc.cirrotimes.jdbc.IoTDBDriver;
 import org.ops4j.pax.jdbc.common.BeanConfig;
 import org.osgi.service.jdbc.DataSourceFactory;
 import org.slf4j.Logger;

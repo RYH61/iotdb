@@ -34,16 +34,16 @@ import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-@Component(service = java.sql.Driver.class, immediate = true)
-public class IoTDBDriver implements Driver {
+@Component(service = Driver.class, immediate = true)
+public class CirroTimeSDriver implements Driver {
   private static final org.slf4j.Logger logger =
-      org.slf4j.LoggerFactory.getLogger(IoTDBDriver.class);
+      org.slf4j.LoggerFactory.getLogger(CirroTimeSDriver.class);
   /** Is this driver JDBC compliant. */
   private static final boolean TSFILE_JDBC_COMPLIANT = false;
 
   static {
     try {
-      DriverManager.registerDriver(new IoTDBDriver());
+      DriverManager.registerDriver(new CirroTimeSDriver());
     } catch (SQLException e) {
       logger.error("Error occurs when registering TsFile driver", e);
     }
@@ -51,7 +51,7 @@ public class IoTDBDriver implements Driver {
 
   private final String TSFILE_URL_PREFIX = Config.IOTDB_URL_PREFIX + ".*";
 
-  public IoTDBDriver() {
+  public CirroTimeSDriver() {
     // This is a constructor.
   }
 
