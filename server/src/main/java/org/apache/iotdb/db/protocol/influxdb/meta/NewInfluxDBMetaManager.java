@@ -55,9 +55,9 @@ public class NewInfluxDBMetaManager extends AbstractInfluxDBMetaManager {
   public void recover() {
     long sessionID = 0;
     try {
-      TSOpenSessionReq tsOpenSessionReq =
-          new TSOpenSessionReq().setUsername("root").setPassword("root");
-      TSOpenSessionResp tsOpenSessionResp = clientRPCService.openSession(tsOpenSessionReq);
+      TSOpenSessionResp tsOpenSessionResp =
+          clientRPCService.openSession(
+              new TSOpenSessionReq().setUsername("root").setPassword("root"));
       sessionID = tsOpenSessionResp.getSessionId();
       TSExecuteStatementResp resp =
           NewQueryHandler.executeStatement(SELECT_TAG_INFO_SQL, sessionID);

@@ -955,7 +955,7 @@ public class IoTDBDatabaseMetadata implements DatabaseMetaData {
 
   @Override
   public String getDriverName() {
-    return IoTDBDriver.class.getName();
+    return org.apache.iotdb.jdbc.IoTDBDriver.class.getName();
   }
 
   @Override
