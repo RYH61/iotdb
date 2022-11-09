@@ -160,7 +160,6 @@ public class ClientRPCServiceImpl implements IClientRPCServiceWithHandler {
 
   @Override
   public TSOpenSessionResp openSession(TSOpenSessionReq req) throws TException {
-
     IoTDBConstant.ClientVersion clientVersion = parseClientVersion(req);
     TSStatus loginStatus;
     try {
