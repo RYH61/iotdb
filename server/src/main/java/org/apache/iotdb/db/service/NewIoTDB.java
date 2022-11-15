@@ -48,6 +48,7 @@ import org.apache.iotdb.db.rescon.SystemInfo;
 import org.apache.iotdb.db.service.metrics.DataNodeMetricsHelper;
 import org.apache.iotdb.db.service.thrift.impl.ClientRPCServiceImpl;
 import org.apache.iotdb.db.sync.SyncService;
+import org.apache.iotdb.db.utils.license.CheckLicenseService;
 import org.apache.iotdb.db.wal.WALManager;
 
 import org.slf4j.Logger;
@@ -171,6 +172,12 @@ public class NewIoTDB implements NewIoTDBMBean {
     registerManager.register(TriggerRegistrationService.getInstance());
     registerManager.register(MetricService.getInstance());
     registerManager.register(CompactionTaskManager.getInstance());
+
+    // license check
+    if (IoTDBDescriptor.getInstance().getConfig().isEnableLicense()) {
+      registerManager.register(CheckLicenseService.getInstance());
+    }
+
     // bind predefined metrics
     DataNodeMetricsHelper.bind();
 

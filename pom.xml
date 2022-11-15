@@ -783,6 +783,9 @@
                             <exclude>**/yarn.lock</exclude>
                             <!-- site-->
                             <exclude>**/redirects</exclude>
+                            <!-- the test license file-->
+                            <exclude>**/license.lic</exclude>
+                            <exclude>**/public.crt</exclude>
                         </excludes>
                     </configuration>
                 </plugin>
