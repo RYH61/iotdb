@@ -4951,23 +4951,6 @@
         </userDefined>
     </flag>
     <flag>
-        <name>cea_enable</name>
-        <meaning>When set to true, it can take effect by modifying the configuration-cea.xml configuration file</meaning>
-        <group>CEA</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>true,false</format>
-        <default>false</default>
-        <defaultShowValue>false</defaultShowValue>
-        <showValue>false</showValue>
-        <current>false</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
         <name>MAX_HEAP_SIZE</name>
         <meaning>Maximum heap size</meaning>
         <group>memory size</group>
@@ -5159,10 +5142,6 @@
         <dictionary>
             <name>Memory size</name>
             <value>Memory size</value>
-        </dictionary>
-        <dictionary>
-            <name>CEA</name>
-            <value>CEA</value>
         </dictionary>
     </dictionaries>
 </AllFlags>
