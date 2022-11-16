@@ -610,22 +610,6 @@ public class PropertiesUtils {
     }
   }
 
-  public static void main(String[] args) {
-    List<String> filePaths = new ArrayList<>();
-    String path1 =
-        "H:\\environment\\product\\iotdb\\iotdb\\server\\src\\assembly\\resources\\conf/iotdb-datanode.properties";
-    String path2 =
-        "H:\\environment\\product\\iotdb\\iotdb\\confignode\\src\\assembly\\resources\\conf/iotdb-confignode.properties";
-    String path3 =
-        "H:\\environment\\product\\iotdb\\iotdb\\node-commons\\src\\assembly\\resources\\conf/iotdb-common.properties";
-    filePaths.add(path1);
-    filePaths.add(path2);
-    filePaths.add(path3);
-    String xml =
-        "H:\\environment\\product\\iotdb\\iotdb\\server\\src\\assembly\\resources\\conf\\configuration-cea.xml";
-    getXml(filePaths, xml);
-  }
-
   /**
    * generate xml file
    *
