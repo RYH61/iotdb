@@ -74,10 +74,11 @@ public class NewIoTDB implements NewIoTDBMBean {
 
   public static void main(String[] args) {
     if (IoTDBDescriptor.getInstance().getConfig().isCea_Enable()) {
-      File file = new File(PropertiesUtils.getPropsUrl(PropertiesUtils.CONFIGURATION_CEA_NAME));
+      File file =
+          new File(PropertiesUtils.getDataNodePropsUrl(PropertiesUtils.CONFIGURATION_CEA_NAME));
       if (file.exists()) {
         try {
-          PropertiesUtils.updateParameterInformation();
+          PropertiesUtils.updateDataNodeParameterInformation();
           IoTDBDescriptor.getInstance().loadProps();
         } catch (PropertiesEmptyException e) {
           logger.error(e.getMessage());

@@ -85,6 +85,8 @@ public class PropertiesUtils {
   public static final String CONFIGNODE_ENV_BAT = "confignode-env.bat";
   public static Iterator<Element> childrenNode = null;
   public static final String CONFIGURATION_CEA_NAME = "configuration-cea.xml";
+  public static final String CONFIGNODE_CONF = "CONFIGNODE_CONF";
+  public static final String CONFIGNODE_HOME = "CONFIGNODE_HOME";
 
   /**
    * Check if node is null
@@ -106,7 +108,10 @@ public class PropertiesUtils {
    * @return
    */
   public static Iterator<Element> getChildrenNode() {
-    File file = new File(getPropsUrl(CONFIGURATION_CEA_NAME));
+    File file = new File(getDataNodePropsUrl(CONFIGURATION_CEA_NAME));
+    if (!file.exists()) {
+      file = new File(getConfigNodePropsUrl(CONFIGURATION_CEA_NAME));
+    }
     SAXReader reader = new SAXReader();
     Document doc = null;
     try {
@@ -179,12 +184,38 @@ public class PropertiesUtils {
    *
    * @return url object if location exit, otherwise null.
    */
-  public static String getPropsUrl(String fileName) {
+  public static String getDataNodePropsUrl(String fileName) {
     // Check if a config-directory was specified first.
     String urlString = System.getProperty(IoTDBConstant.IOTDB_CONF, null);
     // If it wasn't, check if a home directory was provided (This usually contains a config)
     if (urlString == null) {
       urlString = System.getProperty(IoTDBConstant.IOTDB_HOME, null);
+      if (urlString != null) {
+        urlString = urlString + File.separatorChar + "conf" + File.separatorChar + fileName;
+      }
+    }
+    // If a config location was provided, but it doesn't end with a properties file,
+    // append the default location.
+    else if (urlString != null) {
+      urlString += (File.separatorChar + fileName);
+    }
+    if (urlString == null) {
+      urlString = "." + File.separatorChar + fileName;
+    }
+    return urlString;
+  }
+
+  /**
+   * get props url location
+   *
+   * @return url object if location exit, otherwise null.
+   */
+  public static String getConfigNodePropsUrl(String fileName) {
+    // Check if a config-directory was specified first.
+    String urlString = System.getProperty(CONFIGNODE_CONF, null);
+    // If it wasn't, check if a home directory was provided (This usually contains a config)
+    if (urlString == null) {
+      urlString = System.getProperty(CONFIGNODE_HOME, null);
       if (urlString != null) {
         urlString = urlString + File.separatorChar + "conf" + File.separatorChar + fileName;
       }
@@ -862,22 +893,41 @@ public class PropertiesUtils {
     }
   }
 
-  public static void updateParameterInformation() throws PropertiesEmptyException {
+  public static void updateConfigNodeParameterInformation() throws PropertiesEmptyException {
     setValue(
         PropertiesUtils.updateProperties(
-            PropertiesUtils.getPropsUrl(DATANODE_FILE_NAME), DATANODE_FILE_NAME),
-        PropertiesUtils.getPropsUrl(DATANODE_FILE_NAME));
+            PropertiesUtils.getConfigNodePropsUrl(DATANODE_FILE_NAME), DATANODE_FILE_NAME),
+        PropertiesUtils.getConfigNodePropsUrl(DATANODE_FILE_NAME));
     setValue(
         PropertiesUtils.updateProperties(
-            PropertiesUtils.getPropsUrl(CONFIG_FILE_NAME), CONFIG_FILE_NAME),
-        PropertiesUtils.getPropsUrl(CONFIG_FILE_NAME));
+            PropertiesUtils.getConfigNodePropsUrl(CONFIG_FILE_NAME), CONFIG_FILE_NAME),
+        PropertiesUtils.getConfigNodePropsUrl(CONFIG_FILE_NAME));
     setValue(
         PropertiesUtils.updateProperties(
-            PropertiesUtils.getPropsUrl(COMMON_FILE_NAME), COMMON_FILE_NAME),
-        PropertiesUtils.getPropsUrl(COMMON_FILE_NAME));
-    writeInFile(PropertiesUtils.getPropsUrl(DATANODE_ENV_BAT));
-    writeInFile(PropertiesUtils.getPropsUrl(DATANODE_ENV_SH));
-    writeInFile(PropertiesUtils.getPropsUrl(CONFIGNODE_ENV_SH));
-    writeInFile(PropertiesUtils.getPropsUrl(CONFIGNODE_ENV_BAT));
+            PropertiesUtils.getConfigNodePropsUrl(COMMON_FILE_NAME), COMMON_FILE_NAME),
+        PropertiesUtils.getConfigNodePropsUrl(COMMON_FILE_NAME));
+    writeInFile(PropertiesUtils.getConfigNodePropsUrl(DATANODE_ENV_BAT));
+    writeInFile(PropertiesUtils.getConfigNodePropsUrl(DATANODE_ENV_SH));
+    writeInFile(PropertiesUtils.getConfigNodePropsUrl(CONFIGNODE_ENV_SH));
+    writeInFile(PropertiesUtils.getConfigNodePropsUrl(CONFIGNODE_ENV_BAT));
+  }
+
+  public static void updateDataNodeParameterInformation() throws PropertiesEmptyException {
+    setValue(
+        PropertiesUtils.updateProperties(
+            PropertiesUtils.getDataNodePropsUrl(DATANODE_FILE_NAME), DATANODE_FILE_NAME),
+        PropertiesUtils.getDataNodePropsUrl(DATANODE_FILE_NAME));
+    setValue(
+        PropertiesUtils.updateProperties(
+            PropertiesUtils.getDataNodePropsUrl(CONFIG_FILE_NAME), CONFIG_FILE_NAME),
+        PropertiesUtils.getDataNodePropsUrl(CONFIG_FILE_NAME));
+    setValue(
+        PropertiesUtils.updateProperties(
+            PropertiesUtils.getDataNodePropsUrl(COMMON_FILE_NAME), COMMON_FILE_NAME),
+        PropertiesUtils.getDataNodePropsUrl(COMMON_FILE_NAME));
+    writeInFile(PropertiesUtils.getDataNodePropsUrl(DATANODE_ENV_BAT));
+    writeInFile(PropertiesUtils.getDataNodePropsUrl(DATANODE_ENV_SH));
+    writeInFile(PropertiesUtils.getDataNodePropsUrl(CONFIGNODE_ENV_SH));
+    writeInFile(PropertiesUtils.getDataNodePropsUrl(CONFIGNODE_ENV_BAT));
   }
 }

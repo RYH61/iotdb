@@ -79,10 +79,11 @@ public class ConfigNode implements ConfigNodeMBean {
 
   public static void main(String[] args) {
     if (ConfigNodeDescriptor.getInstance().getConf().isCea_Enable()) {
-      File file = new File(PropertiesUtils.getPropsUrl(PropertiesUtils.CONFIGURATION_CEA_NAME));
+      File file =
+          new File(PropertiesUtils.getConfigNodePropsUrl(PropertiesUtils.CONFIGURATION_CEA_NAME));
       if (file.exists()) {
         try {
-          PropertiesUtils.updateParameterInformation();
+          PropertiesUtils.updateConfigNodeParameterInformation();
           ConfigNodeDescriptor.getInstance().loadProps();
         } catch (PropertiesEmptyException e) {
           LOGGER.error(e.getMessage());
