@@ -1024,9 +1024,9 @@ public class IoTDBDescriptor {
   }
 
   private void loadCeaProps(Properties properties) {
-    conf.setCea_Enable(
+    conf.setCeaEnable(
         Boolean.parseBoolean(
-            properties.getProperty("cea_enable", String.valueOf(conf.isCea_Enable()))));
+            properties.getProperty("cea_enable", String.valueOf(conf.isCeaEnable()))));
   }
 
   private void loadAuthorCache(Properties properties) {
