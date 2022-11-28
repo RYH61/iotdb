@@ -44,6 +44,7 @@ import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Supplier;
@@ -67,7 +68,7 @@ public class MPPDataExchangeManager implements IMPPDataExchangeManager {
 
     void onEndOfBlocks(ISinkHandle sinkHandle);
 
-    void onAborted(ISinkHandle sinkHandle);
+    Optional<Throwable> onAborted(ISinkHandle sinkHandle);
 
     void onFailure(ISinkHandle sinkHandle, Throwable t);
   }
@@ -279,9 +280,10 @@ public class MPPDataExchangeManager implements IMPPDataExchangeManager {
     }
 
     @Override
-    public void onAborted(ISinkHandle sinkHandle) {
+    public Optional<Throwable> onAborted(ISinkHandle sinkHandle) {
       logger.debug("[SkHListenerOnAbort]");
       removeFromMPPDataExchangeManager(sinkHandle);
+      return context.getFailureCause();
     }
 
     private void removeFromMPPDataExchangeManager(ISinkHandle sinkHandle) {
@@ -500,13 +502,13 @@ public class MPPDataExchangeManager implements IMPPDataExchangeManager {
    */
   public void forceDeregisterFragmentInstance(TFragmentInstanceId fragmentInstanceId) {
     logger.debug("[StartForceReleaseFIDataExchangeResource]");
-    if (sinkHandles.containsKey(fragmentInstanceId)) {
-      ISinkHandle sinkHandle = sinkHandles.get(fragmentInstanceId);
+    ISinkHandle sinkHandle = sinkHandles.get(fragmentInstanceId);
+    if (sinkHandle != null) {
       sinkHandle.abort();
       sinkHandles.remove(fragmentInstanceId);
     }
-    if (sourceHandles.containsKey(fragmentInstanceId)) {
-      Map<String, ISourceHandle> planNodeIdToSourceHandle = sourceHandles.get(fragmentInstanceId);
+    Map<String, ISourceHandle> planNodeIdToSourceHandle = sourceHandles.get(fragmentInstanceId);
+    if (planNodeIdToSourceHandle != null) {
       for (Entry<String, ISourceHandle> entry : planNodeIdToSourceHandle.entrySet()) {
         logger.debug("[CloseSourceHandle] {}", entry.getKey());
         entry.getValue().abort();
