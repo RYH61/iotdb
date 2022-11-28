@@ -73,6 +73,7 @@ import org.apache.iotdb.db.sync.SyncService;
 import org.apache.iotdb.db.trigger.executor.TriggerExecutor;
 import org.apache.iotdb.db.trigger.service.TriggerInformationUpdater;
 import org.apache.iotdb.db.trigger.service.TriggerManagementService;
+import org.apache.iotdb.db.utils.license.CheckLicenseService;
 import org.apache.iotdb.db.wal.WALManager;
 import org.apache.iotdb.db.wal.utils.WALMode;
 import org.apache.iotdb.metrics.config.MetricConfigDescriptor;
@@ -358,6 +359,11 @@ public class DataNode implements DataNodeMBean {
     registerManager.register(StorageEngineV2.getInstance());
     registerManager.register(MPPDataExchangeService.getInstance());
     registerManager.register(DriverScheduler.getInstance());
+
+    // license check
+    if (IoTDBDescriptor.getInstance().getConfig().isEnableLicense()) {
+      registerManager.register(CheckLicenseService.getInstance());
+    }
 
     registerUdfServices();
 

@@ -45,6 +45,7 @@ import org.apache.iotdb.db.service.basic.StandaloneServiceProvider;
 import org.apache.iotdb.db.service.metrics.DataNodeMetricsHelper;
 import org.apache.iotdb.db.service.metrics.IoTDBInternalReporter;
 import org.apache.iotdb.db.sync.SyncService;
+import org.apache.iotdb.db.utils.license.CheckLicenseService;
 import org.apache.iotdb.db.wal.WALManager;
 import org.apache.iotdb.metrics.config.MetricConfigDescriptor;
 import org.apache.iotdb.metrics.utils.InternalReporterType;
@@ -188,6 +189,10 @@ public class IoTDB implements IoTDBMBean {
     MetricService.getInstance().startInternalReporter();
     // bind predefined metrics
     DataNodeMetricsHelper.bind();
+
+    if (IoTDBDescriptor.getInstance().getConfig().isEnableLicense()) {
+      registerManager.register(CheckLicenseService.getInstance());
+    }
 
     logger.info("IoTDB configuration: " + config.getConfigMessage());
     logger.info("Congratulation, IoTDB is set up successfully. Now, enjoy yourself!");

@@ -236,6 +236,20 @@ public class IoTDBConfig {
    */
   private int tlogBufferSize = 1024 * 1024;
 
+  private boolean enableLicense = true;
+
+  /**
+   * The path to the public key file, the default path is under the IoTDB folder(i.e.,
+   * %IOTDB_HOME%/conf/public.crt).
+   */
+  private String publicKeyFileName = "public.crt";
+
+  /**
+   * The path to the License file, the default path is under the IoTDB folder(i.e.,
+   * %IOTDB_HOME%/conf/license).
+   */
+  private String licenseFileName = "license";
+
   /** System directory, including version file for each database and metadata */
   private String systemDir =
       IoTDBConstant.DEFAULT_BASE_DIR + File.separator + IoTDBConstant.SYSTEM_FOLDER_NAME;
@@ -3549,6 +3563,30 @@ public class IoTDBConfig {
 
   public void setRatisFirstElectionTimeoutMinMs(long ratisFirstElectionTimeoutMinMs) {
     this.ratisFirstElectionTimeoutMinMs = ratisFirstElectionTimeoutMinMs;
+  }
+
+  public String getPublicKeyFileName() {
+    return publicKeyFileName;
+  }
+
+  public void setPublicKeyFileName(String publicKeyFileName) {
+    this.publicKeyFileName = publicKeyFileName;
+  }
+
+  public String getLicenseFileName() {
+    return licenseFileName;
+  }
+
+  public void setLicenseFileName(String licenseFileName) {
+    this.licenseFileName = licenseFileName;
+  }
+
+  public boolean isEnableLicense() {
+    return enableLicense;
+  }
+
+  public void setEnableLicense(boolean enableLicense) {
+    this.enableLicense = enableLicense;
   }
 
   public long getRatisFirstElectionTimeoutMaxMs() {

@@ -970,6 +970,14 @@ public class IoTDBDescriptor {
                 "coordinator_write_executor_size",
                 Integer.toString(conf.getCoordinatorWriteExecutorSize()))));
 
+    // license
+    conf.setLicenseFileName(properties.getProperty("license_file_name", conf.getLicenseFileName()));
+    conf.setEnableLicense(
+        Boolean.parseBoolean(
+            properties.getProperty("enable_license", String.valueOf(conf.isEnableLicense()))));
+    conf.setPublicKeyFileName(
+        properties.getProperty("public_key_file_name", conf.getPublicKeyFileName()));
+
     // commons
     commonDescriptor.loadCommonProps(properties);
     commonDescriptor.initCommonConfigDir(conf.getSystemDir());
