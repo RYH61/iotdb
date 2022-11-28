@@ -323,7 +323,7 @@ public abstract class AbstractCli {
     }
   }
 
-  static void displayLogo(String version,  String buildInfo) {
+  static void displayLogo(String version, String buildInfo) {
     println(
         ""
             + "  ___________    ___                                            __________       "
