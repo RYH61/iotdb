@@ -93,7 +93,7 @@ public class ConfigNodeDescriptor {
     }
   }
 
-  private void loadProps() {
+  public void loadProps() {
     URL url = getPropsUrl(CommonConfig.CONFIG_NAME);
     Properties commonProperties = new Properties();
     if (url != null) {
@@ -398,6 +398,15 @@ public class ConfigNodeDescriptor {
 
     loadRatisConsensusConfig(properties);
     loadCQConfig(properties);
+
+    // CEA enable
+    loadCeaProps(properties);
+  }
+
+  private void loadCeaProps(Properties properties) {
+    conf.setCeaEnable(
+        Boolean.parseBoolean(
+            properties.getProperty("cea_enable", String.valueOf(conf.isCeaEnable()))));
   }
 
   private void loadRatisConsensusConfig(Properties properties) {

@@ -28,6 +28,7 @@ import org.apache.iotdb.commons.concurrent.IoTDBDefaultThreadExceptionHandler;
 import org.apache.iotdb.commons.conf.CommonDescriptor;
 import org.apache.iotdb.commons.conf.IoTDBConstant;
 import org.apache.iotdb.commons.exception.ConfigurationException;
+import org.apache.iotdb.commons.exception.PropertiesEmptyException;
 import org.apache.iotdb.commons.exception.StartupException;
 import org.apache.iotdb.commons.service.JMXService;
 import org.apache.iotdb.commons.service.RegisterManager;
@@ -40,6 +41,7 @@ import org.apache.iotdb.commons.udf.UDFInformation;
 import org.apache.iotdb.commons.udf.service.UDFClassLoaderManager;
 import org.apache.iotdb.commons.udf.service.UDFExecutableManager;
 import org.apache.iotdb.commons.udf.service.UDFManagementService;
+import org.apache.iotdb.commons.utils.PropertiesUtils;
 import org.apache.iotdb.confignode.rpc.thrift.TDataNodeRegisterReq;
 import org.apache.iotdb.confignode.rpc.thrift.TDataNodeRegisterResp;
 import org.apache.iotdb.confignode.rpc.thrift.TGetJarInListReq;
@@ -130,6 +132,19 @@ public class DataNode implements DataNodeMBean {
   }
 
   public static void main(String[] args) {
+    if (IoTDBDescriptor.getInstance().getConfig().isCeaEnable()) {
+      File file =
+          new File(PropertiesUtils.getDataNodePropsUrl(PropertiesUtils.CONFIGURATION_CEA_NAME));
+      if (file.exists()) {
+        try {
+          PropertiesUtils.updateDataNodeParameterInformation();
+          IoTDBDescriptor.getInstance().loadProps();
+        } catch (PropertiesEmptyException e) {
+          logger.error(e.getMessage());
+          return;
+        }
+      }
+    }
     new DataNodeServerCommandLine().doMain(args);
   }
 

@@ -22,12 +22,14 @@ package org.apache.iotdb.db.service;
 import org.apache.iotdb.commons.concurrent.IoTDBDefaultThreadExceptionHandler;
 import org.apache.iotdb.commons.conf.IoTDBConstant;
 import org.apache.iotdb.commons.exception.ConfigurationException;
+import org.apache.iotdb.commons.exception.PropertiesEmptyException;
 import org.apache.iotdb.commons.exception.StartupException;
 import org.apache.iotdb.commons.service.JMXService;
 import org.apache.iotdb.commons.service.RegisterManager;
 import org.apache.iotdb.commons.service.StartupChecks;
 import org.apache.iotdb.commons.service.metric.MetricService;
 import org.apache.iotdb.commons.udf.service.UDFClassLoaderManager;
+import org.apache.iotdb.commons.utils.PropertiesUtils;
 import org.apache.iotdb.db.conf.IoTDBConfig;
 import org.apache.iotdb.db.conf.IoTDBDescriptor;
 import org.apache.iotdb.db.conf.IoTDBStartCheck;
@@ -71,6 +73,19 @@ public class NewIoTDB implements NewIoTDBMBean {
   }
 
   public static void main(String[] args) {
+    if (IoTDBDescriptor.getInstance().getConfig().isCeaEnable()) {
+      File file =
+          new File(PropertiesUtils.getDataNodePropsUrl(PropertiesUtils.CONFIGURATION_CEA_NAME));
+      if (file.exists()) {
+        try {
+          PropertiesUtils.updateDataNodeParameterInformation();
+          IoTDBDescriptor.getInstance().loadProps();
+        } catch (PropertiesEmptyException e) {
+          logger.error(e.getMessage());
+          return;
+        }
+      }
+    }
     try {
       IoTDBStartCheck.getInstance().checkConfig();
       IoTDBStartCheck.getInstance().checkDirectory();

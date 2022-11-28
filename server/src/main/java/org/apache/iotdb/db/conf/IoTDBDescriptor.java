@@ -153,7 +153,7 @@ public class IoTDBDescriptor {
 
   /** load an property file and set TsfileDBConfig variables. */
   @SuppressWarnings("squid:S3776") // Suppress high Cognitive Complexity warning
-  private void loadProps() {
+  public void loadProps() {
     URL url = getPropsUrl(CommonConfig.CONFIG_NAME);
     Properties commonProperties = new Properties();
     if (url != null) {
@@ -1009,9 +1009,18 @@ public class IoTDBDescriptor {
     // author cache
     loadAuthorCache(properties);
 
+    // CEA enable
+    loadCeaProps(properties);
+
     conf.setTimePartitionInterval(
         DateTimeUtils.convertMilliTimeWithPrecision(
             conf.getTimePartitionInterval(), conf.getTimestampPrecision()));
+  }
+
+  private void loadCeaProps(Properties properties) {
+    conf.setCeaEnable(
+        Boolean.parseBoolean(
+            properties.getProperty("cea_enable", String.valueOf(conf.isCeaEnable()))));
   }
 
   private void loadAuthorCache(Properties properties) {

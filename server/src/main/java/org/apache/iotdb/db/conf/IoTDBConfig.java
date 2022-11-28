@@ -1049,6 +1049,8 @@ public class IoTDBConfig {
   private long ratisFirstElectionTimeoutMinMs = 50L;
   private long ratisFirstElectionTimeoutMaxMs = 150L;
 
+  private boolean ceaEnable = false;
+
   // customizedProperties, this should be empty by default.
   private Properties customizedProperties = new Properties();
 
@@ -3595,5 +3597,13 @@ public class IoTDBConfig {
 
   public void setRatisFirstElectionTimeoutMaxMs(long ratisFirstElectionTimeoutMaxMs) {
     this.ratisFirstElectionTimeoutMaxMs = ratisFirstElectionTimeoutMaxMs;
+  }
+
+  public boolean isCeaEnable() {
+    return ceaEnable;
+  }
+
+  public void setCeaEnable(boolean ceaEnable) {
+    this.ceaEnable = ceaEnable;
   }
 }

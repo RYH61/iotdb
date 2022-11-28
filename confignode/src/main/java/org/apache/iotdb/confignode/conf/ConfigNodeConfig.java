@@ -255,6 +255,8 @@ public class ConfigNodeConfig {
   private long ratisFirstElectionTimeoutMinMs = 50;
   private long ratisFirstElectionTimeoutMaxMs = 150;
 
+  private boolean ceaEnable = false;
+
   public ConfigNodeConfig() {
     // empty constructor
   }
@@ -994,5 +996,13 @@ public class ConfigNodeConfig {
 
   public void setRatisFirstElectionTimeoutMaxMs(long ratisFirstElectionTimeoutMaxMs) {
     this.ratisFirstElectionTimeoutMaxMs = ratisFirstElectionTimeoutMaxMs;
+  }
+
+  public boolean isCeaEnable() {
+    return ceaEnable;
+  }
+
+  public void setCeaEnable(boolean ceaEnable) {
+    this.ceaEnable = ceaEnable;
   }
 }

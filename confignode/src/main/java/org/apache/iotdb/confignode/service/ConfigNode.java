@@ -23,10 +23,12 @@ import org.apache.iotdb.common.rpc.thrift.TEndPoint;
 import org.apache.iotdb.common.rpc.thrift.TSStatus;
 import org.apache.iotdb.commons.conf.CommonConfig;
 import org.apache.iotdb.commons.conf.CommonDescriptor;
+import org.apache.iotdb.commons.exception.PropertiesEmptyException;
 import org.apache.iotdb.commons.exception.StartupException;
 import org.apache.iotdb.commons.service.JMXService;
 import org.apache.iotdb.commons.service.RegisterManager;
 import org.apache.iotdb.commons.service.metric.MetricService;
+import org.apache.iotdb.commons.utils.PropertiesUtils;
 import org.apache.iotdb.commons.utils.TestOnly;
 import org.apache.iotdb.confignode.client.ConfigNodeRequestType;
 import org.apache.iotdb.confignode.client.sync.SyncConfigNodeClientPool;
@@ -78,6 +80,19 @@ public class ConfigNode implements ConfigNodeMBean {
   }
 
   public static void main(String[] args) {
+    if (ConfigNodeDescriptor.getInstance().getConf().isCeaEnable()) {
+      File file =
+          new File(PropertiesUtils.getConfigNodePropsUrl(PropertiesUtils.CONFIGURATION_CEA_NAME));
+      if (file.exists()) {
+        try {
+          PropertiesUtils.updateConfigNodeParameterInformation();
+          ConfigNodeDescriptor.getInstance().loadProps();
+        } catch (PropertiesEmptyException e) {
+          LOGGER.error(e.getMessage());
+          return;
+        }
+      }
+    }
     new ConfigNodeCommandLine().doMain(args);
   }
 
