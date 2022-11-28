@@ -70,7 +70,7 @@ public class TsFileProcessorV2Test {
 
   private TsFileProcessor processor;
   private final String storageGroup = "root.vehicle";
-  private StorageGroupInfo sgInfo;
+  private DataRegionInfo sgInfo;
   private final String filePath = TestConstant.getTestTsFilePath("root.vehicle", 0, 0, 0);
   private final String deviceId = "root.vehicle.d0";
   private final String measurementId = "s0";
@@ -90,7 +90,7 @@ public class TsFileProcessorV2Test {
       Assert.assertTrue(file.getParentFile().mkdirs());
     }
     EnvironmentUtils.envSetUp();
-    sgInfo = new StorageGroupInfo(new DataRegionTest.DummyDataRegion(systemDir, storageGroup));
+    sgInfo = new DataRegionInfo(new DataRegionTest.DummyDataRegion(systemDir, storageGroup));
     MetadataManagerHelper.initMetadata();
     context = EnvironmentUtils.TEST_QUERY_CONTEXT;
   }
@@ -110,7 +110,7 @@ public class TsFileProcessorV2Test {
             SystemFileFactory.INSTANCE.getFile(filePath),
             sgInfo,
             this::closeTsFileProcessor,
-            (tsFileProcessor) -> true,
+            (tsFileProcessor, updateMap, systemFlushTime) -> {},
             true);
 
     TsFileProcessorInfo tsFileProcessorInfo = new TsFileProcessorInfo(sgInfo);
@@ -169,7 +169,7 @@ public class TsFileProcessorV2Test {
             SystemFileFactory.INSTANCE.getFile(filePath),
             sgInfo,
             this::closeTsFileProcessor,
-            (tsFileProcessor) -> true,
+            (tsFileProcessor, updateMap, systemFlushTime) -> {},
             true);
 
     TsFileProcessorInfo tsFileProcessorInfo = new TsFileProcessorInfo(sgInfo);
@@ -256,7 +256,7 @@ public class TsFileProcessorV2Test {
             SystemFileFactory.INSTANCE.getFile(filePath),
             sgInfo,
             this::closeTsFileProcessor,
-            (tsFileProcessor) -> true,
+            (tsFileProcessor, updateMap, systemFlushTime) -> {},
             true);
 
     TsFileProcessorInfo tsFileProcessorInfo = new TsFileProcessorInfo(sgInfo);
@@ -299,7 +299,7 @@ public class TsFileProcessorV2Test {
             SystemFileFactory.INSTANCE.getFile(filePath),
             sgInfo,
             this::closeTsFileProcessor,
-            (tsFileProcessor) -> true,
+            (tsFileProcessor, updateMap, systemFlushTime) -> {},
             true);
     TsFileProcessorInfo tsFileProcessorInfo = new TsFileProcessorInfo(sgInfo);
     processor.setTsFileProcessorInfo(tsFileProcessorInfo);
@@ -308,11 +308,11 @@ public class TsFileProcessorV2Test {
     // Test Tablet
     processor.insertTablet(genInsertTableNode(0, true), 0, 10, new TSStatus[10]);
     IMemTable memTable = processor.getWorkMemTable();
-    Assert.assertEquals(828424, memTable.getTVListsRamCost());
+    Assert.assertEquals(1596808, memTable.getTVListsRamCost());
     processor.insertTablet(genInsertTableNode(100, true), 0, 10, new TSStatus[10]);
-    Assert.assertEquals(828424, memTable.getTVListsRamCost());
+    Assert.assertEquals(1596808, memTable.getTVListsRamCost());
     processor.insertTablet(genInsertTableNode(200, true), 0, 10, new TSStatus[10]);
-    Assert.assertEquals(828424, memTable.getTVListsRamCost());
+    Assert.assertEquals(1596808, memTable.getTVListsRamCost());
     Assert.assertEquals(90000, memTable.getTotalPointsNum());
     Assert.assertEquals(720360, memTable.memSize());
     // Test records
@@ -321,7 +321,7 @@ public class TsFileProcessorV2Test {
       record.addTuple(DataPoint.getDataPoint(dataType, measurementId, String.valueOf(i)));
       processor.insert(buildInsertRowNodeByTSRecord(record));
     }
-    Assert.assertEquals(830120, memTable.getTVListsRamCost());
+    Assert.assertEquals(1598424, memTable.getTVListsRamCost());
     Assert.assertEquals(90100, memTable.getTotalPointsNum());
     Assert.assertEquals(721560, memTable.memSize());
   }
@@ -335,7 +335,7 @@ public class TsFileProcessorV2Test {
             SystemFileFactory.INSTANCE.getFile(filePath),
             sgInfo,
             this::closeTsFileProcessor,
-            (tsFileProcessor) -> true,
+            (tsFileProcessor, updateMap, systemFlushTime) -> {},
             true);
     TsFileProcessorInfo tsFileProcessorInfo = new TsFileProcessorInfo(sgInfo);
     processor.setTsFileProcessorInfo(tsFileProcessorInfo);
@@ -344,11 +344,11 @@ public class TsFileProcessorV2Test {
     // Test tablet
     processor.insertTablet(genInsertTableNode(0, false), 0, 10, new TSStatus[10]);
     IMemTable memTable = processor.getWorkMemTable();
-    Assert.assertEquals(1656000, memTable.getTVListsRamCost());
+    Assert.assertEquals(3192000, memTable.getTVListsRamCost());
     processor.insertTablet(genInsertTableNode(100, false), 0, 10, new TSStatus[10]);
-    Assert.assertEquals(1656000, memTable.getTVListsRamCost());
+    Assert.assertEquals(3192000, memTable.getTVListsRamCost());
     processor.insertTablet(genInsertTableNode(200, false), 0, 10, new TSStatus[10]);
-    Assert.assertEquals(1656000, memTable.getTVListsRamCost());
+    Assert.assertEquals(3192000, memTable.getTVListsRamCost());
     Assert.assertEquals(90000, memTable.getTotalPointsNum());
     Assert.assertEquals(1440000, memTable.memSize());
     // Test records
@@ -357,7 +357,7 @@ public class TsFileProcessorV2Test {
       record.addTuple(DataPoint.getDataPoint(dataType, measurementId, String.valueOf(i)));
       processor.insert(buildInsertRowNodeByTSRecord(record));
     }
-    Assert.assertEquals(1657696, memTable.getTVListsRamCost());
+    Assert.assertEquals(3193616, memTable.getTVListsRamCost());
     Assert.assertEquals(90100, memTable.getTotalPointsNum());
     Assert.assertEquals(1441200, memTable.memSize());
   }
@@ -371,7 +371,7 @@ public class TsFileProcessorV2Test {
             SystemFileFactory.INSTANCE.getFile(filePath),
             sgInfo,
             this::closeTsFileProcessor,
-            (tsFileProcessor) -> true,
+            (tsFileProcessor, updateMap, systemFlushTime) -> {},
             true);
 
     TsFileProcessorInfo tsFileProcessorInfo = new TsFileProcessorInfo(sgInfo);

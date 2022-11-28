@@ -24,8 +24,8 @@ import org.apache.iotdb.commons.consensus.DataRegionId;
 import org.apache.iotdb.consensus.ConsensusFactory;
 import org.apache.iotdb.consensus.IConsensus;
 import org.apache.iotdb.consensus.config.ConsensusConfig;
-import org.apache.iotdb.consensus.config.MultiLeaderConfig;
-import org.apache.iotdb.consensus.config.MultiLeaderConfig.RPC;
+import org.apache.iotdb.consensus.config.IoTConsensusConfig;
+import org.apache.iotdb.consensus.config.IoTConsensusConfig.RPC;
 import org.apache.iotdb.consensus.config.RatisConfig;
 import org.apache.iotdb.consensus.config.RatisConfig.Snapshot;
 import org.apache.iotdb.db.conf.IoTDBConfig;
@@ -60,16 +60,17 @@ public class DataRegionConsensusImpl {
           ConsensusFactory.getConsensusImpl(
                   conf.getDataRegionConsensusProtocolClass(),
                   ConsensusConfig.newBuilder()
+                      .setThisNodeId(conf.getDataNodeId())
                       .setThisNode(
                           new TEndPoint(
                               conf.getInternalAddress(), conf.getDataRegionConsensusPort()))
                       .setStorageDir(conf.getDataRegionConsensusDir())
-                      .setMultiLeaderConfig(
-                          MultiLeaderConfig.newBuilder()
+                      .setIoTConsensusConfig(
+                          IoTConsensusConfig.newBuilder()
                               .setRpc(
                                   RPC.newBuilder()
                                       .setConnectionTimeoutInMs(conf.getConnectionTimeoutInMS())
-                                      .setRpcSelectorThreadNum(conf.getRpcSelectorThreadNum())
+                                      .setRpcSelectorThreadNum(conf.getRpcSelectorThreadCount())
                                       .setRpcMinConcurrentClientNum(
                                           conf.getRpcMinConcurrentClientNum())
                                       .setRpcMaxConcurrentClientNum(
@@ -83,8 +84,10 @@ public class DataRegionConsensusImpl {
                                       .setThriftMaxFrameSize(conf.getThriftMaxFrameSize())
                                       .build())
                               .setReplication(
-                                  MultiLeaderConfig.Replication.newBuilder()
+                                  IoTConsensusConfig.Replication.newBuilder()
                                       .setWalThrottleThreshold(conf.getThrottleThreshold())
+                                      .setAllocateMemoryForConsensus(
+                                          conf.getAllocateMemoryForConsensus())
                                       .build())
                               .build())
                       .setRatisConfig(
@@ -105,6 +108,8 @@ public class DataRegionConsensusImpl {
                                       .setSegmentSizeMax(
                                           SizeInBytes.valueOf(
                                               conf.getDataRatisConsensusLogSegmentSizeMax()))
+                                      .setPreserveNumsWhenPurge(
+                                          conf.getDataRatisConsensusPreserveWhenPurge())
                                       .build())
                               .setGrpc(
                                   RatisConfig.Grpc.newBuilder()
@@ -124,11 +129,34 @@ public class DataRegionConsensusImpl {
                                               conf
                                                   .getDataRatisConsensusLeaderElectionTimeoutMaxMs(),
                                               TimeUnit.MILLISECONDS))
+                                      .setRequestTimeout(
+                                          TimeDuration.valueOf(
+                                              conf.getDataRatisConsensusRequestTimeoutMs(),
+                                              TimeUnit.MILLISECONDS))
+                                      .setFirstElectionTimeoutMin(
+                                          TimeDuration.valueOf(
+                                              conf.getRatisFirstElectionTimeoutMinMs(),
+                                              TimeUnit.MILLISECONDS))
+                                      .setFirstElectionTimeoutMax(
+                                          TimeDuration.valueOf(
+                                              conf.getRatisFirstElectionTimeoutMaxMs(),
+                                              TimeUnit.MILLISECONDS))
                                       .build())
                               .setLeaderLogAppender(
                                   RatisConfig.LeaderLogAppender.newBuilder()
                                       .setBufferByteLimit(
                                           conf.getDataRatisConsensusLogAppenderBufferSizeMax())
+                                      .build())
+                              .setRatisConsensus(
+                                  RatisConfig.RatisConsensus.newBuilder()
+                                      .setClientRequestTimeoutMillis(
+                                          conf.getDataRatisConsensusRequestTimeoutMs())
+                                      .setClientMaxRetryAttempt(
+                                          conf.getDataRatisConsensusMaxRetryAttempts())
+                                      .setClientRetryInitialSleepTimeMs(
+                                          conf.getDataRatisConsensusInitialSleepTimeMs())
+                                      .setClientRetryMaxSleepTimeMs(
+                                          conf.getDataRatisConsensusMaxSleepTimeMs())
                                       .build())
                               .build())
                       .build(),

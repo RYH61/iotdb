@@ -116,7 +116,7 @@ public class DataNodeRegionManager {
             new TEndPoint(
                 dataNodeLocation.getSchemaRegionConsensusEndPoint().getIp(),
                 dataNodeLocation.getSchemaRegionConsensusEndPoint().getPort());
-        peers.add(new Peer(schemaRegionId, endpoint));
+        peers.add(new Peer(schemaRegionId, dataNodeLocation.getDataNodeId(), endpoint));
       }
       ConsensusGenericResponse consensusGenericResponse =
           SchemaRegionConsensusImpl.getInstance().createPeer(schemaRegionId, peers);
@@ -128,7 +128,7 @@ public class DataNodeRegionManager {
       }
     } catch (IllegalPathException e1) {
       LOGGER.error("Create Schema Region {} failed because path is illegal.", storageGroup);
-      tsStatus = new TSStatus(TSStatusCode.PATH_ILLEGAL.getStatusCode());
+      tsStatus = new TSStatus(TSStatusCode.ILLEGAL_PATH.getStatusCode());
       tsStatus.setMessage("Create Schema Region failed because storageGroup path is illegal.");
     } catch (MetadataException e2) {
       LOGGER.error("Create Schema Region {} failed because {}", storageGroup, e2.getMessage());
@@ -152,7 +152,7 @@ public class DataNodeRegionManager {
             new TEndPoint(
                 dataNodeLocation.getDataRegionConsensusEndPoint().getIp(),
                 dataNodeLocation.getDataRegionConsensusEndPoint().getPort());
-        peers.add(new Peer(dataRegionId, endpoint));
+        peers.add(new Peer(dataRegionId, dataNodeLocation.getDataNodeId(), endpoint));
       }
       ConsensusGenericResponse consensusGenericResponse =
           DataRegionConsensusImpl.getInstance().createPeer(dataRegionId, peers);

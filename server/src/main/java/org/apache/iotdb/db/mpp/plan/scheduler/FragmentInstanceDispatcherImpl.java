@@ -170,7 +170,12 @@ public class FragmentInstanceDispatcherImpl implements IFragInstanceDispatcher {
                   instance.getRegionReplicaSet().getRegionId());
           TSendPlanNodeResp sendPlanNodeResp = client.sendPlanNode(sendPlanNodeReq);
           if (!sendPlanNodeResp.accepted) {
-            logger.error(sendPlanNodeResp.message);
+            logger.error(
+                "dispatch write failed. status: {}, code: {}, message: {}, node {}",
+                sendPlanNodeResp.status,
+                TSStatusCode.representOf(sendPlanNodeResp.status.code),
+                sendPlanNodeResp.message,
+                endPoint);
             if (sendPlanNodeResp.getStatus() == null) {
               throw new FragmentInstanceDispatchException(
                   RpcUtils.getStatus(
@@ -189,8 +194,8 @@ public class FragmentInstanceDispatcherImpl implements IFragInstanceDispatcher {
     } catch (IOException | TException e) {
       logger.error("can't connect to node {}", endPoint, e);
       TSStatus status = new TSStatus();
-      status.setCode(TSStatusCode.SYNC_CONNECTION_EXCEPTION.getStatusCode());
-      status.setMessage("can't connect to node {}" + endPoint);
+      status.setCode(TSStatusCode.SYNC_CONNECTION_ERROR.getStatusCode());
+      status.setMessage("can't connect to node " + endPoint);
       // If the DataNode cannot be connected, its endPoint will be put into black list
       // so that the following retry will avoid dispatching instance towards this DataNode.
       queryContext.addFailedEndPoint(endPoint);
@@ -228,7 +233,10 @@ public class FragmentInstanceDispatcherImpl implements IFragInstanceDispatcher {
         RegionWriteExecutor writeExecutor = new RegionWriteExecutor();
         RegionExecutionResult writeResult = writeExecutor.execute(groupId, planNode);
         if (!writeResult.isAccepted()) {
-          logger.error(writeResult.getMessage());
+          logger.error(
+              "write locally failed. TSStatus: {}, message: {}",
+              writeResult.getStatus(),
+              writeResult.getMessage());
           if (writeResult.getStatus() == null) {
             throw new FragmentInstanceDispatchException(
                 RpcUtils.getStatus(TSStatusCode.EXECUTE_STATEMENT_ERROR, writeResult.getMessage()));

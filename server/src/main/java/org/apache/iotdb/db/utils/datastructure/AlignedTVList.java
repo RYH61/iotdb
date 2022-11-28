@@ -170,7 +170,7 @@ public abstract class AlignedTVList extends TVList {
     checkExpansion();
     int arrayIndex = rowCount / ARRAY_SIZE;
     int elementIndex = rowCount % ARRAY_SIZE;
-    minTime = Math.min(minTime, timestamp);
+    maxTime = Math.max(maxTime, timestamp);
     timestamps.get(arrayIndex)[elementIndex] = timestamp;
     for (int i = 0; i < values.size(); i++) {
       Object columnValue = columnIndexArray[i] < 0 ? null : value[columnIndexArray[i]];
@@ -186,7 +186,7 @@ public abstract class AlignedTVList extends TVList {
               columnValue != null
                   ? getBinarySize((Binary) columnValue)
                   : getBinarySize(Binary.EMPTY_VALUE);
-          if (memoryBinaryChunkSize[i] >= maxChunkRawSizeThreshold) {
+          if (memoryBinaryChunkSize[i] >= targetChunkSize) {
             reachMaxChunkSizeFlag = true;
           }
           break;
@@ -704,7 +704,7 @@ public abstract class AlignedTVList extends TVList {
     checkExpansion();
     int idx = start;
 
-    updateMinTimeAndSorted(time, start, end);
+    updateMaxTimeAndSorted(time, start, end);
 
     while (idx < end) {
       int inputRemaining = end - idx;
@@ -773,7 +773,7 @@ public abstract class AlignedTVList extends TVList {
             memoryBinaryChunkSize[i] +=
                 arrayT[elementIndex + i1] != null ? getBinarySize(arrayT[elementIndex + i1]) : 0;
           }
-          if (memoryBinaryChunkSize[i] > maxChunkRawSizeThreshold) {
+          if (memoryBinaryChunkSize[i] > targetChunkSize) {
             reachMaxChunkSizeFlag = true;
           }
           break;

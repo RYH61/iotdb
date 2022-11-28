@@ -109,7 +109,7 @@ public class StandalonePartitionFetcher implements IPartitionFetcher {
       } else {
         for (PartialPath pathPattern : patternTree.getAllPathPatterns()) {
           Pair<List<PartialPath>, Set<PartialPath>> result =
-              localConfigNode.getNodesListInGivenLevel(pathPattern, level, false, null);
+              localConfigNode.getNodesListInGivenLevel(pathPattern, level, false);
           matchedNodes.addAll(
               result.left.stream()
                   .map(
@@ -147,11 +147,6 @@ public class StandalonePartitionFetcher implements IPartitionFetcher {
   }
 
   @Override
-  public DataPartition getDataPartition(List<DataPartitionQueryParam> dataPartitionQueryParams) {
-    return null;
-  }
-
-  @Override
   public DataPartition getOrCreateDataPartition(
       Map<String, List<DataPartitionQueryParam>> sgNameToQueryParamsMap) {
     try {
@@ -182,7 +177,7 @@ public class StandalonePartitionFetcher implements IPartitionFetcher {
   @Override
   public void invalidAllCache() {}
 
-  /** Split data partition query param by storage group. */
+  /** Split data partition query param by database. */
   private Map<String, List<DataPartitionQueryParam>> splitDataPartitionQueryParam(
       List<DataPartitionQueryParam> dataPartitionQueryParams, boolean isAutoCreate)
       throws MetadataException {
@@ -226,7 +221,7 @@ public class StandalonePartitionFetcher implements IPartitionFetcher {
         }
       }
       if (isAutoCreate) {
-        // try to auto create storage group
+        // try to auto create database
         Set<PartialPath> storageGroupNamesNeedCreated = new HashSet<>();
         for (String devicePath : devicePaths) {
           if (!deviceToStorageGroup.containsKey(devicePath)) {

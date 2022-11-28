@@ -19,7 +19,6 @@
 package org.apache.iotdb.cli;
 
 import org.apache.iotdb.exception.ArgsErrorException;
-import org.apache.iotdb.jdbc.AbstractIoTDBJDBCResultSet;
 import org.apache.iotdb.jdbc.IoTDBConnection;
 import org.apache.iotdb.jdbc.IoTDBJDBCResultSet;
 import org.apache.iotdb.rpc.IoTDBConnectionException;
@@ -81,6 +80,8 @@ public abstract class AbstractCli {
   private static final String MAX_PRINT_ROW_COUNT_NAME = "maxPrintRowCount";
   static final String RPC_COMPRESS_ARGS = "c";
   private static final String RPC_COMPRESS_NAME = "rpcCompressed";
+  static final String TIMEOUT_ARGS = "timeout";
+  private static final String TIMEOUT_NAME = "queryTimeout";
   static final String SET_MAX_DISPLAY_NUM = "set max_display_num";
   static final String SET_TIMESTAMP_DISPLAY = "set time_display_type";
   static final String SHOW_TIMESTAMP_DISPLAY = "show time_display_type";
@@ -89,7 +90,7 @@ public abstract class AbstractCli {
   static final String SET_FETCH_SIZE = "set fetch_size";
   static final String SHOW_FETCH_SIZE = "show fetch_size";
   private static final String HELP = "help";
-  static final String IOTDB_CLI_PREFIX = "IoTDB";
+  static final String IOTDB_CLI_PREFIX = "CirroData-TimeS";
   static final String SCRIPT_HINT = "./start-cli.sh(start-cli.bat if Windows)";
   static final String QUIT_COMMAND = "quit";
   static final String EXIT_COMMAND = "exit";
@@ -99,6 +100,7 @@ public abstract class AbstractCli {
   private static final String IMPORT_CMD = "import";
   static int maxPrintRowCount = 1000;
   private static int fetchSize = 1000;
+  static int queryTimeout = 0;
   static String timestampPrecision = "ms";
   static String timeFormat = RpcUtils.DEFAULT_TIME_FORMAT;
   private static boolean continuePrint = false;
@@ -200,6 +202,15 @@ public abstract class AbstractCli {
             .desc("Rpc Compression enabled or not")
             .build();
     options.addOption(isRpcCompressed);
+
+    Option queryTimeout =
+        Option.builder(TIMEOUT_ARGS)
+            .argName(TIMEOUT_NAME)
+            .hasArg()
+            .desc(
+                "The timeout in second. Using the configuration of server if it's not set (optional)")
+            .build();
+    options.addOption(queryTimeout);
     return options;
   }
 
@@ -243,6 +254,15 @@ public abstract class AbstractCli {
       continuePrint = true;
     } else {
       maxPrintRowCount = Integer.parseInt(maxDisplayNum.trim());
+    }
+  }
+
+  static void setQueryTimeout(String timeoutString) {
+    long timeout = Long.parseLong(timeoutString.trim());
+    if (timeout > Integer.MAX_VALUE || timeout < 0) {
+      queryTimeout = 0;
+    } else {
+      queryTimeout = Integer.parseInt(timeoutString.trim());
     }
   }
 
@@ -305,23 +325,30 @@ public abstract class AbstractCli {
 
   static void displayLogo(String version, String buildInfo) {
     println(
-        " _____       _________  ______   ______    \n"
-            + "|_   _|     |  _   _  ||_   _ `.|_   _ \\   \n"
-            + "  | |   .--.|_/ | | \\_|  | | `. \\ | |_) |  \n"
-            + "  | | / .'`\\ \\  | |      | |  | | |  __'.  \n"
-            + " _| |_| \\__. | _| |_    _| |_.' /_| |__) | \n"
-            + "|_____|'.__.' |_____|  |______.'|_______/  version "
-            + version
-            + " (Build: "
-            + (buildInfo != null ? buildInfo : "UNKNOWN")
-            + ")"
+        ""
+            + "  ___________    ___                                            __________       "
             + "\n"
-            + "                                           \n");
+            + " |___     ___|  |___|                                          /   _______\\     "
+            + "\n"
+            + "     |   |               ___________      ___________         /   /              "
+            + "\n"
+            + "     |   |       ---    |   _____   |    /  ______   \\       /   /________      "
+            + "\n"
+            + "     |   |      |   |   |  |  |  |  |   /  /_______\\  \\      \\__________   \\ "
+            + "\n"
+            + "     |   |      |   |   |  |  |  |  |  |   ____________\\               /   /    "
+            + "\n"
+            + "     |   |      |   |   |  |  |  |  |   \\  \\___________     __________/   /    "
+            + "\n"
+            + "     |___|      |___|   |__|  |  |__|    \\____________/    /_____________/      "
+            + ""
+            + version
+            + "\n");
   }
 
   static void echoStarting() {
     println("---------------------");
-    println("Starting IoTDB Cli");
+    println("Starting CirroData-TimeS Cli");
     println("---------------------");
   }
 
@@ -555,7 +582,7 @@ public abstract class AbstractCli {
             }
           }
           // output tracing activity
-          if (((AbstractIoTDBJDBCResultSet) resultSet).isSetTracingInfo()) {
+          if (((IoTDBJDBCResultSet) resultSet).isSetTracingInfo()) {
             maxSizeList = new ArrayList<>(2);
             lists = cacheTracingInfo(resultSet, maxSizeList);
             outputTracingInfo(lists, maxSizeList);
@@ -581,7 +608,7 @@ public abstract class AbstractCli {
    * @param columnCount the number of column
    * @param resultSetMetaData jdbc resultSetMetaData
    * @param zoneId your time zone
-   * @return List<List<String>> result
+   * @return {@literal List<List<String>> result}
    * @throws SQLException throw exception
    */
   @SuppressWarnings("squid:S3776") // Suppress high Cognitive Complexity warning
@@ -682,8 +709,8 @@ public abstract class AbstractCli {
     maxSizeList.add(0, ACTIVITY_STR.length());
     maxSizeList.add(1, ELAPSED_TIME_STR.length());
 
-    List<String> activityList = ((AbstractIoTDBJDBCResultSet) resultSet).getActivityList();
-    List<Long> elapsedTimeList = ((AbstractIoTDBJDBCResultSet) resultSet).getElapsedTimeList();
+    List<String> activityList = ((IoTDBJDBCResultSet) resultSet).getActivityList();
+    List<Long> elapsedTimeList = ((IoTDBJDBCResultSet) resultSet).getElapsedTimeList();
     String[] statisticsInfoList = {
       "seriesPathNum", "seqFileNum", "unSeqFileNum", "seqChunkInfo", "unSeqChunkInfo", "pageNumInfo"
     };
@@ -693,7 +720,7 @@ public abstract class AbstractCli {
       if (i == activityList.size() - 1) {
         // cache Statistics
         for (String infoName : statisticsInfoList) {
-          String info = ((AbstractIoTDBJDBCResultSet) resultSet).getStatisticsInfoByName(infoName);
+          String info = ((IoTDBJDBCResultSet) resultSet).getStatisticsInfoByName(infoName);
           lists.get(0).add(info);
           lists.get(1).add("");
           if (info.length() > maxSizeList.get(0)) {
