@@ -116,8 +116,7 @@ import org.apache.iotdb.db.trigger.executor.TriggerExecutor;
 import org.apache.iotdb.db.trigger.executor.TriggerFireResult;
 import org.apache.iotdb.db.trigger.service.TriggerManagementService;
 import org.apache.iotdb.db.utils.SetThreadName;
-import org.apache.iotdb.metrics.config.MetricConfigDescriptor;
-import org.apache.iotdb.metrics.type.Gauge;
+import org.apache.iotdb.metrics.type.AutoGauge;
 import org.apache.iotdb.metrics.utils.MetricLevel;
 import org.apache.iotdb.mpp.rpc.thrift.IDataNodeRPCService;
 import org.apache.iotdb.mpp.rpc.thrift.TActiveTriggerInstanceReq;
@@ -202,6 +201,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.stream.Collectors;
 
 import static org.apache.iotdb.commons.conf.IoTDBConstant.MULTI_LEVEL_PATH_WILDCARD;
+import static org.apache.iotdb.db.service.RegionMigrateService.REGION_MIGRATE_PROCESS;
 import static org.apache.iotdb.db.service.basic.ServiceProvider.QUERY_FREQUENCY_RECORDER;
 import static org.apache.iotdb.db.utils.ErrorHandlingUtils.onQueryException;
 
@@ -347,7 +347,8 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
         ConsensusGroupId.Factory.createFromTConsensusGroupId(req.consensusGroupId);
     LoadTsFilePieceNode pieceNode = (LoadTsFilePieceNode) PlanNodeType.deserialize(req.body);
     if (pieceNode == null) {
-      return createTLoadResp(new TSStatus(TSStatusCode.NODE_DESERIALIZE_ERROR.getStatusCode()));
+      return createTLoadResp(
+          new TSStatus(TSStatusCode.DESERIALIZE_PIECE_OF_TSFILE_ERROR.getStatusCode()));
     }
 
     TSStatus resultStatus =
@@ -735,7 +736,7 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
       throws TException {
     PathPatternTree patternTree = PathPatternTree.deserialize(req.patternTree);
     TCountPathsUsingTemplateResp resp = new TCountPathsUsingTemplateResp();
-    int result = 0;
+    long result = 0;
     for (TConsensusGroupId consensusGroupId : req.getSchemaRegionIdList()) {
       // todo implement as consensus layer read request
       ReadWriteLock readWriteLock =
@@ -878,7 +879,7 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
               req.getTimeout());
 
       if (result.status.code != TSStatusCode.SUCCESS_STATUS.getStatusCode()
-          && result.status.code != TSStatusCode.NEED_REDIRECTION.getStatusCode()) {
+          && result.status.code != TSStatusCode.REDIRECTION_RECOMMEND.getStatusCode()) {
         return result.status;
       }
 
@@ -930,14 +931,13 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
     }
 
     // Sampling load if necessary
-    if (MetricConfigDescriptor.getInstance().getMetricConfig().getEnableMetric()
-        && req.isNeedSamplingLoad()) {
+    if (req.isNeedSamplingLoad()) {
       TLoadSample loadSample = new TLoadSample();
 
       // Sample cpu load
       long cpuLoad =
           MetricService.getInstance()
-              .getOrCreateGauge(
+              .getAutoGauge(
                   Metric.SYS_CPU_LOAD.toString(), MetricLevel.CORE, Tag.NAME.toString(), "system")
               .value();
       if (cpuLoad != 0) {
@@ -971,7 +971,7 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
     if (result) {
       return RpcUtils.getStatus(TSStatusCode.SUCCESS_STATUS);
     } else {
-      return RpcUtils.getStatus(TSStatusCode.CACHE_UPDATE_FAIL);
+      return RpcUtils.getStatus(TSStatusCode.PARTITION_CACHE_UPDATE_ERROR);
     }
   }
 
@@ -1009,15 +1009,15 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
       List<String> noHeapIds = Arrays.asList("Code Cache", "Compressed Class Space", "Metaspace");
 
       for (String id : heapIds) {
-        Gauge gauge =
+        AutoGauge gauge =
             MetricService.getInstance()
-                .getOrCreateGauge(gaugeName, MetricLevel.IMPORTANT, "id", id, "area", "heap");
+                .getAutoGauge(gaugeName, MetricLevel.IMPORTANT, "id", id, "area", "heap");
         result += gauge.value();
       }
       for (String id : noHeapIds) {
-        Gauge gauge =
+        AutoGauge gauge =
             MetricService.getInstance()
-                .getOrCreateGauge(gaugeName, MetricLevel.IMPORTANT, "id", id, "area", "noheap");
+                .getAutoGauge(gaugeName, MetricLevel.IMPORTANT, "id", id, "area", "noheap");
         result += gauge.value();
       }
     } catch (Exception e) {
@@ -1032,7 +1032,7 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
 
     long freeDisk =
         MetricService.getInstance()
-            .getOrCreateGauge(
+            .getAutoGauge(
                 Metric.SYS_DISK_FREE_SPACE.toString(),
                 MetricLevel.CORE,
                 Tag.NAME.toString(),
@@ -1040,7 +1040,7 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
             .value();
     long totalDisk =
         MetricService.getInstance()
-            .getOrCreateGauge(
+            .getAutoGauge(
                 Metric.SYS_DISK_TOTAL_SPACE.toString(),
                 MetricLevel.CORE,
                 Tag.NAME.toString(),
@@ -1049,6 +1049,7 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
 
     if (freeDisk != 0 && totalDisk != 0) {
       double freeDiskRatio = (double) freeDisk / totalDisk;
+      loadSample.setFreeDiskSpace(freeDisk);
       loadSample.setDiskUsageRate(1.0 - freeDiskRatio);
       // Reset NodeStatus if necessary
       if (freeDiskRatio < commonConfig.getDiskSpaceWarningThreshold()) {
@@ -1063,7 +1064,7 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
     if (AuthorizerManager.getInstance().invalidateCache(req.getUsername(), req.getRoleName())) {
       return RpcUtils.getStatus(TSStatusCode.SUCCESS_STATUS);
     }
-    return RpcUtils.getStatus(TSStatusCode.INVALIDATE_PERMISSION_CACHE_ERROR);
+    return RpcUtils.getStatus(TSStatusCode.CLEAR_PERMISSION_CACHE_ERROR);
   }
 
   @Override
@@ -1166,17 +1167,30 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
     }
   }
 
-  public TSStatus changeRegionLeader(TRegionLeaderChangeReq req) throws TException {
+  @Override
+  public TSStatus changeRegionLeader(TRegionLeaderChangeReq req) {
+    LOGGER.info("[ChangeRegionLeader] {}", req);
     TSStatus status = new TSStatus(TSStatusCode.SUCCESS_STATUS.getStatusCode());
     TConsensusGroupId tgId = req.getRegionId();
     ConsensusGroupId regionId = ConsensusGroupId.Factory.createFromTConsensusGroupId(tgId);
     TEndPoint newNode = getConsensusEndPoint(req.getNewLeaderNode(), regionId);
     Peer newLeaderPeer = new Peer(regionId, req.getNewLeaderNode().getDataNodeId(), newNode);
-    if (!isLeader(regionId)) {
-      LOGGER.info("region {} is not leader, no need to change leader", regionId);
-      return status;
+
+    if (isLeader(regionId)) {
+      String msg =
+          "[ChangeRegionLeader] The current DataNode: "
+              + req.getNewLeaderNode().getDataNodeId()
+              + " is already the leader of RegionGroup: "
+              + regionId
+              + ", skip leader transfer.";
+      LOGGER.info(msg);
+      return status.setMessage(msg);
     }
-    LOGGER.info("region {} is leader, will change leader", regionId);
+
+    LOGGER.info(
+        "[ChangeRegionLeader] Start change the leader of RegionGroup: {} to DataNode: {}",
+        regionId,
+        req.getNewLeaderNode().getDataNodeId());
     return transferLeader(regionId, newLeaderPeer);
   }
 
@@ -1188,17 +1202,25 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
     } else if (regionId instanceof SchemaRegionId) {
       resp = SchemaRegionConsensusImpl.getInstance().transferLeader(regionId, newLeaderPeer);
     } else {
-      status.setCode(TSStatusCode.REGION_LEADER_CHANGE_FAILED.getStatusCode());
-      status.setMessage("Error Region type. region: " + regionId);
+      status.setCode(TSStatusCode.REGION_LEADER_CHANGE_ERROR.getStatusCode());
+      status.setMessage("[ChangeRegionLeader] Error Region type: " + regionId);
       return status;
     }
+
     if (!resp.isSuccess()) {
-      LOGGER.error("change region {} leader failed", regionId, resp.getException());
-      status.setCode(TSStatusCode.REGION_LEADER_CHANGE_FAILED.getStatusCode());
+      LOGGER.error(
+          "[ChangeRegionLeader] Failed to change the leader of RegionGroup: {}",
+          regionId,
+          resp.getException());
+      status.setCode(TSStatusCode.REGION_LEADER_CHANGE_ERROR.getStatusCode());
       status.setMessage(resp.getException().getMessage());
       return status;
     }
-    status.setMessage("change region " + regionId + " leader succeed");
+    status.setMessage(
+        "[ChangeRegionLeader] Successfully change the leader of RegionGroup: "
+            + regionId
+            + " to "
+            + newLeaderPeer.getNodeId());
     return status;
   }
 
@@ -1214,7 +1236,7 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
   }
 
   @Override
-  public TSStatus createNewRegionPeer(TCreatePeerReq req) throws TException {
+  public TSStatus createNewRegionPeer(TCreatePeerReq req) {
     ConsensusGroupId regionId =
         ConsensusGroupId.Factory.createFromTConsensusGroupId(req.getRegionId());
     List<Peer> peers =
@@ -1241,7 +1263,7 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
     TSStatus status = new TSStatus(TSStatusCode.SUCCESS_STATUS.getStatusCode());
     if (submitSucceed) {
       LOGGER.info(
-          "Successfully submit addRegionPeer task for region: {} on DataNode: {}",
+          "Successfully submit addRegionPeer task for region: {}, target DataNode: {}",
           regionId,
           selectedDataNodeIP);
       return status;
@@ -1259,7 +1281,7 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
     TSStatus status = new TSStatus(TSStatusCode.SUCCESS_STATUS.getStatusCode());
     if (submitSucceed) {
       LOGGER.info(
-          "Successfully submit removeRegionPeer task for region: {} on DataNode: {}",
+          "Successfully submit removeRegionPeer task for region: {}, DataNode to be removed: {}",
           regionId,
           selectedDataNodeIP);
       return status;
@@ -1277,7 +1299,7 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
     TSStatus status = new TSStatus(TSStatusCode.SUCCESS_STATUS.getStatusCode());
     if (submitSucceed) {
       LOGGER.info(
-          "Successfully submit deleteOldRegionPeer task for region: {} on DataNode: {}",
+          "Successfully submit deleteOldRegionPeer task for region: {}, DataNode to be removed: {}",
           regionId,
           selectedDataNodeIP);
       return status;
@@ -1298,7 +1320,7 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
       UDFManagementService.getInstance().register(udfInformation, req.jarFile);
       return new TSStatus(TSStatusCode.SUCCESS_STATUS.getStatusCode());
     } catch (Exception e) {
-      return new TSStatus(TSStatusCode.CREATE_FUNCTION_ON_DATANODE_ERROR.getStatusCode())
+      return new TSStatus(TSStatusCode.CREATE_UDF_ON_DATANODE_ERROR.getStatusCode())
           .setMessage(e.getMessage());
     }
   }
@@ -1309,7 +1331,7 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
       UDFManagementService.getInstance().deregister(req.getFunctionName(), req.isNeedToDeleteJar());
       return new TSStatus(TSStatusCode.SUCCESS_STATUS.getStatusCode());
     } catch (Exception e) {
-      return new TSStatus(TSStatusCode.DROP_FUNCTION_ON_DATANODE_ERROR.getStatusCode())
+      return new TSStatus(TSStatusCode.DROP_UDF_ON_DATANODE_ERROR.getStatusCode())
           .setMessage(e.getMessage());
     }
   }
@@ -1435,7 +1457,11 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
   }
 
   private TSStatus createNewRegionPeer(ConsensusGroupId regionId, List<Peer> peers) {
-    LOGGER.info("Start to createNewRegionPeer {} to region {}", peers, regionId);
+    LOGGER.info(
+        "{}, Start to createNewRegionPeer {} to region {}",
+        REGION_MIGRATE_PROCESS,
+        peers,
+        regionId);
     TSStatus status = new TSStatus(TSStatusCode.SUCCESS_STATUS.getStatusCode());
     ConsensusGenericResponse resp;
     if (regionId instanceof DataRegionId) {
@@ -1445,15 +1471,20 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
     }
     if (!resp.isSuccess()) {
       LOGGER.error(
-          "CreateNewRegionPeer error, peers: {}, regionId: {}, errorMessage",
+          "{}, CreateNewRegionPeer error, peers: {}, regionId: {}, errorMessage",
+          REGION_MIGRATE_PROCESS,
           peers,
           regionId,
           resp.getException());
-      status.setCode(TSStatusCode.REGION_MIGRATE_FAILED.getStatusCode());
+      status.setCode(TSStatusCode.MIGRATE_REGION_ERROR.getStatusCode());
       status.setMessage(resp.getException().getMessage());
       return status;
     }
-    LOGGER.info("Succeed to createNewRegionPeer {} for region {}", peers, regionId);
+    LOGGER.info(
+        "{}, Succeed to createNewRegionPeer {} for region {}",
+        REGION_MIGRATE_PROCESS,
+        peers,
+        regionId);
     status.setMessage("createNewRegionPeer succeed, regionId: " + regionId);
     return status;
   }

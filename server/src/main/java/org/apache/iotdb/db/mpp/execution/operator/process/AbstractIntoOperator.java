@@ -38,8 +38,6 @@ import org.apache.iotdb.tsfile.utils.Binary;
 import org.apache.iotdb.tsfile.utils.BitMap;
 
 import com.google.common.util.concurrent.ListenableFuture;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,8 +48,6 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class AbstractIntoOperator implements ProcessOperator {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(AbstractIntoOperator.class);
 
   protected final OperatorContext operatorContext;
   protected final Operator child;
@@ -115,12 +111,11 @@ public abstract class AbstractIntoOperator implements ProcessOperator {
     }
     TSStatus executionStatus = client.insertTablets(insertMultiTabletsStatement);
     if (executionStatus.getCode() != TSStatusCode.SUCCESS_STATUS.getStatusCode()
-        && executionStatus.getCode() != TSStatusCode.NEED_REDIRECTION.getStatusCode()) {
+        && executionStatus.getCode() != TSStatusCode.REDIRECTION_RECOMMEND.getStatusCode()) {
       String message =
           String.format(
               "Error occurred while inserting tablets in SELECT INTO: %s",
               executionStatus.getMessage());
-      LOGGER.error(message);
       throw new IntoProcessException(message);
     }
 
@@ -133,6 +128,19 @@ public abstract class AbstractIntoOperator implements ProcessOperator {
       List<InsertTabletStatementGenerator> insertTabletStatementGenerators) {
     for (InsertTabletStatementGenerator generator : insertTabletStatementGenerators) {
       if (generator.isFull()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean existNonEmptyStatement(
+      List<InsertTabletStatementGenerator> insertTabletStatementGenerators) {
+    if (insertTabletStatementGenerators == null) {
+      return false;
+    }
+    for (InsertTabletStatementGenerator generator : insertTabletStatementGenerators) {
+      if (generator != null && !generator.isEmpty()) {
         return true;
       }
     }
@@ -161,7 +169,7 @@ public abstract class AbstractIntoOperator implements ProcessOperator {
 
   @Override
   public boolean hasNext() {
-    return child.hasNext();
+    return existNonEmptyStatement(insertTabletStatementGenerators) || child.hasNext();
   }
 
   @Override
@@ -174,7 +182,7 @@ public abstract class AbstractIntoOperator implements ProcessOperator {
 
   @Override
   public boolean isFinished() {
-    return child.isFinished();
+    return !hasNext();
   }
 
   @Override

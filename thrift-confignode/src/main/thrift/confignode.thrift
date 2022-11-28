@@ -39,6 +39,7 @@ struct TDataNodeRegisterResp {
   7: optional list<binary> allTriggerInformation
   8: optional TCQConfig cqConfig
   9: optional list<binary> allUDFInformation
+  10: optional binary allTTLInformation
 }
 
 struct TGlobalConfig {
@@ -169,8 +170,8 @@ struct TStorageGroupSchema {
   3: optional i32 schemaReplicationFactor
   4: optional i32 dataReplicationFactor
   5: optional i64 timePartitionInterval
-  6: optional i32 maxSchemaRegionGroupCount
-  7: optional i32 maxDataRegionGroupCount
+  6: optional i32 maxSchemaRegionGroupNum
+  7: optional i32 maxDataRegionGroupNum
 }
 
 // Schema
@@ -264,6 +265,7 @@ struct TUserResp {
   2: required string password
   3: required list<string> privilegeList
   4: required list<string> roleList
+  5: required bool isOpenIdUser
 }
 
 struct TRoleResp {
@@ -305,6 +307,7 @@ struct TConfigNodeRegisterReq {
   11: required double dataRegionPerProcessor
   12: required string readConsistencyLevel
   13: required double diskSpaceWarningThreshold
+  14: required i32 leastDataRegionGroupNum
 }
 
 struct TConfigNodeRegisterResp {
@@ -501,6 +504,11 @@ struct TGetPathsSetTemplatesResp {
 }
 
 // SYNC
+struct TRecordPipeMessageReq{
+  1: required string pipeName
+  2: required binary message
+}
+
 struct TShowPipeInfo {
   1: required i64 createTime
   2: required string pipeName
@@ -809,9 +817,6 @@ service IConfigNodeRPCService {
   /** The ConfigNode-leader will notify the Non-Seed-ConfigNode that the registration success */
   common.TSStatus notifyRegisterSuccess()
 
-  /** The ConfigNode-leader using this method to query that if the Non-Seed-ConfigNode has initialized the ConsensusManager */
-  common.TSStatus isConsensusInitialized()
-
   /**
    * Remove the specific ConfigNode from the cluster
    *
@@ -1040,6 +1045,9 @@ service IConfigNodeRPCService {
 
   /* Get all pipe information. It is used for DataNode registration and restart*/
   TGetAllPipeInfoResp getAllPipeInfo();
+
+  /* Get all pipe information. It is used for DataNode registration and restart*/
+  common.TSStatus recordPipeMessage(TRecordPipeMessageReq req);
 
   // ======================================================
   // TestTools

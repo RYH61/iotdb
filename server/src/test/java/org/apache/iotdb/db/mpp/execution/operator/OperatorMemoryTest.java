@@ -342,12 +342,12 @@ public class OperatorMemoryTest {
         DEFAULT_MAX_TSBLOCK_SIZE_IN_BYTES + 2 * 1024 * 1024L,
         lastQueryOperator.calculateMaxPeekMemory());
     assertEquals(expectedMaxReturnSize, lastQueryOperator.calculateMaxReturnSize());
-    assertEquals(4 * 512L, lastQueryOperator.calculateRetainedSizeAfterCallingNext());
+    assertEquals(512L, lastQueryOperator.calculateRetainedSizeAfterCallingNext());
 
     Mockito.when(builder.getRetainedSizeInBytes()).thenReturn(4 * 1024 * 1024L);
     assertEquals(4 * 1024 * 1024L + 2 * 1024 * 1024L, lastQueryOperator.calculateMaxPeekMemory());
     assertEquals(4 * 1024 * 1024L, lastQueryOperator.calculateMaxReturnSize());
-    assertEquals(4 * 512L, lastQueryOperator.calculateRetainedSizeAfterCallingNext());
+    assertEquals(512L, lastQueryOperator.calculateRetainedSizeAfterCallingNext());
   }
 
   @Test
@@ -492,7 +492,7 @@ public class OperatorMemoryTest {
     Mockito.when(child.calculateRetainedSizeAfterCallingNext()).thenReturn(512L);
 
     UpdateLastCacheOperator updateLastCacheOperator =
-        new UpdateLastCacheOperator(null, child, null, TSDataType.BOOLEAN, null, true);
+        new UpdateLastCacheOperator(null, child, null, TSDataType.BOOLEAN, null, false);
 
     assertEquals(2048, updateLastCacheOperator.calculateMaxPeekMemory());
     assertEquals(1024, updateLastCacheOperator.calculateMaxReturnSize());
@@ -583,13 +583,16 @@ public class OperatorMemoryTest {
       Mockito.when(child.calculateMaxPeekMemory()).thenReturn(1024L);
       Mockito.when(child.calculateMaxReturnSize()).thenReturn(1024L);
       Mockito.when(child.calculateRetainedSizeAfterCallingNext()).thenReturn(1024L);
-      expectedMaxPeekMemory += 1024L;
       childrenMaxPeekMemory = Math.max(childrenMaxPeekMemory, child.calculateMaxPeekMemory());
-      expectedRetainedSizeAfterCallingNext += 1024L;
+      expectedRetainedSizeAfterCallingNext =
+          Math.max(
+              expectedRetainedSizeAfterCallingNext, child.calculateRetainedSizeAfterCallingNext());
       children.add(child);
     }
 
-    expectedMaxPeekMemory = Math.max(expectedMaxPeekMemory, childrenMaxPeekMemory);
+    expectedMaxPeekMemory =
+        Math.max(expectedMaxPeekMemory, childrenMaxPeekMemory)
+            + expectedRetainedSizeAfterCallingNext;
 
     DeviceViewOperator deviceViewOperator =
         new DeviceViewOperator(
