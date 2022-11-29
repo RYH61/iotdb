@@ -454,7 +454,7 @@ public class ClientRPCServiceImpl implements IClientRPCServiceWithHandler {
             clientVersion);
     TSStatus tsStatus = RpcUtils.getStatus(openSessionResp.getCode(), openSessionResp.getMessage());
     TSOpenSessionResp resp = new TSOpenSessionResp(tsStatus, CURRENT_RPC_VERSION);
-    resp.putToConfiguration("serverSeriesName", IoTDBConstant.SERVER_SERIES_NAME);
+    resp.putToConfiguration("serverSeriesName", "bonc-cirrotimes-server");
     return resp.setSessionId(openSessionResp.getSessionId());
   }
 
