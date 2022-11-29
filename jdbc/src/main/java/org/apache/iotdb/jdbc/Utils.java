@@ -40,6 +40,9 @@ public class Utils {
     if (url.trim().equalsIgnoreCase(Config.IOTDB_URL_PREFIX)) {
       return params;
     }
+    if (url.trim().equalsIgnoreCase("jdbc:cirrotimes://")) {
+      return params;
+    }
     boolean isUrlLegal = false;
     Matcher matcher = null;
     if (url.startsWith(Config.IOTDB_URL_PREFIX)) {
@@ -51,9 +54,18 @@ public class Utils {
         }
       }
     }
+    if (url.startsWith("jdbc:cirrotimes://")) {
+      String subURL = url.substring("jdbc:cirrotimes://".length());
+      matcher = URL_PATTERN.matcher(subURL);
+      if (matcher.matches()) {
+        if (parseUrlParam(subURL, info)) {
+          isUrlLegal = true;
+        }
+      }
+    }
     if (!isUrlLegal) {
       throw new IoTDBURLException(
-          "Error url format, url should be jdbc:iotdb://anything:port/ or jdbc:iotdb://anything:port?property1=value1&property2=value2");
+          "Error url format, url should be jdbc:cirrotimes://anything:port/ or jdbc:cirrotimes://anything:port?property1=value1&property2=value2");
     }
 
     params.setHost(matcher.group(1));

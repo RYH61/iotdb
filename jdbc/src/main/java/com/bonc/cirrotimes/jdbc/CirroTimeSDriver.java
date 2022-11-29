@@ -18,11 +18,11 @@
  */
 package com.bonc.cirrotimes.jdbc;
 
-import org.apache.iotdb.jdbc.Config;
 import org.apache.iotdb.jdbc.IoTDBConnection;
 
 import org.apache.thrift.transport.TTransportException;
 import org.osgi.service.component.annotations.Component;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -36,8 +36,7 @@ import java.util.regex.Pattern;
 
 @Component(service = Driver.class, immediate = true)
 public class CirroTimeSDriver implements Driver {
-  private static final org.slf4j.Logger logger =
-      org.slf4j.LoggerFactory.getLogger(CirroTimeSDriver.class);
+  private static final org.slf4j.Logger logger = LoggerFactory.getLogger(CirroTimeSDriver.class);
   /** Is this driver JDBC compliant. */
   private static final boolean TSFILE_JDBC_COMPLIANT = false;
 
@@ -49,7 +48,7 @@ public class CirroTimeSDriver implements Driver {
     }
   }
 
-  private final String TSFILE_URL_PREFIX = Config.IOTDB_URL_PREFIX + ".*";
+  private final String TSFILE_URL_PREFIX = "jdbc:cirrotimes://" + ".*";
 
   public CirroTimeSDriver() {
     // This is a constructor.

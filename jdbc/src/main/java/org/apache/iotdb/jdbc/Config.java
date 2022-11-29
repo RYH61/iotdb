@@ -40,8 +40,6 @@ public class Config {
   static final String AUTH_PASSWORD = "password";
   static final String DEFAULT_PASSWORD = "password";
 
-  static final String SERVER_SERIES_NAME = "bonc-cirrotimes-server";
-
   static final int RETRY_NUM = 3;
   static final long RETRY_INTERVAL_MS = 1000;
 

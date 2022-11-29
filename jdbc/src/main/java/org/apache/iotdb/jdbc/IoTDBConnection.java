@@ -539,7 +539,7 @@ public class IoTDBConnection implements Connection {
     } else {
       return !openResp.getConfiguration().containsKey("serverSeriesName")
           ? false
-          : Config.SERVER_SERIES_NAME.equals(openResp.getConfiguration().get("serverSeriesName"));
+          : "bonc-cirrotimes-server".equals(openResp.getConfiguration().get("serverSeriesName"));
     }
   }
 
