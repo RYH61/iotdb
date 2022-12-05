@@ -501,6 +501,8 @@ public class IoTDBConfig {
    */
   private int subCompactionTaskNum = 4;
 
+  private boolean enableCompactionValidation = true;
+
   /** whether to cache meta data(ChunkMetaData and TsFileMetaData) or not. */
   private boolean metaDataCacheEnable = true;
 
@@ -1050,6 +1052,8 @@ public class IoTDBConfig {
   private long ratisFirstElectionTimeoutMaxMs = 150L;
 
   private boolean ceaEnable = false;
+  private long dataRatisLogMaxMB = 20 * 1024;
+  private long schemaRatisLogMaxMB = 2 * 1024;
 
   // customizedProperties, this should be empty by default.
   private Properties customizedProperties = new Properties();
@@ -3605,5 +3609,29 @@ public class IoTDBConfig {
 
   public void setCeaEnable(boolean ceaEnable) {
     this.ceaEnable = ceaEnable;
+  }
+
+  public long getDataRatisLogMaxMB() {
+    return dataRatisLogMaxMB;
+  }
+
+  public void setDataRatisLogMaxMB(long dataRatisLogMaxMB) {
+    this.dataRatisLogMaxMB = dataRatisLogMaxMB;
+  }
+
+  public long getSchemaRatisLogMaxMB() {
+    return schemaRatisLogMaxMB;
+  }
+
+  public void setSchemaRatisLogMaxMB(long schemaRatisLogMaxMB) {
+    this.schemaRatisLogMaxMB = schemaRatisLogMaxMB;
+  }
+
+  public boolean isEnableCompactionValidation() {
+    return enableCompactionValidation;
+  }
+
+  public void setEnableCompactionValidation(boolean enableCompactionValidation) {
+    this.enableCompactionValidation = enableCompactionValidation;
   }
 }
