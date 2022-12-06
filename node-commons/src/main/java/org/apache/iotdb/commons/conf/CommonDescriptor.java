@@ -116,6 +116,15 @@ public class CommonDescriptor {
                     String.valueOf(config.getCnSelectorNumOfClientManager()))
                 .trim()));
 
+    // license
+    config.setLicenseFileName(
+        properties.getProperty("license_file_name", config.getLicenseFileName()));
+    config.setEnableLicense(
+        Boolean.parseBoolean(
+            properties.getProperty("enable_license", String.valueOf(config.isEnableLicense()))));
+    config.setPublicKeyFileName(
+        properties.getProperty("public_key_file_name", config.getPublicKeyFileName()));
+
     config.setHandleSystemErrorStrategy(
         HandleSystemErrorStrategy.valueOf(
             properties

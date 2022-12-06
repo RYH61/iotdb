@@ -81,6 +81,20 @@ public class CommonConfig {
     IoTDBConstant.DEFAULT_BASE_DIR + File.separator + IoTDBConstant.WAL_FOLDER_NAME
   };
 
+  private boolean enableLicense = true;
+
+  /**
+   * The path to the public key file, the default path is under the IoTDB folder(i.e.,
+   * %IOTDB_HOME%/conf/public.crt).
+   */
+  private String publicKeyFileName = "./conf/public.crt";
+
+  /**
+   * The path to the License file, the default path is under the IoTDB folder(i.e.,
+   * %IOTDB_HOME%/conf/license).
+   */
+  private String licenseFileName = "license";
+
   /** Default system file storage is in local file system (unsupported) */
   private FSType systemFileStorageFs = FSType.LOCAL;
 
@@ -280,6 +294,30 @@ public class CommonConfig {
 
   public void handleUnrecoverableError() {
     handleSystemErrorStrategy.handle();
+  }
+
+  public boolean isEnableLicense() {
+    return enableLicense;
+  }
+
+  public void setEnableLicense(boolean enableLicense) {
+    this.enableLicense = enableLicense;
+  }
+
+  public String getPublicKeyFileName() {
+    return publicKeyFileName;
+  }
+
+  public void setPublicKeyFileName(String publicKeyFileName) {
+    this.publicKeyFileName = publicKeyFileName;
+  }
+
+  public String getLicenseFileName() {
+    return licenseFileName;
+  }
+
+  public void setLicenseFileName(String licenseFileName) {
+    this.licenseFileName = licenseFileName;
   }
 
   public double getDiskSpaceWarningThreshold() {

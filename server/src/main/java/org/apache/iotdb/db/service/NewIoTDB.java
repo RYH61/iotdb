@@ -20,6 +20,7 @@
 package org.apache.iotdb.db.service;
 
 import org.apache.iotdb.commons.concurrent.IoTDBDefaultThreadExceptionHandler;
+import org.apache.iotdb.commons.conf.CommonDescriptor;
 import org.apache.iotdb.commons.conf.IoTDBConstant;
 import org.apache.iotdb.commons.exception.ConfigurationException;
 import org.apache.iotdb.commons.exception.PropertiesEmptyException;
@@ -30,6 +31,7 @@ import org.apache.iotdb.commons.service.StartupChecks;
 import org.apache.iotdb.commons.service.metric.MetricService;
 import org.apache.iotdb.commons.udf.service.UDFClassLoaderManager;
 import org.apache.iotdb.commons.utils.PropertiesUtils;
+import org.apache.iotdb.commons.utils.license.CheckLicenseService;
 import org.apache.iotdb.db.conf.IoTDBConfig;
 import org.apache.iotdb.db.conf.IoTDBDescriptor;
 import org.apache.iotdb.db.conf.IoTDBStartCheck;
@@ -49,7 +51,6 @@ import org.apache.iotdb.db.rescon.SystemInfo;
 import org.apache.iotdb.db.service.metrics.DataNodeMetricsHelper;
 import org.apache.iotdb.db.service.thrift.impl.ClientRPCServiceImpl;
 import org.apache.iotdb.db.sync.SyncService;
-import org.apache.iotdb.db.utils.license.CheckLicenseService;
 import org.apache.iotdb.db.wal.WALManager;
 
 import org.slf4j.Logger;
@@ -189,7 +190,7 @@ public class NewIoTDB implements NewIoTDBMBean {
     registerManager.register(CompactionTaskManager.getInstance());
 
     // license check
-    if (IoTDBDescriptor.getInstance().getConfig().isEnableLicense()) {
+    if (CommonDescriptor.getInstance().getConfig().isEnableLicense()) {
       registerManager.register(CheckLicenseService.getInstance());
     }
 
