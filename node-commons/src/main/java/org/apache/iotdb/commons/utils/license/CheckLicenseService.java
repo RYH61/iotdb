@@ -16,8 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.iotdb.db.utils.license;
+package org.apache.iotdb.commons.utils.license;
 
+import org.apache.iotdb.commons.conf.CommonDescriptor;
 import org.apache.iotdb.commons.exception.StartupException;
 import org.apache.iotdb.commons.service.IService;
 import org.apache.iotdb.commons.service.ServiceType;
@@ -47,7 +48,10 @@ public class CheckLicenseService implements IService {
 
   /** The license mechanism is the same as CEA */
   private boolean checkIsLegalLicenseV3() {
-    return ParseLicenseUtilV3.verifyTheLicense();
+    if (CommonDescriptor.getInstance().getConfig().isEnableLicense()) {
+      return ParseLicenseUtilV3.verifyTheLicense();
+    }
+    return true;
   }
 
   @Override

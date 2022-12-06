@@ -21,6 +21,7 @@ package org.apache.iotdb.commons.service;
 import org.apache.iotdb.commons.conf.IoTDBConstant;
 import org.apache.iotdb.commons.exception.StartupException;
 import org.apache.iotdb.commons.utils.JVMCommonUtils;
+import org.apache.iotdb.commons.utils.license.CheckLicenseService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +50,7 @@ public class StartupChecks {
   public StartupChecks(String nodeRole) {
     defaultTests.add(() -> checkJMXPort(nodeRole));
     defaultTests.add(checkJDK);
+    defaultTests.add(() -> CheckLicenseService.getInstance().start());
   }
 
   private void checkJMXPort(String nodeRole) {

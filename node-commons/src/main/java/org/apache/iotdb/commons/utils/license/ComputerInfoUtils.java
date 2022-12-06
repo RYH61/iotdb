@@ -1,4 +1,4 @@
-package org.apache.iotdb.db.utils.license;
+package org.apache.iotdb.commons.utils.license;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

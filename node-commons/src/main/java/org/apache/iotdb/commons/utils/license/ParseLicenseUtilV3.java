@@ -1,8 +1,8 @@
-package org.apache.iotdb.db.utils.license;
+package org.apache.iotdb.commons.utils.license;
 
+import org.apache.iotdb.commons.conf.CommonConfig;
+import org.apache.iotdb.commons.conf.CommonDescriptor;
 import org.apache.iotdb.commons.conf.IoTDBConstant;
-import org.apache.iotdb.db.conf.IoTDBConfig;
-import org.apache.iotdb.db.conf.IoTDBDescriptor;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,7 +36,7 @@ import java.util.Base64;
 public class ParseLicenseUtilV3 {
 
   private static final Logger logger = LoggerFactory.getLogger(ParseLicenseUtilV3.class);
-  private static final IoTDBConfig config = IoTDBDescriptor.getInstance().getConfig();
+  private static final CommonConfig config = CommonDescriptor.getInstance().getConfig();
   private Key publicKey;
 
   private int keySize;

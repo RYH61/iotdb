@@ -42,6 +42,7 @@ import org.apache.iotdb.commons.udf.service.UDFClassLoaderManager;
 import org.apache.iotdb.commons.udf.service.UDFExecutableManager;
 import org.apache.iotdb.commons.udf.service.UDFManagementService;
 import org.apache.iotdb.commons.utils.PropertiesUtils;
+import org.apache.iotdb.commons.utils.license.CheckLicenseService;
 import org.apache.iotdb.confignode.rpc.thrift.TDataNodeRegisterReq;
 import org.apache.iotdb.confignode.rpc.thrift.TDataNodeRegisterResp;
 import org.apache.iotdb.confignode.rpc.thrift.TGetJarInListReq;
@@ -75,7 +76,6 @@ import org.apache.iotdb.db.sync.SyncService;
 import org.apache.iotdb.db.trigger.executor.TriggerExecutor;
 import org.apache.iotdb.db.trigger.service.TriggerInformationUpdater;
 import org.apache.iotdb.db.trigger.service.TriggerManagementService;
-import org.apache.iotdb.db.utils.license.CheckLicenseService;
 import org.apache.iotdb.db.wal.WALManager;
 import org.apache.iotdb.db.wal.utils.WALMode;
 import org.apache.iotdb.metrics.config.MetricConfigDescriptor;
@@ -376,7 +376,7 @@ public class DataNode implements DataNodeMBean {
     registerManager.register(DriverScheduler.getInstance());
 
     // license check
-    if (IoTDBDescriptor.getInstance().getConfig().isEnableLicense()) {
+    if (CommonDescriptor.getInstance().getConfig().isEnableLicense()) {
       registerManager.register(CheckLicenseService.getInstance());
     }
 
