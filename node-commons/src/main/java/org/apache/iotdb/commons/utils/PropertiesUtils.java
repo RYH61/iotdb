@@ -703,15 +703,11 @@ public class PropertiesUtils {
   }
 
   public static void main(String[] args) {
-    String xmlFilePath =
-        "H:\\environment\\cirroTimes\\cirroTimes\\server\\src\\assembly\\resources\\conf/configuration-cea.xml";
+    String xmlFilePath = "";
     List<String> fileNames = new ArrayList<>();
-    fileNames.add(
-        "H:\\environment\\cirroTimes\\cirroTimes\\server\\src\\assembly\\resources\\conf/iotdb-datanode.properties");
-    fileNames.add(
-        "H:\\environment\\cirroTimes\\cirroTimes\\confignode\\src\\assembly\\resources\\conf/iotdb-confignode.properties");
-    fileNames.add(
-        "H:\\environment\\cirroTimes\\cirroTimes\\node-commons\\src\\assembly\\resources\\conf/iotdb-common.properties");
+    fileNames.add("");
+    fileNames.add("");
+    fileNames.add("");
     getXml(fileNames, xmlFilePath);
   }
 
