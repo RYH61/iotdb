@@ -3,7 +3,7 @@
     <flag type="resource">
         <name>dn_rpc_address</name>
         <meaning>Datatype: String Could set 127.0.0.1(for local test) or ipv4 address</meaning>
-        <group>Data Node RPC Configuration</group>
+        <group>Data Node RPC Configuration,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
         <constraint/>
@@ -20,7 +20,7 @@
     <flag type="port">
         <name>dn_rpc_port</name>
         <meaning>Used for connection of IoTDB native clients(Session) Bind with dn_rpc_address Datatype: int</meaning>
-        <group>Data Node RPC Configuration</group>
+        <group>Data Node RPC Configuration,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
         <constraint/>
@@ -37,7 +37,7 @@
     <flag type="resource">
         <name>dn_internal_address</name>
         <meaning>Datatype: String could set 127.0.0.1(for local test) or ipv4 address.</meaning>
-        <group>Data Node RPC Configuration</group>
+        <group>Data Node RPC Configuration,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
         <constraint/>
@@ -54,7 +54,7 @@
     <flag type="port">
         <name>dn_internal_port</name>
         <meaning>Used for communication inside cluster. Bind with dn_internal_address Datatype: int</meaning>
-        <group>Data Node RPC Configuration</group>
+        <group>Data Node RPC Configuration,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
         <constraint/>
@@ -71,7 +71,7 @@
     <flag type="port">
         <name>dn_mpp_data_exchange_port</name>
         <meaning>Port for data exchange among DataNodes inside cluster Bind with dn_internal_address Datatype: int</meaning>
-        <group>Data Node RPC Configuration</group>
+        <group>Data Node RPC Configuration,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
         <constraint/>
@@ -88,7 +88,7 @@
     <flag type="port">
         <name>dn_schema_region_consensus_port</name>
         <meaning>port for consensus's communication for schema region inside cluster. Bind with dn_internal_address Datatype: int</meaning>
-        <group>Data Node RPC Configuration</group>
+        <group>Data Node RPC Configuration,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
         <constraint/>
@@ -105,7 +105,7 @@
     <flag type="port">
         <name>dn_data_region_consensus_port</name>
         <meaning>port for consensus's communication for data region inside cluster. Bind with dn_internal_address Datatype: int</meaning>
-        <group>Data Node RPC Configuration</group>
+        <group>Data Node RPC Configuration,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
         <constraint/>
@@ -139,7 +139,7 @@
     <flag>
         <name>dn_target_config_node_list</name>
         <meaning>Target Config Nodes For the first ConfigNode to start, cn_target_config_node_list points to its own cn_internal_address:cn_internal_port. For other ConfigNodes that to join the cluster, target_config_node_list points to any running ConfigNode's cn_internal_address:cn_internal_port. Format: address:port(,address:port)* e.g. 127.0.0.1:22277,127.0.0.1:22279 Datatype: String</meaning>
-        <group>Target Config Nodes</group>
+        <group>Target Config Nodes,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
         <constraint/>
@@ -148,6 +148,212 @@
         <defaultShowValue>127.0.0.1:22277</defaultShowValue>
         <showValue>127.0.0.1:22277</showValue>
         <current>127.0.0.1:22277</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_session_timeout_threshold</name>
+        <meaning>Connection Configuration The maximum session idle time. unit: ms Idle sessions are the ones that performs neither query or non-query operations for a period of time Set to 0 to disable session timeout Datatype: int</meaning>
+        <group>Connection Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>0</default>
+        <defaultShowValue>0</defaultShowValue>
+        <showValue>0</showValue>
+        <current>0</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_rpc_thrift_compression_enable</name>
+        <meaning>Datatype: boolean</meaning>
+        <group>Connection Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>select</format>
+        <options>true,false</options>
+        <default>false</default>
+        <defaultShowValue>false</defaultShowValue>
+        <showValue>false</showValue>
+        <current>false</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_rpc_advanced_compression_enable</name>
+        <meaning>if true, a snappy based compression method will be called before sending data by the network Datatype: boolean this feature is under development, set this as false before it is done.</meaning>
+        <group>Connection Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>select</format>
+        <options>true,false</options>
+        <default>false</default>
+        <defaultShowValue>false</defaultShowValue>
+        <showValue>false</showValue>
+        <current>false</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_rpc_selector_thread_count</name>
+        <meaning>Datatype: int</meaning>
+        <group>Connection Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>1</default>
+        <defaultShowValue>1</defaultShowValue>
+        <showValue>1</showValue>
+        <current>1</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_rpc_min_concurrent_client_num</name>
+        <meaning>Datatype: int</meaning>
+        <group>Connection Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>1</default>
+        <defaultShowValue>1</defaultShowValue>
+        <showValue>1</showValue>
+        <current>1</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_rpc_max_concurrent_client_num</name>
+        <meaning>Datatype: int</meaning>
+        <group>Connection Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>65535</default>
+        <defaultShowValue>65535</defaultShowValue>
+        <showValue>65535</showValue>
+        <current>65535</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_thrift_max_frame_size</name>
+        <meaning>thrift max frame size, 512MB by default Datatype: int</meaning>
+        <group>Connection Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>536870912</default>
+        <defaultShowValue>536870912</defaultShowValue>
+        <showValue>536870912</showValue>
+        <current>536870912</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_thrift_init_buffer_size</name>
+        <meaning>thrift init buffer size Datatype: int</meaning>
+        <group>Connection Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>1024</default>
+        <defaultShowValue>1024</defaultShowValue>
+        <showValue>1024</showValue>
+        <current>1024</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_connection_timeout_ms</name>
+        <meaning>Thrift socket and connection timeout between raft nodes, in milliseconds. Datatype: int</meaning>
+        <group>Connection Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>20000</default>
+        <defaultShowValue>20000</defaultShowValue>
+        <showValue>20000</showValue>
+        <current>20000</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_core_connection_for_internal_service</name>
+        <meaning>The maximum number of clients that can be idle for a node's InternalService. When the number of idle clients on a node exceeds this number, newly returned clients will be released Datatype: int</meaning>
+        <group>Connection Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>100</default>
+        <defaultShowValue>100</defaultShowValue>
+        <showValue>100</showValue>
+        <current>100</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_max_connection_for_internal_service</name>
+        <meaning>The maximum number of clients that can be applied for a node's InternalService Datatype: int</meaning>
+        <group>Connection Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>100</default>
+        <defaultShowValue>100</defaultShowValue>
+        <showValue>100</showValue>
+        <current>100</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_selector_thread_count_of_client_manager</name>
+        <meaning>selector thread (TAsyncClientManager) nums for async thread in a clientManager Datatype: int</meaning>
+        <group>Connection Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>1</default>
+        <defaultShowValue>1</defaultShowValue>
+        <showValue>1</showValue>
+        <current>1</current>
         <valueUnits/>
         <userDefined>
             <position>iotdb-datanode.properties</position>
@@ -255,10 +461,316 @@
             <position>iotdb-datanode.properties</position>
         </userDefined>
     </flag>
+    <flag>
+        <name>dn_sync_dir</name>
+        <meaning>sync dir If this property is unset, system will save the data in the default relative path directory under the IoTDB folder(i.e., %IOTDB_HOME%/data/datanode). If it is absolute, system will save the data in the exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the IoTDB folder. Note: If sync_dir is assigned an empty string(i.e.,zero-size), it will be handled as a relative path. For windows platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative.</meaning>
+        <group>Directory Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>data\\datanode\\sync</default>
+        <defaultShowValue>data\\datanode\\sync</defaultShowValue>
+        <showValue>data\\datanode\\sync</showValue>
+        <current>data\\datanode\\sync</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_sync_dir</name>
+        <meaning>If its prefix is "/", then the path is absolute. Otherwise, it is relative.</meaning>
+        <group>Directory Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>data/datanode/sync</default>
+        <defaultShowValue>data/datanode/sync</defaultShowValue>
+        <showValue>data/datanode/sync</showValue>
+        <current>data/datanode/sync</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_metric_frame_type</name>
+        <meaning>Metric Configuration The reporters of metric module to report metrics If there are more than one reporter, please separate them by commas ",". Options: [JMX, PROMETHEUS, IOTDB] Datatype: String dn_metric_reporter_list= The type of metric framework which manage metrics Options: [MICROMETER, DROPWIZARD] Datatype: String</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>MICROMETER</default>
+        <defaultShowValue>MICROMETER</defaultShowValue>
+        <showValue>MICROMETER</showValue>
+        <current>MICROMETER</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_metric_level</name>
+        <meaning>The level of metric module Options: [CORE, IMPORTANT, NORMAL, ALL] Datatype: String</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>CORE</default>
+        <defaultShowValue>CORE</defaultShowValue>
+        <showValue>CORE</showValue>
+        <current>CORE</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_metric_async_collect_period</name>
+        <meaning>The period of async collection of some metrics in second Datatype: int</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>5</default>
+        <defaultShowValue>5</defaultShowValue>
+        <showValue>5</showValue>
+        <current>5</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_metric_prometheus_reporter_port</name>
+        <meaning>The port of prometheus reporter of metric module Datatype: int</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>9091</default>
+        <defaultShowValue>9091</defaultShowValue>
+        <showValue>9091</showValue>
+        <current>9091</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_metric_iotdb_reporter_host</name>
+        <meaning>The host of IoTDB reporter of metric module Could set 127.0.0.1(for local test) or ipv4 address Datatype: String</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>double</format>
+        <default>127.0.0.1</default>
+        <defaultShowValue>127.0.0.1</defaultShowValue>
+        <showValue>127.0.0.1</showValue>
+        <current>127.0.0.1</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_metric_iotdb_reporter_port</name>
+        <meaning>The port of IoTDB reporter of metric module Datatype: int</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>6667</default>
+        <defaultShowValue>6667</defaultShowValue>
+        <showValue>6667</showValue>
+        <current>6667</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_metric_iotdb_reporter_username</name>
+        <meaning>The username of IoTDB reporter of metric module Datatype: String</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>root</default>
+        <defaultShowValue>root</defaultShowValue>
+        <showValue>root</showValue>
+        <current>root</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_metric_iotdb_reporter_password</name>
+        <meaning>The password of IoTDB reporter of metric module Datatype: String</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>root</default>
+        <defaultShowValue>root</defaultShowValue>
+        <showValue>root</showValue>
+        <current>root</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_metric_iotdb_reporter_max_connection_number</name>
+        <meaning>The max connection number of IoTDB reporter of metric module Datatype: int</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>3</default>
+        <defaultShowValue>3</defaultShowValue>
+        <showValue>3</showValue>
+        <current>3</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_metric_iotdb_reporter_location</name>
+        <meaning>The location of IoTDB reporter of metric module The metrics will write into root.__system.${location} Datatype: String</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>metric</default>
+        <defaultShowValue>metric</defaultShowValue>
+        <showValue>metric</showValue>
+        <current>metric</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_metric_iotdb_reporter_push_period</name>
+        <meaning>The push period of IoTDB reporter of metric module in second Datatype: int</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>15</default>
+        <defaultShowValue>15</defaultShowValue>
+        <showValue>15</showValue>
+        <current>15</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_metric_internal_reporter_type</name>
+        <meaning>The type of internal reporter in metric module Options: [MEMORY, IOTDB] Datatype: String</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>MEMORY</default>
+        <defaultShowValue>MEMORY</defaultShowValue>
+        <showValue>MEMORY</showValue>
+        <current>MEMORY</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>MAX_HEAP_SIZE</name>
+        <meaning>Maximum heap size</meaning>
+        <group>memory size</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>2G</default>
+        <defaultShowValue>2G</defaultShowValue>
+        <showValue>2G</showValue>
+        <current>2G</current>
+        <valueUnits/>
+        <userDefined>
+            <position>datanode-env.sh</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>HEAP_NEWSIZE</name>
+        <meaning>Minimum heap size</meaning>
+        <group>memory size</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>2G</default>
+        <defaultShowValue>2G</defaultShowValue>
+        <showValue>2G</showValue>
+        <current>2G</current>
+        <valueUnits/>
+        <userDefined>
+            <position>datanode-env.sh</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>MAX_HEAP_SIZE</name>
+        <meaning>Maximum heap size</meaning>
+        <group>memory size</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>2G</default>
+        <defaultShowValue>2G</defaultShowValue>
+        <showValue>2G</showValue>
+        <current>2G</current>
+        <valueUnits/>
+        <userDefined>
+            <position>confignode-env.sh</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>HEAP_NEWSIZE</name>
+        <meaning>Minimum heap size</meaning>
+        <group>memory size</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>2G</default>
+        <defaultShowValue>2G</defaultShowValue>
+        <showValue>2G</showValue>
+        <current>2G</current>
+        <valueUnits/>
+        <userDefined>
+            <position>confignode-env.sh</position>
+        </userDefined>
+    </flag>
     <flag type="resource">
         <name>cn_internal_address</name>
         <meaning>Datatype: String Could set 127.0.0.1(for local test) or ipv4 address.</meaning>
-        <group>Config Node RPC Configuration</group>
+        <group>Config Node RPC Configuration,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
         <constraint/>
@@ -275,7 +787,7 @@
     <flag type="port">
         <name>cn_internal_port</name>
         <meaning>Used for RPC communication inside cluster. Datatype: int</meaning>
-        <group>Config Node RPC Configuration</group>
+        <group>Config Node RPC Configuration,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
         <constraint/>
@@ -292,7 +804,7 @@
     <flag type="port">
         <name>cn_consensus_port</name>
         <meaning>Used for consensus communication among ConfigNodes inside cluster. Datatype: int</meaning>
-        <group>Config Node RPC Configuration</group>
+        <group>Config Node RPC Configuration,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
         <constraint/>
@@ -309,7 +821,7 @@
     <flag>
         <name>cn_target_config_node_list</name>
         <meaning>Target Config Nodes For the first ConfigNode to start, cn_target_config_node_list points to its own cn_internal_address:cn_internal_port. For other ConfigNodes that to join the cluster, target_config_node_list points to any running ConfigNode's cn_internal_address:cn_internal_port. Format: address:port(,address:port)* e.g. 127.0.0.1:22277,127.0.0.1:22279 Datatype: String</meaning>
-        <group>Target Config Nodes</group>
+        <group>Target Config Nodes,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
         <constraint/>
@@ -494,13 +1006,269 @@
         </userDefined>
     </flag>
     <flag>
-        <name>config_node_consensus_protocol_class</name>
-        <meaning>This parameter is unmodifiable after ConfigNode starts for the first time. These consensus protocols are currently supported: 1. org.apache.iotdb.consensus.ratis.RatisConsensus Datatype: String</meaning>
-        <group>Replication configuration</group>
+        <name>cn_metric_frame_type</name>
+        <meaning>Metric Configuration The reporters of metric module to report metrics If there are more than one reporter, please separate them by commas ",". Options: [JMX, PROMETHEUS, IOTDB] Datatype: String cn_metric_reporter_list= The type of metric framework which manage metrics Options: [MICROMETER, DROPWIZARD] Datatype: String</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>MICROMETER</default>
+        <defaultShowValue>MICROMETER</defaultShowValue>
+        <showValue>MICROMETER</showValue>
+        <current>MICROMETER</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-confignode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>cn_metric_level</name>
+        <meaning>The level of metric module Options: [CORE, IMPORTANT, NORMAL, ALL] Datatype: String</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>CORE</default>
+        <defaultShowValue>CORE</defaultShowValue>
+        <showValue>CORE</showValue>
+        <current>CORE</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-confignode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>cn_metric_async_collect_period</name>
+        <meaning>The period of async collection of some metrics in second Datatype: int</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>5</default>
+        <defaultShowValue>5</defaultShowValue>
+        <showValue>5</showValue>
+        <current>5</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-confignode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>cn_metric_prometheus_reporter_port</name>
+        <meaning>The port of prometheus reporter of metric module Datatype: int</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>9091</default>
+        <defaultShowValue>9091</defaultShowValue>
+        <showValue>9091</showValue>
+        <current>9091</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-confignode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>cn_metric_iotdb_reporter_host</name>
+        <meaning>The host of IoTDB reporter of metric module Could set 127.0.0.1(for local test) or ipv4 address Datatype: String</meaning>
+        <group>Metric Configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
         <format>double</format>
+        <default>127.0.0.1</default>
+        <defaultShowValue>127.0.0.1</defaultShowValue>
+        <showValue>127.0.0.1</showValue>
+        <current>127.0.0.1</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-confignode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>cn_metric_iotdb_reporter_port</name>
+        <meaning>The port of IoTDB reporter of metric module Datatype: int</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>6667</default>
+        <defaultShowValue>6667</defaultShowValue>
+        <showValue>6667</showValue>
+        <current>6667</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-confignode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>cn_metric_iotdb_reporter_username</name>
+        <meaning>The username of IoTDB reporter of metric module Datatype: String</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>root</default>
+        <defaultShowValue>root</defaultShowValue>
+        <showValue>root</showValue>
+        <current>root</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-confignode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>cn_metric_iotdb_reporter_password</name>
+        <meaning>The password of IoTDB reporter of metric module Datatype: String</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>root</default>
+        <defaultShowValue>root</defaultShowValue>
+        <showValue>root</showValue>
+        <current>root</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-confignode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>cn_metric_iotdb_reporter_max_connection_number</name>
+        <meaning>The max connection number of IoTDB reporter of metric module Datatype: int</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>3</default>
+        <defaultShowValue>3</defaultShowValue>
+        <showValue>3</showValue>
+        <current>3</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-confignode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>cn_metric_iotdb_reporter_location</name>
+        <meaning>The location of IoTDB reporter of metric module The metrics will write into root.__system.${location} Datatype: String</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>metric</default>
+        <defaultShowValue>metric</defaultShowValue>
+        <showValue>metric</showValue>
+        <current>metric</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-confignode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>cn_metric_iotdb_reporter_push_period</name>
+        <meaning>The push period of IoTDB reporter of metric module in second Datatype: int</meaning>
+        <group>Metric Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>15</default>
+        <defaultShowValue>15</defaultShowValue>
+        <showValue>15</showValue>
+        <current>15</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-confignode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>MAX_HEAP_SIZE</name>
+        <meaning>Maximum heap size</meaning>
+        <group>memory size</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>2G</default>
+        <defaultShowValue>2G</defaultShowValue>
+        <showValue>2G</showValue>
+        <current>2G</current>
+        <valueUnits/>
+        <userDefined>
+            <position>datanode-env.sh</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>HEAP_NEWSIZE</name>
+        <meaning>Minimum heap size</meaning>
+        <group>memory size</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>2G</default>
+        <defaultShowValue>2G</defaultShowValue>
+        <showValue>2G</showValue>
+        <current>2G</current>
+        <valueUnits/>
+        <userDefined>
+            <position>datanode-env.sh</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>MAX_HEAP_SIZE</name>
+        <meaning>Maximum heap size</meaning>
+        <group>memory size</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>2G</default>
+        <defaultShowValue>2G</defaultShowValue>
+        <showValue>2G</showValue>
+        <current>2G</current>
+        <valueUnits/>
+        <userDefined>
+            <position>confignode-env.sh</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>HEAP_NEWSIZE</name>
+        <meaning>Minimum heap size</meaning>
+        <group>memory size</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>2G</default>
+        <defaultShowValue>2G</defaultShowValue>
+        <showValue>2G</showValue>
+        <current>2G</current>
+        <valueUnits/>
+        <userDefined>
+            <position>confignode-env.sh</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>config_node_consensus_protocol_class</name>
+        <meaning>This parameter is unmodifiable after ConfigNode starts for the first time. These consensus protocols are currently supported: 1. org.apache.iotdb.consensus.ratis.RatisConsensus 2. org.apache.iotdb.consensus.simple.SimpleConsensus Datatype: string</meaning>
+        <group>Replication configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>select</format>
+        <options>org.apache.iotdb.consensus.ratis.RatisConsensus,org.apache.iotdb.consensus.simple.SimpleConsensus</options>
         <default>org.apache.iotdb.consensus.ratis.RatisConsensus</default>
         <defaultShowValue>org.apache.iotdb.consensus.ratis.RatisConsensus</defaultShowValue>
         <showValue>org.apache.iotdb.consensus.ratis.RatisConsensus</showValue>
@@ -529,16 +1297,17 @@
     </flag>
     <flag>
         <name>schema_region_consensus_protocol_class</name>
-        <meaning>SchemaRegion consensus protocol type. This parameter is unmodifiable after ConfigNode starts for the first time. These consensus protocols are currently supported: 1. org.apache.iotdb.consensus.simple.SimpleConsensus 2. org.apache.iotdb.consensus.ratis.RatisConsensus Datatype: String</meaning>
+        <meaning>SchemaRegion consensus protocol type. This parameter is unmodifiable after ConfigNode starts for the first time. These consensus protocols are currently supported: 1. org.apache.iotdb.consensus.ratis.RatisConsensus 2. org.apache.iotdb.consensus.simple.SimpleConsensus Datatype: string</meaning>
         <group>Replication configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>double</format>
-        <default>org.apache.iotdb.consensus.simple.SimpleConsensus</default>
-        <defaultShowValue>org.apache.iotdb.consensus.simple.SimpleConsensus</defaultShowValue>
-        <showValue>org.apache.iotdb.consensus.simple.SimpleConsensus</showValue>
-        <current>org.apache.iotdb.consensus.simple.SimpleConsensus</current>
+        <format>select</format>
+        <options>org.apache.iotdb.consensus.ratis.RatisConsensus,org.apache.iotdb.consensus.simple.SimpleConsensus</options>
+        <default>org.apache.iotdb.consensus.ratis.RatisConsensus</default>
+        <defaultShowValue>org.apache.iotdb.consensus.ratis.RatisConsensus</defaultShowValue>
+        <showValue>org.apache.iotdb.consensus.ratis.RatisConsensus</showValue>
+        <current>org.apache.iotdb.consensus.ratis.RatisConsensus</current>
         <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
@@ -563,25 +1332,26 @@
     </flag>
     <flag>
         <name>data_region_consensus_protocol_class</name>
-        <meaning>DataRegion consensus protocol type. This parameter is unmodifiable after ConfigNode starts for the first time. These consensus protocols are currently supported: 1. org.apache.iotdb.consensus.simple.SimpleConsensus 2. org.apache.iotdb.consensus.multileader.MultiLeaderConsensus 3. org.apache.iotdb.consensus.ratis.RatisConsensus Datatype: String</meaning>
+        <meaning>DataRegion consensus protocol type. This parameter is unmodifiable after ConfigNode starts for the first time. These consensus protocols are currently supported: 1. org.apache.iotdb.consensus.simple.SimpleConsensus 2. org.apache.iotdb.consensus.iot.IoTConsensus 3. org.apache.iotdb.consensus.ratis.RatisConsensus Datatype: string</meaning>
         <group>Replication configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>double</format>
-        <default>org.apache.iotdb.consensus.simple.SimpleConsensus</default>
-        <defaultShowValue>org.apache.iotdb.consensus.simple.SimpleConsensus</defaultShowValue>
-        <showValue>org.apache.iotdb.consensus.simple.SimpleConsensus</showValue>
-        <current>org.apache.iotdb.consensus.simple.SimpleConsensus</current>
+        <format>select</format>
+        <options>org.apache.iotdb.consensus.ratis.RatisConsensus,org.apache.iotdb.consensus.simple.SimpleConsensusorg.apache.iotdb.consensus.iot.IoTConsensus</options>
+        <default>org.apache.iotdb.consensus.iot.IoTConsensus</default>
+        <defaultShowValue>org.apache.iotdb.consensus.iot.IoTConsensus</defaultShowValue>
+        <showValue>org.apache.iotdb.consensus.iot.IoTConsensus</showValue>
+        <current>org.apache.iotdb.consensus.iot.IoTConsensus</current>
         <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
         </userDefined>
     </flag>
     <flag>
-        <name>series_partition_slot_num</name>
-        <meaning>Partition (Load balancing) configuration All parameters in Partition configuration is unmodifiable after ConfigNode starts for the first time. And these parameters should be consistent within the ConfigNodeGroup. Number of SeriesPartitionSlots per StorageGroup Datatype: int</meaning>
-        <group>Partition (Load balancing) configuration</group>
+        <name>series_slot_num</name>
+        <meaning>Load balancing configuration All parameters in Partition configuration is unmodifiable after ConfigNode starts for the first time. And these parameters should be consistent within the ConfigNodeGroup. Number of SeriesPartitionSlots per Database Datatype: Integer</meaning>
+        <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
@@ -598,11 +1368,12 @@
     <flag>
         <name>series_partition_executor_class</name>
         <meaning>SeriesPartitionSlot executor class These hashing algorithms are currently supported: 1. BKDRHashExecutor(Default) 2. APHashExecutor 3. JSHashExecutor 4. SDBMHashExecutor Also, if you want to implement your own SeriesPartition executor, you can inherit the SeriesPartitionExecutor class and modify this parameter to correspond to your Java class Datatype: String</meaning>
-        <group>Partition (Load balancing) configuration</group>
+        <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>double</format>
+        <format>select</format>
+        <options>BKDRHashExecutor,APHashExecutor,JSHashExecutor,SDBMHashExecutor</options>
         <default>org.apache.iotdb.commons.partition.executor.hash.BKDRHashExecutor</default>
         <defaultShowValue>org.apache.iotdb.commons.partition.executor.hash.BKDRHashExecutor</defaultShowValue>
         <showValue>org.apache.iotdb.commons.partition.executor.hash.BKDRHashExecutor</showValue>
@@ -614,8 +1385,8 @@
     </flag>
     <flag>
         <name>schema_region_per_data_node</name>
-        <meaning>The maximum number of SchemaRegion expected to be managed by each DataNode. Notice: Since each StorageGroup requires at least one SchemaRegion to manage its schema, this parameter doesn't limit the number of SchemaRegions when there are too many StorageGroups. Datatype: Double</meaning>
-        <group>Partition (Load balancing) configuration</group>
+        <meaning>The maximum number of SchemaRegions expected to be managed by each DataNode. Notice: Since each Database requires at least one SchemaRegionGroup to manage its schema, this parameter doesn't limit the number of SchemaRegions when there are too many Databases. Default is equal to the schema_replication_factor. Datatype: Double</meaning>
+        <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
@@ -630,60 +1401,111 @@
         </userDefined>
     </flag>
     <flag>
+        <name>schema_region_group_extension_policy</name>
+        <meaning>The policy of extension SchemaRegionGroup for each Database. These policies are currently supported: 1. CUSTOM(Each Database will allocate schema_region_group_per_database RegionGroups as soon as created) 2. AUTO(Each Database will automatically extend SchemaRegionGroups based on the data it has) Datatype: String</meaning>
+        <group>Load balancing configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>AUTO</default>
+        <defaultShowValue>AUTO</defaultShowValue>
+        <showValue>AUTO</showValue>
+        <current>AUTO</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>schema_region_group_per_database</name>
+        <meaning>The number of SchemaRegionGroups for each Database when using CUSTOM schema_region_group_extension_policy. Notice: Each Database will allocate schema_region_group_per_database SchemaRegionGroups as soon as created. Datatype: Integer</meaning>
+        <group>Load balancing configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>1</default>
+        <defaultShowValue>1</defaultShowValue>
+        <showValue>1</showValue>
+        <current>1</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>data_region_group_extension_policy</name>
+        <meaning>The policy of extension DataRegionGroup for each Database. These policies are currently supported: 1. CUSTOM(Each Database will allocate data_region_group_per_database DataRegionGroups as soon as created) 2. AUTO(Each Database will automatically extend DataRegionGroups based on the data it has) Datatype: String</meaning>
+        <group>Load balancing configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>AUTO</default>
+        <defaultShowValue>AUTO</defaultShowValue>
+        <showValue>AUTO</showValue>
+        <current>AUTO</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>data_region_group_per_database</name>
+        <meaning>The number of DataRegionGroups for each Database when using CUSTOM data_region_group_extension_policy. Notice: Each Database will allocate data_region_group_per_database DataRegionGroups as soon as created. Datatype: Integer</meaning>
+        <group>Load balancing configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>1</default>
+        <defaultShowValue>1</defaultShowValue>
+        <showValue>1</showValue>
+        <current>1</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
         <name>data_region_per_processor</name>
-        <meaning>The maximum number of DataRegion expected to be managed by each processor. Notice: Since each StorageGroup requires at least two DataRegions to manage its data, this parameter doesn't limit the number of DataRegions when there are too many StorageGroups. Datatype: Double</meaning>
-        <group>Partition (Load balancing) configuration</group>
+        <meaning>The maximum number of DataRegions expected to be managed by each processor when using AUTO data_region_group_extension_policy. Notice: Since each Database requires at least two DataRegionGroups to manage its data, this parameter doesn't limit the number of DataRegions when there are too many Databases. Datatype: Double</meaning>
+        <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
         <format>double</format>
-        <default>0.5</default>
-        <defaultShowValue>0.5</defaultShowValue>
-        <showValue>0.5</showValue>
-        <current>0.5</current>
+        <default>1.0</default>
+        <defaultShowValue>1.0</defaultShowValue>
+        <showValue>1.0</showValue>
+        <current>1.0</current>
         <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
         </userDefined>
     </flag>
     <flag>
-        <name>region_allocate_strategy</name>
-        <meaning>Region allocate strategy These allocate strategies are currently supported: 1. GREEDY(Default, when region is allocated, always choose the dataNode that has been allocated the minimum regions) 2. COPY_SET(Random replication according to weight calculated from number of regions on all online dataNodes, suitable for large clusters) Datatype: String</meaning>
-        <group>Partition (Load balancing) configuration</group>
+        <name>least_data_region_group_num</name>
+        <meaning>The least number of DataRegionGroup for each StorageGroup. The ConfigNode-leader will create a DataRegionGroup for each newborn SeriesPartitionSlot for the newly created StorageGroup until the number of DataRegionGroup is equal to this parameter. Notice: In order to ensure the efficiency of concurrent write, this parameter should greater than 1. Datatype: int</meaning>
+        <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>string</format>
-        <default>GREEDY</default>
-        <defaultShowValue>GREEDY</defaultShowValue>
-        <showValue>GREEDY</showValue>
-        <current>GREEDY</current>
+        <format>int</format>
+        <default>5</default>
+        <defaultShowValue>5</defaultShowValue>
+        <showValue>5</showValue>
+        <current>5</current>
         <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
         </userDefined>
     </flag>
     <flag>
-        <name>routing_policy</name>
-        <meaning>The routing policy of read/write requests These routing policy are currently supported: 1. leader(Default, routing to leader replica) 2. greedy(Routing to replica with the lowest load, might cause read un-consistent) Datatype: string</meaning>
-        <group>Partition (Load balancing) configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>string</format>
-        <default>leader</default>
-        <defaultShowValue>leader</defaultShowValue>
-        <showValue>leader</showValue>
-        <current>leader</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>enable_leader_balancing</name>
-        <meaning>Whether enable ConfigNode-leader to balance RegionGroups' leader distribution automatically. Datatype: boolean</meaning>
-        <group>Partition (Load balancing) configuration</group>
+        <name>enable_data_partition_inherit_policy</name>
+        <meaning>Whether to enable the DataPartition inherit policy. DataPartition within the same SeriesPartitionSlot will inherit the allocation result of the previous TimePartitionSlot if set true Datatype: Boolean</meaning>
+        <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
@@ -699,8 +1521,61 @@
         </userDefined>
     </flag>
     <flag>
-        <name>time_partition_interval_for_routing</name>
-        <meaning>Cluster management Time partition interval in milliseconds, default is equal to one week Can not be changed after the first start Datatype: long</meaning>
+        <name>leader_distribution_policy</name>
+        <meaning>The policy of cluster RegionGroups' leader distribution. E.g. we should balance cluster RegionGroups' leader distribution when some DataNodes are shutdown or re-connected. These policies are currently supported: 1. GREEDY(Distribute leader through a simple greedy algorithm, might cause unbalance) 2. MIN_COST_FLOW(Default, distribute leader through min cost flow algorithm) Datatype: String</meaning>
+        <group>Load balancing configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>MIN_COST_FLOW</default>
+        <defaultShowValue>MIN_COST_FLOW</defaultShowValue>
+        <showValue>MIN_COST_FLOW</showValue>
+        <current>MIN_COST_FLOW</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>enable_auto_leader_balance_for_ratis_consensus</name>
+        <meaning>Whether to enable auto leader balance for Ratis consensus protocol. The ConfigNode-leader will balance the leader of Ratis-RegionGroups by leader_distribution_policy if set true. Notice: Default is false because the Ratis is unstable for this function. Datatype: Boolean</meaning>
+        <group>Load balancing configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>select</format>
+        <options>true,false</options>
+        <default>false</default>
+        <defaultShowValue>false</defaultShowValue>
+        <showValue>false</showValue>
+        <current>false</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>enable_auto_leader_balance_for_iot_consensus</name>
+        <meaning>Whether to enable auto leader balance for IoTConsensus protocol. The ConfigNode-leader will balance the leader of IoTConsensus-RegionGroups by leader_distribution_policy if set true. Notice: Default is true because the IoTConsensus depends on this function to distribute leader. Datatype: Boolean</meaning>
+        <group>Load balancing configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>select</format>
+        <options>true,false</options>
+        <default>true</default>
+        <defaultShowValue>true</defaultShowValue>
+        <showValue>true</showValue>
+        <current>true</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>time_partition_interval</name>
+        <meaning>Cluster management Time partition interval in milliseconds, and partitioning data inside each data region, default is equal to one week Can not be changed after the first start Datatype: long</meaning>
         <group>Cluster management</group>
         <fill>0</fill>
         <showConstraint/>
@@ -710,12 +1585,7 @@
         <defaultShowValue>604800000</defaultShowValue>
         <showValue>604800000</showValue>
         <current>604800000</current>
-        <valueUnits>
-            <options>ms</options>
-            <currentUnit>ms</currentUnit>
-            <unitType>time</unitType>
-            <minUnit>ms</minUnit>
-        </valueUnits>
+        <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
         </userDefined>
@@ -847,7 +1717,7 @@
     </flag>
     <flag>
         <name>concurrent_writing_time_partition</name>
-        <meaning>Max number of concurrent writing time partitions in one storage group This parameter is used to control total memTable number when memory control is disabled The max number of memTable is 4 * concurrent_writing_time_partition * storage group number Datatype: long</meaning>
+        <meaning>Max number of concurrent writing time partitions in one database This parameter is used to control total memTable number when memory control is disabled The max number of memTable is 4 * concurrent_writing_time_partition * database number Datatype: long</meaning>
         <group>Memory Control Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -870,10 +1740,10 @@
         <showConstraint/>
         <constraint/>
         <format>int</format>
-        <default>32</default>
-        <defaultShowValue>32</defaultShowValue>
-        <showValue>32</showValue>
-        <current>32</current>
+        <default>64</default>
+        <defaultShowValue>64</defaultShowValue>
+        <showValue>64</showValue>
+        <current>64</current>
         <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
@@ -1191,7 +2061,7 @@
     </flag>
     <flag>
         <name>enable_auto_create_schema</name>
-        <meaning>Configurations for creating schema automatically Whether creating schema automatically is enabled If true, then create storage group and timeseries automatically when not exists in insertion Or else, user need to create storage group and timeseries before insertion. Datatype: boolean</meaning>
+        <meaning>Configurations for creating schema automatically Whether creating schema automatically is enabled If true, then create database and timeseries automatically when not exists in insertion Or else, user need to create database and timeseries before insertion. Datatype: boolean</meaning>
         <group>Configurations for creating schema automatically</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1209,7 +2079,7 @@
     </flag>
     <flag>
         <name>default_storage_group_level</name>
-        <meaning>Storage group level when creating schema automatically is enabled e.g. root.sg0.d1.s2 we will set root.sg0 as the storage group if storage group level is 1 Datatype: int</meaning>
+        <meaning>Database level when creating schema automatically is enabled e.g. root.sg0.d1.s2 we will set root.sg0 as the database if database level is 1 Datatype: int</meaning>
         <group>Configurations for creating schema automatically</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1430,7 +2300,7 @@
     </flag>
     <flag>
         <name>meta_data_cache_enable</name>
-        <meaning>whether to cache meta data(BloomFilter, ChunkMetadata and TimeSeriesMetadata) or not. Datatype: boolean</meaning>
+        <meaning>Whether to cache meta data(BloomFilter, ChunkMetadata and TimeSeriesMetadata) or not. Datatype: boolean</meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1483,7 +2353,7 @@
     </flag>
     <flag>
         <name>max_deduplicated_path_num</name>
-        <meaning>allowed max numbers of deduplicated path in one query it's just an advised value, the real limitation will be the smaller one between this and the one we calculated Datatype: int</meaning>
+        <meaning>Allowed max numbers of deduplicated path in one query it's just an advised value, the real limitation will be the smaller one between this and the one we calculated Datatype: int</meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1500,7 +2370,7 @@
     </flag>
     <flag>
         <name>mpp_data_exchange_core_pool_size</name>
-        <meaning>Datatype: int</meaning>
+        <meaning>Core size of ThreadPool of MPP data exchange Datatype: int</meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1517,7 +2387,7 @@
     </flag>
     <flag>
         <name>mpp_data_exchange_max_pool_size</name>
-        <meaning>Datatype: int</meaning>
+        <meaning>Max size of ThreadPool of MPP data exchange Datatype: int</meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1534,7 +2404,7 @@
     </flag>
     <flag>
         <name>mpp_data_exchange_keep_alive_time_in_ms</name>
-        <meaning>Datatype: int</meaning>
+        <meaning>Max waiting time for MPP data exchange Datatype: int</meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1555,47 +2425,8 @@
         </userDefined>
     </flag>
     <flag>
-        <name>default_fill_interval</name>
-        <meaning>the default time period that used in fill query, -1 by default means infinite past time Datatype: int, Unit: ms</meaning>
-        <group>Query Configurations</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>-1</default>
-        <defaultShowValue>-1</defaultShowValue>
-        <showValue>-1</showValue>
-        <current>-1</current>
-        <valueUnits>
-            <options>ms</options>
-            <currentUnit>ms</currentUnit>
-            <unitType>time</unitType>
-            <minUnit>ms</minUnit>
-        </valueUnits>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>group_by_fill_cache_size_in_mb</name>
-        <meaning>Datatype: float</meaning>
-        <group>Query Configurations</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>double</format>
-        <default>1.0</default>
-        <defaultShowValue>1.0</defaultShowValue>
-        <showValue>1.0</showValue>
-        <current>1.0</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
         <name>driver_task_execution_time_slice_in_ms</name>
-        <meaning>the max execution time of a DriverTask Datatype: int, Unit: ms</meaning>
+        <meaning>The max execution time of a DriverTask Datatype: int, Unit: ms</meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1617,7 +2448,7 @@
     </flag>
     <flag>
         <name>max_tsblock_size_in_bytes</name>
-        <meaning>the max capacity of a TsBlock Datatype: int, Unit: byte</meaning>
+        <meaning>The max capacity of a TsBlock Datatype: int, Unit: byte</meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1639,7 +2470,7 @@
     </flag>
     <flag>
         <name>max_tsblock_line_numbers</name>
-        <meaning>the max number of lines in a single TsBlock Datatype: int</meaning>
+        <meaning>The max number of lines in a single TsBlock Datatype: int</meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1656,7 +2487,7 @@
     </flag>
     <flag>
         <name>slow_query_threshold</name>
-        <meaning>time cost(ms) threshold for slow query Datatype: long</meaning>
+        <meaning>Time cost(ms) threshold for slow query Datatype: long</meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1677,26 +2508,30 @@
         </userDefined>
     </flag>
     <flag>
-        <name>enable_external_sort</name>
-        <meaning>Is external sort enable Datatype: boolean</meaning>
+        <name>query_timeout_threshold</name>
+        <meaning>The max executing time of query. unit: ms Datatype: int</meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>select</format>
-        <options>true,false</options>
-        <default>true</default>
-        <defaultShowValue>true</defaultShowValue>
-        <showValue>true</showValue>
-        <current>true</current>
-        <valueUnits/>
+        <format>int</format>
+        <default>60000</default>
+        <defaultShowValue>60000</defaultShowValue>
+        <showValue>60000</showValue>
+        <current>60000</current>
+        <valueUnits>
+            <options>s</options>
+            <currentUnit>s</currentUnit>
+            <unitType>time</unitType>
+            <minUnit>s</minUnit>
+        </valueUnits>
         <userDefined>
             <position>iotdb-common.properties</position>
         </userDefined>
     </flag>
     <flag>
-        <name>external_sort_threshold</name>
-        <meaning>The maximum number of simultaneous chunk reading for a single time series. If the num of simultaneous chunk reading is greater than external_sort_threshold, external sorting is used. When external_sort_threshold increases, the number of chunks sorted at the same time in memory may increase and this will occupy more memory. When external_sort_threshold decreases, triggering external sorting will increase the time-consuming. Datatype: int</meaning>
+        <name>max_allowed_concurrent_queries</name>
+        <meaning>The maximum allowed concurrently executing queries Datatype: int</meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1706,6 +2541,40 @@
         <defaultShowValue>1000</defaultShowValue>
         <showValue>1000</showValue>
         <current>1000</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>query_thread_count</name>
+        <meaning>How many threads can concurrently execute query statement. When small= 0, use CPU core number. Datatype: int</meaning>
+        <group>Query Configurations</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>0</default>
+        <defaultShowValue>0</defaultShowValue>
+        <showValue>0</showValue>
+        <current>0</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>batch_size</name>
+        <meaning>The amount of data iterate each time in server (the number of data strips, that is, the number of different timestamps.) Datatype: int</meaning>
+        <group>Query Configurations</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>100000</default>
+        <defaultShowValue>100000</defaultShowValue>
+        <showValue>100000</showValue>
+        <current>100000</current>
         <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
@@ -1730,7 +2599,7 @@
     </flag>
     <flag>
         <name>default_ttl_in_ms</name>
-        <meaning>Default TTL for storage groups that are not set TTL by statements, If not set (default), the TTL will be unlimited. Notice: if this property is changed, previous created storage group which are not set TTL will also be affected. data. Datatype: long Unit: ms</meaning>
+        <meaning>Default TTL for databases that are not set TTL by statements, If not set (default), the TTL will be unlimited. Notice: if this property is changed, previous created database which are not set TTL will also be affected. data. Datatype: long Unit: ms</meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1791,53 +2660,14 @@
         </userDefined>
     </flag>
     <flag>
-        <name>enable_partition</name>
-        <meaning>whether enable data partition. If disabled, all data belongs to partition 0 Datatype: boolean</meaning>
-        <group>Storage Engine Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>select</format>
-        <options>true,false</options>
-        <default>true</default>
-        <defaultShowValue>true</defaultShowValue>
-        <showValue>true</showValue>
-        <current>true</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>time_partition_interval_for_storage</name>
-        <meaning>time range for partitioning data inside each data region, the unit is millisecond, default is equal to one week Datatype: long</meaning>
-        <group>Storage Engine Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>604800000</default>
-        <defaultShowValue>604800000</defaultShowValue>
-        <showValue>604800000</showValue>
-        <current>604800000</current>
-        <valueUnits>
-            <options>ms</options>
-            <currentUnit>ms</currentUnit>
-            <unitType>time</unitType>
-            <minUnit>ms</minUnit>
-        </valueUnits>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
         <name>handle_system_error</name>
         <meaning>What will the system do when unrecoverable error occurs. Datatype: String Optional strategies are as follows: 1. CHANGE_TO_READ_ONLY: set system status to read-only and the system only accepts query operations. 2. SHUTDOWN: the system will be shutdown.</meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>select</format>
+        <options>CHANGE_TO_READ_ONLY,SHUTDOWN</options>
         <default>CHANGE_TO_READ_ONLY</default>
         <defaultShowValue>CHANGE_TO_READ_ONLY</defaultShowValue>
         <showValue>CHANGE_TO_READ_ONLY</showValue>
@@ -1878,10 +2708,10 @@
         <constraint/>
         <format>select</format>
         <options>true,false</options>
-        <default>false</default>
-        <defaultShowValue>false</defaultShowValue>
-        <showValue>false</showValue>
-        <current>false</current>
+        <default>true</default>
+        <defaultShowValue>true</defaultShowValue>
+        <showValue>true</showValue>
+        <current>true</current>
         <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
@@ -1889,16 +2719,16 @@
     </flag>
     <flag>
         <name>seq_memtable_flush_interval_in_ms</name>
-        <meaning>If a memTable's created time is older than current time minus this, the memtable will be flushed to disk. Only check sequence tsfiles' memtables. The default flush interval is 60 * 60 * 1000. (unit: ms) Datatype: long</meaning>
+        <meaning>If a memTable's created time is older than current time minus this, the memtable will be flushed to disk. Only check sequence tsfiles' memtables. The default flush interval is 3 * 60 * 60 * 1000. (unit: ms) Datatype: long</meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
         <format>int</format>
-        <default>3600000</default>
-        <defaultShowValue>3600000</defaultShowValue>
-        <showValue>3600000</showValue>
-        <current>3600000</current>
+        <default>10800000</default>
+        <defaultShowValue>10800000</defaultShowValue>
+        <showValue>10800000</showValue>
+        <current>10800000</current>
         <valueUnits>
             <options>ms</options>
             <currentUnit>ms</currentUnit>
@@ -1951,16 +2781,16 @@
     </flag>
     <flag>
         <name>unseq_memtable_flush_interval_in_ms</name>
-        <meaning>If a memTable's created time is older than current time minus this, the memtable will be flushed to disk. Only check unsequence tsfiles' memtables. The default flush interval is 60 * 60 * 1000. (unit: ms) Datatype: long</meaning>
+        <meaning>If a memTable's created time is older than current time minus this, the memtable will be flushed to disk. Only check unsequence tsfiles' memtables. The default flush interval is 3 * 60 * 60 * 1000. (unit: ms) Datatype: long</meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
         <format>int</format>
-        <default>3600000</default>
-        <defaultShowValue>3600000</defaultShowValue>
-        <showValue>3600000</showValue>
-        <current>3600000</current>
+        <default>10800000</default>
+        <defaultShowValue>10800000</defaultShowValue>
+        <showValue>10800000</showValue>
+        <current>10800000</current>
         <valueUnits>
             <options>ms</options>
             <currentUnit>ms</currentUnit>
@@ -2045,92 +2875,6 @@
         </userDefined>
     </flag>
     <flag>
-        <name>query_thread_count</name>
-        <meaning>How many threads can concurrently execute query statement. When small= 0, use CPU core number. Datatype: int</meaning>
-        <group>Storage Engine Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>0</default>
-        <defaultShowValue>0</defaultShowValue>
-        <showValue>0</showValue>
-        <current>0</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>sub_rawQuery_thread_count</name>
-        <meaning>How many threads can concurrently read data for raw data query. When small= 0, use CPU core number. Datatype: int</meaning>
-        <group>Storage Engine Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>8</default>
-        <defaultShowValue>8</defaultShowValue>
-        <showValue>8</showValue>
-        <current>8</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>raw_query_blocking_queue_capacity</name>
-        <meaning>Blocking queue size for read task in raw data query. Must &gt;= 1. Datatype: int</meaning>
-        <group>Storage Engine Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>5</default>
-        <defaultShowValue>5</defaultShowValue>
-        <showValue>5</showValue>
-        <current>5</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>chunk_buffer_pool_enable</name>
-        <meaning>whether take over the memory management by IoTDB rather than JVM when serializing memtable as bytes in memory (i.e., whether use ChunkBufferPool), value true, false Datatype: boolean</meaning>
-        <group>Storage Engine Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>select</format>
-        <options>true,false</options>
-        <default>false</default>
-        <defaultShowValue>false</defaultShowValue>
-        <showValue>false</showValue>
-        <current>false</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>batch_size</name>
-        <meaning>The amount of data iterate each time in server (the number of data strips, that is, the number of different timestamps.) Datatype: int</meaning>
-        <group>Storage Engine Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>100000</default>
-        <defaultShowValue>100000</defaultShowValue>
-        <showValue>100000</showValue>
-        <current>100000</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
         <name>enable_partial_insert</name>
         <meaning>In one insert (one device, one timestamp, multiple measurements), if enable partial insert, one measurement failure will not impact other measurements Datatype: boolean</meaning>
         <group>Storage Engine Configuration</group>
@@ -2171,25 +2915,8 @@
         </userDefined>
     </flag>
     <flag>
-        <name>insert_multi_tablet_enable_multithreading_column_threshold</name>
-        <meaning>When the insert plan column count reaches the specified threshold, which means that the plan is relatively large. At this time, may be enabled multithreading. If the tablet is small, the time of each insertion is short. If we enable multithreading, we also need to consider the switching loss between threads, so we need to judge the size of the tablet. Datatype: int</meaning>
-        <group>Storage Engine Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>10</default>
-        <defaultShowValue>10</defaultShowValue>
-        <showValue>10</showValue>
-        <current>10</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
         <name>upgrade_thread_count</name>
-        <meaning>When there exists old version(0.9.x/v1) data, how many thread will be set up to perform upgrade tasks, 1 by default. Set to 1 when less than or equal to 0. Datatype: int</meaning>
+        <meaning>When there exists old version(v2) TsFile, how many thread will be set up to perform upgrade tasks, 1 by default. Set to 1 when less than or equal to 0. Datatype: int</meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2277,12 +3004,13 @@
     </flag>
     <flag>
         <name>cross_performer</name>
-        <meaning>the compaction performer of cross space compaction task Options: read_point</meaning>
+        <meaning>the compaction performer of cross space compaction task Options: read_point, fast (under test)</meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>select</format>
+        <options>read_point</options>
         <default>read_point</default>
         <defaultShowValue>read_point</defaultShowValue>
         <showValue>read_point</showValue>
@@ -2299,7 +3027,8 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>select</format>
+        <options>size_tiered</options>
         <default>size_tiered</default>
         <defaultShowValue>size_tiered</defaultShowValue>
         <showValue>size_tiered</showValue>
@@ -2311,12 +3040,13 @@
     </flag>
     <flag>
         <name>inner_seq_performer</name>
-        <meaning>the performer of inner sequence space compaction task Options: read_chunk</meaning>
+        <meaning>the performer of inner sequence space compaction task Options: read_chunk, fast (under test)</meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>select</format>
+        <options>read_chunk</options>
         <default>read_chunk</default>
         <defaultShowValue>read_chunk</defaultShowValue>
         <showValue>read_chunk</showValue>
@@ -2333,7 +3063,8 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>select</format>
+        <options>size_tiered</options>
         <default>size_tiered</default>
         <defaultShowValue>size_tiered</defaultShowValue>
         <showValue>size_tiered</showValue>
@@ -2345,12 +3076,13 @@
     </flag>
     <flag>
         <name>inner_unseq_performer</name>
-        <meaning>the performer of inner unsequence space compaction task Options: read_point</meaning>
+        <meaning>the performer of inner unsequence space compaction task Options: read_point, fast (under test)</meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>select</format>
+        <options>read_point</options>
         <default>read_point</default>
         <defaultShowValue>read_point</defaultShowValue>
         <showValue>read_point</showValue>
@@ -2639,45 +3371,6 @@
         </userDefined>
     </flag>
     <flag>
-        <name>query_timeout_threshold</name>
-        <meaning>The max executing time of query. unit: ms Datatype: int</meaning>
-        <group>Compaction Configurations</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>60000</default>
-        <defaultShowValue>60000</defaultShowValue>
-        <showValue>60000</showValue>
-        <current>60000</current>
-        <valueUnits>
-            <options>s</options>
-            <currentUnit>s</currentUnit>
-            <unitType>time</unitType>
-            <minUnit>s</minUnit>
-        </valueUnits>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>max_allowed_concurrent_queries</name>
-        <meaning>The maximum allowed concurrently executing queries Datatype: int</meaning>
-        <group>Compaction Configurations</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>1000</default>
-        <defaultShowValue>1000</defaultShowValue>
-        <showValue>1000</showValue>
-        <current>1000</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
         <name>sub_compaction_thread_count</name>
         <meaning>The number of sub compaction threads to be set up to perform compaction. Currently only works for nonAligned data in cross space compaction and unseq inner space compaction. Set to 1 when less than or equal to 0. Datatype: int</meaning>
         <group>Compaction Configurations</group>
@@ -2689,6 +3382,24 @@
         <defaultShowValue>4</defaultShowValue>
         <showValue>4</showValue>
         <current>4</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>enable_compaction_validation</name>
+        <meaning>Enable the check of sequence tsfile time range after compaction Datatype: boolean</meaning>
+        <group>Compaction Configurations</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>select</format>
+        <options>true,false</options>
+        <default>true</default>
+        <defaultShowValue>true</defaultShowValue>
+        <showValue>true</showValue>
+        <current>true</current>
         <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
@@ -2713,7 +3424,7 @@
     </flag>
     <flag>
         <name>max_wal_nodes_num</name>
-        <meaning>Max number of wal nodes, each node corresponds to one wal directory The default value 0 means the number is determined by the system. Notice: this value affects write performance significantly. For non-SSD disks, values between one third and half of storage groups number are recommended. Datatype: int</meaning>
+        <meaning>Max number of wal nodes, each node corresponds to one wal directory The default value 0 means the number is determined by the system. Notice: this value affects write performance significantly. For non-SSD disks, values between one third and half of databases number are recommended. Datatype: int</meaning>
         <group>Write Ahead Log Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2890,8 +3601,8 @@
         </userDefined>
     </flag>
     <flag>
-        <name>multi_leader_throttle_threshold_in_byte</name>
-        <meaning>The minimum size of wal files when throttle down in MultiLeader consensus If it's a value smaller than 0, use the default value 50 * 1024 * 1024 * 1024 bytes (50GB). Datatype: long</meaning>
+        <name>iot_consensus_throttle_threshold_in_byte</name>
+        <meaning>The minimum size of wal files when throttle down in IoTConsensus If it's a value smaller than 0, use the default value 50 * 1024 * 1024 * 1024 bytes (50GB). Datatype: long</meaning>
         <group>Write Ahead Log Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2901,19 +3612,14 @@
         <defaultShowValue>53687091200</defaultShowValue>
         <showValue>53687091200</showValue>
         <current>53687091200</current>
-        <valueUnits>
-            <options>B</options>
-            <currentUnit>B</currentUnit>
-            <unitType>byte</unitType>
-            <minUnit>B</minUnit>
-        </valueUnits>
+        <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
         </userDefined>
     </flag>
     <flag>
-        <name>multi_leader_cache_window_time_in_ms</name>
-        <meaning>Maximum wait time of write cache in MultiLeader consensus If this value is less than or equal to 0, use the default value Long.MAX_VALUE. Datatype: long</meaning>
+        <name>iot_consensus_cache_window_time_in_ms</name>
+        <meaning>Maximum wait time of write cache in IoTConsensus If this value is less than or equal to 0, use the default value Long.MAX_VALUE. Datatype: long</meaning>
         <group>Write Ahead Log Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2923,12 +3629,7 @@
         <defaultShowValue>-1</defaultShowValue>
         <showValue>-1</showValue>
         <current>-1</current>
-        <valueUnits>
-            <options>ms</options>
-            <currentUnit>ms</currentUnit>
-            <unitType>time</unitType>
-            <minUnit>ms</minUnit>
-        </valueUnits>
+        <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
         </userDefined>
@@ -3235,7 +3936,7 @@
     </flag>
     <flag>
         <name>authorizer_provider_class</name>
-        <meaning>Authorization Configuration which class to serve for authorization. By default, it is LocalFileAuthorizer. Another choice is org.apache.iotdb.db.auth.authorizer.OpenIdAuthorizer</meaning>
+        <meaning>Authorization Configuration which class to serve for authorization. By default, it is LocalFileAuthorizer. Another choice is org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer</meaning>
         <group>Authorization Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3426,40 +4127,6 @@
         </userDefined>
     </flag>
     <flag>
-        <name>window_evaluation_thread_count</name>
-        <meaning>How many threads can be used for evaluating sliding windows. When small= 0, use CPU core number. Datatype: int</meaning>
-        <group>Trigger Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>0</default>
-        <defaultShowValue>0</defaultShowValue>
-        <showValue>0</showValue>
-        <current>0</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>max_pending_window_evaluation_tasks</name>
-        <meaning>Max number of window evaluation tasks that can be pending for execution. When small= 0, the value is 64 by default. Datatype: int</meaning>
-        <group>Trigger Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>64</default>
-        <defaultShowValue>64</defaultShowValue>
-        <showValue>64</showValue>
-        <current>64</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
         <name>stateful_trigger_retry_num_when_not_found</name>
         <meaning>How many times will we retry to found an instance of stateful trigger on DataNodes 3 by default. Datatype: int</meaning>
         <group>Trigger Configuration</group>
@@ -3471,108 +4138,6 @@
         <defaultShowValue>3</defaultShowValue>
         <showValue>3</showValue>
         <current>3</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>trigger_forward_max_queue_number</name>
-        <meaning>Number of queues per forwarding trigger</meaning>
-        <group>Trigger Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>8</default>
-        <defaultShowValue>8</defaultShowValue>
-        <showValue>8</showValue>
-        <current>8</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>trigger_forward_max_size_per_queue</name>
-        <meaning>The length of one of the queues per forwarding trigger</meaning>
-        <group>Trigger Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>2000</default>
-        <defaultShowValue>2000</defaultShowValue>
-        <showValue>2000</showValue>
-        <current>2000</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>trigger_forward_batch_size</name>
-        <meaning>Trigger forwarding data size per batch</meaning>
-        <group>Trigger Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>50</default>
-        <defaultShowValue>50</defaultShowValue>
-        <showValue>50</showValue>
-        <current>50</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>trigger_forward_http_pool_size</name>
-        <meaning>Trigger HTTP forward pool size</meaning>
-        <group>Trigger Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>200</default>
-        <defaultShowValue>200</defaultShowValue>
-        <showValue>200</showValue>
-        <current>200</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>trigger_forward_http_pool_max_per_route</name>
-        <meaning>Trigger HTTP forward pool max connection for per route</meaning>
-        <group>Trigger Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>20</default>
-        <defaultShowValue>20</defaultShowValue>
-        <showValue>20</showValue>
-        <current>20</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>trigger_forward_mqtt_pool_size</name>
-        <meaning>Trigger MQTT forward pool size</meaning>
-        <group>Trigger Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>4</default>
-        <defaultShowValue>4</defaultShowValue>
-        <showValue>4</showValue>
-        <current>4</current>
         <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
@@ -3596,47 +4161,25 @@
         </userDefined>
     </flag>
     <flag>
-        <name>max_pending_continuous_query_tasks</name>
-        <meaning>Continuous Query Configuration Maximum number of continuous query tasks that can be pending for execution. When small= 0, the value is 64 by default. Datatype: int</meaning>
-        <group>Continuous Query Configuration</group>
+        <name>into_operation_execution_thread_count</name>
+        <meaning>The number of threads in the thread pool that execute insert-tablet tasks Datatype: int</meaning>
+        <group>Select-Into Configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
         <format>int</format>
-        <default>64</default>
-        <defaultShowValue>64</defaultShowValue>
-        <showValue>64</showValue>
-        <current>64</current>
+        <default>2</default>
+        <defaultShowValue>2</defaultShowValue>
+        <showValue>2</showValue>
+        <current>2</current>
         <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
         </userDefined>
     </flag>
     <flag>
-        <name>cqlog_buffer_size</name>
-        <meaning>The size of log buffer for every CQ management operation plan. If the size of a CQ management operation plan is larger than this parameter, the CQ management operation plan will be rejected by CQManager. Datatype: int</meaning>
-        <group>Continuous Query Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>1048576</default>
-        <defaultShowValue>1048576</defaultShowValue>
-        <showValue>1048576</showValue>
-        <current>1048576</current>
-        <valueUnits>
-            <options>B</options>
-            <currentUnit>B</currentUnit>
-            <unitType>byte</unitType>
-            <minUnit>B</minUnit>
-        </valueUnits>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
         <name>continuous_query_submit_thread_count</name>
-        <meaning>The number of threads in the scheduled thread pool that submit continuous query tasks periodically Datatype: int</meaning>
+        <meaning>Continuous Query Configuration The number of threads in the scheduled thread pool that submit continuous query tasks periodically Datatype: int</meaning>
         <group>Continuous Query Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3675,16 +4218,16 @@
     </flag>
     <flag>
         <name>ip_white_list</name>
-        <meaning>PIPE Configuration White IP list of Sync client. Please use the form of network segment to present the range of IP, for example: 192.168.0.0/16 If there are more than one IP segment, please separate them by commas The default is to allow all IP to sync Datatype: String</meaning>
+        <meaning>PIPE Configuration White IP list of Sync client. Please use the form of IPv4 network segment to present the range of IP, for example: 192.168.0.0/16 If there are more than one IP segment, please separate them by commas The default is to reject all IP to sync except 127.0.0.1 Datatype: String</meaning>
         <group>PIPE Configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
         <format>double</format>
-        <default>0.0.0.0/0</default>
-        <defaultShowValue>0.0.0.0/0</defaultShowValue>
-        <showValue>0.0.0.0/0</showValue>
-        <current>0.0.0.0/0</current>
+        <default>127.0.0.1/32</default>
+        <defaultShowValue>127.0.0.1/32</defaultShowValue>
+        <showValue>127.0.0.1/32</showValue>
+        <current>127.0.0.1/32</current>
         <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
@@ -3702,232 +4245,6 @@
         <defaultShowValue>5</defaultShowValue>
         <showValue>5</showValue>
         <current>5</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>session_timeout_threshold</name>
-        <meaning>Connection Configuration The maximum session idle time. unit: ms Idle sessions are the ones that performs neither query or non-query operations for a period of time Set to 0 to disable session timeout Datatype: int</meaning>
-        <group>Connection Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>0</default>
-        <defaultShowValue>0</defaultShowValue>
-        <showValue>0</showValue>
-        <current>0</current>
-        <valueUnits>
-            <options>ms</options>
-            <currentUnit>ms</currentUnit>
-            <unitType>time</unitType>
-            <minUnit>ms</minUnit>
-        </valueUnits>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>rpc_thrift_compression_enable</name>
-        <meaning>Datatype: boolean</meaning>
-        <group>Connection Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>select</format>
-        <options>true,false</options>
-        <default>false</default>
-        <defaultShowValue>false</defaultShowValue>
-        <showValue>false</showValue>
-        <current>false</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>rpc_advanced_compression_enable</name>
-        <meaning>if true, a snappy based compression method will be called before sending data by the network Datatype: boolean this feature is under development, set this as false before it is done.</meaning>
-        <group>Connection Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>select</format>
-        <options>true,false</options>
-        <default>false</default>
-        <defaultShowValue>false</defaultShowValue>
-        <showValue>false</showValue>
-        <current>false</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>rpc_selector_thread_count</name>
-        <meaning>Datatype: int</meaning>
-        <group>Connection Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>1</default>
-        <defaultShowValue>1</defaultShowValue>
-        <showValue>1</showValue>
-        <current>1</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>rpc_min_concurrent_client_num</name>
-        <meaning>Datatype: int</meaning>
-        <group>Connection Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>1</default>
-        <defaultShowValue>1</defaultShowValue>
-        <showValue>1</showValue>
-        <current>1</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>rpc_max_concurrent_client_num</name>
-        <meaning>Datatype: int</meaning>
-        <group>Connection Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>65535</default>
-        <defaultShowValue>65535</defaultShowValue>
-        <showValue>65535</showValue>
-        <current>65535</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>thrift_max_frame_size</name>
-        <meaning>thrift max frame size, 512MB by default Datatype: int</meaning>
-        <group>Connection Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>536870912</default>
-        <defaultShowValue>536870912</defaultShowValue>
-        <showValue>536870912</showValue>
-        <current>536870912</current>
-        <valueUnits>
-            <options>B</options>
-            <currentUnit>B</currentUnit>
-            <unitType>byte</unitType>
-            <minUnit>B</minUnit>
-        </valueUnits>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>thrift_init_buffer_size</name>
-        <meaning>thrift init buffer size Datatype: int</meaning>
-        <group>Connection Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>1024</default>
-        <defaultShowValue>1024</defaultShowValue>
-        <showValue>1024</showValue>
-        <current>1024</current>
-        <valueUnits>
-            <options>B</options>
-            <currentUnit>B</currentUnit>
-            <unitType>byte</unitType>
-            <minUnit>B</minUnit>
-        </valueUnits>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>connection_timeout_ms</name>
-        <meaning>Thrift socket and connection timeout between raft nodes, in milliseconds. Datatype: int</meaning>
-        <group>Connection Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>20000</default>
-        <defaultShowValue>20000</defaultShowValue>
-        <showValue>20000</showValue>
-        <current>20000</current>
-        <valueUnits>
-            <options>ms</options>
-            <currentUnit>ms</currentUnit>
-            <unitType>time</unitType>
-            <minUnit>ms</minUnit>
-        </valueUnits>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>core_connection_for_internal_service</name>
-        <meaning>The maximum number of clients that can be idle for a node's InternalService. When the number of idle clients on a node exceeds this number, newly returned clients will be released Datatype: int</meaning>
-        <group>Connection Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>100</default>
-        <defaultShowValue>100</defaultShowValue>
-        <showValue>100</showValue>
-        <current>100</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>max_connection_for_internal_service</name>
-        <meaning>The maximum number of clients that can be applied for a node's InternalService Datatype: int</meaning>
-        <group>Connection Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>100</default>
-        <defaultShowValue>100</defaultShowValue>
-        <showValue>100</showValue>
-        <current>100</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>selector_thread_count_of_client_manager</name>
-        <meaning>selector thread (TAsyncClientManager) nums for async thread in a clientManager Datatype: int</meaning>
-        <group>Connection Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>1</default>
-        <defaultShowValue>1</defaultShowValue>
-        <showValue>1</showValue>
-        <current>1</current>
         <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
@@ -3957,7 +4274,7 @@
     </flag>
     <flag>
         <name>schema_region_ratis_log_appender_buffer_size_max</name>
-        <meaning>max payload size for a single log-sync-RPC from leader to follower</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3979,7 +4296,7 @@
     </flag>
     <flag>
         <name>data_region_ratis_log_appender_buffer_size_max</name>
-        <meaning>max payload size for a single log-sync-RPC from leader to follower</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4018,7 +4335,7 @@
     </flag>
     <flag>
         <name>schema_region_ratis_snapshot_trigger_threshold</name>
-        <meaning>trigger a snapshot when snapshot_trigger_threshold logs are written</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4035,24 +4352,7 @@
     </flag>
     <flag>
         <name>data_region_ratis_snapshot_trigger_threshold</name>
-        <meaning>trigger a snapshot when snapshot_trigger_threshold logs are written</meaning>
-        <group>RatisConsensus Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>400000</default>
-        <defaultShowValue>400000</defaultShowValue>
-        <showValue>400000</showValue>
-        <current>400000</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>config_node_simple_consensus_snapshot_trigger_threshold</name>
-        <meaning>trigger a snapshot when snapshot_trigger_threshold logs are written</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4087,7 +4387,7 @@
     </flag>
     <flag>
         <name>schema_region_ratis_log_unsafe_flush_enable</name>
-        <meaning>allow flushing Raft Log asynchronously</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4105,7 +4405,7 @@
     </flag>
     <flag>
         <name>data_region_ratis_log_unsafe_flush_enable</name>
-        <meaning>allow flushing Raft Log asynchronously</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4145,7 +4445,7 @@
     </flag>
     <flag>
         <name>schema_region_ratis_log_segment_size_max_in_byte</name>
-        <meaning>max capacity of a single Log segment file (in byte, by default 24MB)</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4167,7 +4467,7 @@
     </flag>
     <flag>
         <name>data_region_ratis_log_segment_size_max_in_byte</name>
-        <meaning>max capacity of a single Log segment file (in byte, by default 24MB)</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4189,7 +4489,7 @@
     </flag>
     <flag>
         <name>config_node_simple_consensus_log_segment_size_max_in_byte</name>
-        <meaning>max capacity of a single Log segment file (in byte, by default 24MB)</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4233,7 +4533,7 @@
     </flag>
     <flag>
         <name>schema_region_ratis_grpc_flow_control_window</name>
-        <meaning>flow control window for ratis grpc log appender</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4255,7 +4555,7 @@
     </flag>
     <flag>
         <name>data_region_ratis_grpc_flow_control_window</name>
-        <meaning>flow control window for ratis grpc log appender</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4294,7 +4594,7 @@
     </flag>
     <flag>
         <name>schema_region_ratis_rpc_leader_election_timeout_min_ms</name>
-        <meaning>min election timeout for leader election</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4316,7 +4616,7 @@
     </flag>
     <flag>
         <name>data_region_ratis_rpc_leader_election_timeout_min_ms</name>
-        <meaning>min election timeout for leader election</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4360,7 +4660,7 @@
     </flag>
     <flag>
         <name>schema_region_ratis_rpc_leader_election_timeout_max_ms</name>
-        <meaning>max election timeout for leader election</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4382,7 +4682,7 @@
     </flag>
     <flag>
         <name>data_region_ratis_rpc_leader_election_timeout_max_ms</name>
-        <meaning>max election timeout for leader election</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4426,7 +4726,7 @@
     </flag>
     <flag>
         <name>schema_region_ratis_request_timeout_ms</name>
-        <meaning>ratis client retry threshold</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4448,7 +4748,7 @@
     </flag>
     <flag>
         <name>data_region_ratis_request_timeout_ms</name>
-        <meaning>ratis client retry threshold</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4487,7 +4787,7 @@
     </flag>
     <flag>
         <name>config_node_ratis_initial_sleep_time_ms</name>
-        <meaning>currently we use exponential back-off retry policy for ratis</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4509,7 +4809,7 @@
     </flag>
     <flag>
         <name>config_node_ratis_max_sleep_time_ms</name>
-        <meaning>currently we use exponential back-off retry policy for ratis</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4531,7 +4831,7 @@
     </flag>
     <flag>
         <name>schema_region_ratis_max_retry_attempts</name>
-        <meaning>currently we use exponential back-off retry policy for ratis</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4548,7 +4848,7 @@
     </flag>
     <flag>
         <name>schema_region_ratis_initial_sleep_time_ms</name>
-        <meaning>currently we use exponential back-off retry policy for ratis</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4570,7 +4870,7 @@
     </flag>
     <flag>
         <name>schema_region_ratis_max_sleep_time_ms</name>
-        <meaning>currently we use exponential back-off retry policy for ratis</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4592,7 +4892,7 @@
     </flag>
     <flag>
         <name>data_region_ratis_max_retry_attempts</name>
-        <meaning>currently we use exponential back-off retry policy for ratis</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4609,7 +4909,7 @@
     </flag>
     <flag>
         <name>data_region_ratis_initial_sleep_time_ms</name>
-        <meaning>currently we use exponential back-off retry policy for ratis</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4631,7 +4931,7 @@
     </flag>
     <flag>
         <name>data_region_ratis_max_sleep_time_ms</name>
-        <meaning>currently we use exponential back-off retry policy for ratis</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4641,6 +4941,50 @@
         <defaultShowValue>10000</defaultShowValue>
         <showValue>10000</showValue>
         <current>10000</current>
+        <valueUnits>
+            <options>ms</options>
+            <currentUnit>ms</currentUnit>
+            <unitType>time</unitType>
+            <minUnit>ms</minUnit>
+        </valueUnits>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>ratis_first_election_timeout_min_ms</name>
+        <meaning>first election timeout</meaning>
+        <group>RatisConsensus Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>50</default>
+        <defaultShowValue>50</defaultShowValue>
+        <showValue>50</showValue>
+        <current>50</current>
+        <valueUnits>
+            <options>ms</options>
+            <currentUnit>ms</currentUnit>
+            <unitType>time</unitType>
+            <minUnit>ms</minUnit>
+        </valueUnits>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>ratis_first_election_timeout_max_ms</name>
+        <meaning/>
+        <group>RatisConsensus Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>150</default>
+        <defaultShowValue>150</defaultShowValue>
+        <showValue>150</showValue>
+        <current>150</current>
         <valueUnits>
             <options>ms</options>
             <currentUnit>ms</currentUnit>
@@ -4670,7 +5014,7 @@
     </flag>
     <flag>
         <name>schema_region_ratis_preserve_logs_num_when_purge</name>
-        <meaning>preserve certain logs when take snapshot and purge</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4687,7 +5031,7 @@
     </flag>
     <flag>
         <name>data_region_ratis_preserve_logs_num_when_purge</name>
-        <meaning>preserve certain logs when take snapshot and purge</meaning>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4703,45 +5047,52 @@
         </userDefined>
     </flag>
     <flag>
-        <name>ratis_first_election_timeout_min_ms</name>
-        <meaning>first election timeout</meaning>
+        <name>config_node_ratis_log_max_size</name>
+        <meaning>Raft Log disk size control</meaning>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
         <format>int</format>
-        <default>50</default>
-        <defaultShowValue>50</defaultShowValue>
-        <showValue>50</showValue>
-        <current>50</current>
-        <valueUnits>
-            <options>ms</options>
-            <currentUnit>ms</currentUnit>
-            <unitType>time</unitType>
-            <minUnit>ms</minUnit>
-        </valueUnits>
+        <default>2147483648</default>
+        <defaultShowValue>2147483648</defaultShowValue>
+        <showValue>2147483648</showValue>
+        <current>2147483648</current>
+        <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
         </userDefined>
     </flag>
     <flag>
-        <name>ratis_first_election_timeout_max_ms</name>
-        <meaning>first election timeout</meaning>
+        <name>schema_region_ratis_log_max_size</name>
+        <meaning/>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
         <format>int</format>
-        <default>150</default>
-        <defaultShowValue>150</defaultShowValue>
-        <showValue>150</showValue>
-        <current>150</current>
-        <valueUnits>
-            <options>ms</options>
-            <currentUnit>ms</currentUnit>
-            <unitType>time</unitType>
-            <minUnit>ms</minUnit>
-        </valueUnits>
+        <default>2147483648</default>
+        <defaultShowValue>2147483648</defaultShowValue>
+        <showValue>2147483648</showValue>
+        <current>2147483648</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>data_region_ratis_log_max_size</name>
+        <meaning/>
+        <group>RatisConsensus Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>21474836480</default>
+        <defaultShowValue>21474836480</defaultShowValue>
+        <showValue>21474836480</showValue>
+        <current>21474836480</current>
+        <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
         </userDefined>
@@ -4916,6 +5267,180 @@
         </userDefined>
     </flag>
     <flag>
+        <name>enable_rest_service</name>
+        <meaning>REST Service Configuration Is the REST service enabled</meaning>
+        <group>REST Service Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>select</format>
+        <options>true,false</options>
+        <default>false</default>
+        <defaultShowValue>false</defaultShowValue>
+        <showValue>false</showValue>
+        <current>false</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>rest_service_port</name>
+        <meaning>the binding port of the REST service</meaning>
+        <group>REST Service Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>18080</default>
+        <defaultShowValue>18080</defaultShowValue>
+        <showValue>18080</showValue>
+        <current>18080</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>enable_swagger</name>
+        <meaning>Whether to display rest service interface information through swagger. eg: http://ip:port/swagger.json</meaning>
+        <group>REST Service Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>select</format>
+        <options>true,false</options>
+        <default>false</default>
+        <defaultShowValue>false</defaultShowValue>
+        <showValue>false</showValue>
+        <current>false</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>rest_query_default_row_size_limit</name>
+        <meaning>the default row limit to a REST query response when the rowSize parameter is not given in request</meaning>
+        <group>REST Service Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>10000</default>
+        <defaultShowValue>10000</defaultShowValue>
+        <showValue>10000</showValue>
+        <current>10000</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>cache_expire_in_seconds</name>
+        <meaning>the expiration time of the user login information cache (in seconds)</meaning>
+        <group>REST Service Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>28800</default>
+        <defaultShowValue>28800</defaultShowValue>
+        <showValue>28800</showValue>
+        <current>28800</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>cache_max_num</name>
+        <meaning>maximum number of users can be stored in the user login cache.</meaning>
+        <group>REST Service Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>100</default>
+        <defaultShowValue>100</defaultShowValue>
+        <showValue>100</showValue>
+        <current>100</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>cache_init_num</name>
+        <meaning>init capacity of users can be stored in the user login cache.</meaning>
+        <group>REST Service Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>10</default>
+        <defaultShowValue>10</defaultShowValue>
+        <showValue>10</showValue>
+        <current>10</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>enable_https</name>
+        <meaning>is SSL enabled</meaning>
+        <group>REST Service Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>select</format>
+        <options>true,false</options>
+        <default>false</default>
+        <defaultShowValue>false</defaultShowValue>
+        <showValue>false</showValue>
+        <current>false</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>client_auth</name>
+        <meaning>SSL key store path key_store_path= SSL key store password key_store_pwd= Is client authentication required</meaning>
+        <group>REST Service Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>select</format>
+        <options>true,false</options>
+        <default>false</default>
+        <defaultShowValue>false</defaultShowValue>
+        <showValue>false</showValue>
+        <current>false</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>idle_timeout_in_seconds</name>
+        <meaning>SSL trust store path trust_store_path= SSL trust store password. trust_store_pwd= SSL timeout (in seconds)</meaning>
+        <group>REST Service Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>50000</default>
+        <defaultShowValue>50000</defaultShowValue>
+        <showValue>50000</showValue>
+        <current>50000</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
         <name>enable_influxdb_rpc_service</name>
         <meaning>InfluxDB RPC Service Configuration Datatype: boolean</meaning>
         <group>InfluxDB RPC Service Configuration</group>
@@ -4945,6 +5470,58 @@
         <defaultShowValue>8086</defaultShowValue>
         <showValue>8086</showValue>
         <current>8086</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>cea_enable</name>
+        <meaning>CEA When set to true, it can take effect by modifying the configuration-cea.xml configuration file</meaning>
+        <group>CEA</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>select</format>
+        <options>true,false</options>
+        <default>false</default>
+        <defaultShowValue>false</defaultShowValue>
+        <showValue>false</showValue>
+        <current>false</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>public_key_file_name</name>
+        <meaning>License LicenseV3 the public key file, the default path is under the IoTDB folder(i.e., %IOTDB_HOME%/conf).</meaning>
+        <group>License</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>double</format>
+        <default>./conf/public.crt</default>
+        <defaultShowValue>./conf/public.crt</defaultShowValue>
+        <showValue>./conf/public.crt</showValue>
+        <current>./conf/public.crt</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>license_file_name</name>
+        <meaning>the license file, the default path is under the IoTDB folder(i.e., %IOTDB_HOME%/conf).</meaning>
+        <group>License,部署调整项</group>
+        <fill>1</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>double</format>
+        <default>./conf/xxx.license</default>
+        <defaultShowValue>./conf/xxx.license</defaultShowValue>
+        <showValue>./conf/xxx.license</showValue>
+        <current>./conf/xxx.license</current>
         <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
@@ -5002,8 +5579,8 @@
         </userDefined>
     </flag>
     <flag>
-        <name>MAX_HEAP_SIZE</name>
-        <meaning>Maximum heap size</meaning>
+        <name>HEAP_NEWSIZE</name>
+        <meaning>Minimum heap size</meaning>
         <group>memory size</group>
         <fill>0</fill>
         <showConstraint/>
@@ -5028,8 +5605,16 @@
             <value>Target Config Nodes</value>
         </dictionary>
         <dictionary>
+            <name>Connection Configuration</name>
+            <value>Connection Configuration</value>
+        </dictionary>
+        <dictionary>
             <name>Directory Configuration</name>
             <value>Directory Configuration</value>
+        </dictionary>
+        <dictionary>
+            <name>Metric Configuration</name>
+            <value>Metric Configuration</value>
         </dictionary>
         <dictionary>
             <name>Config Node RPC Configuration</name>
@@ -5048,12 +5633,16 @@
             <value>thrift rpc configuration</value>
         </dictionary>
         <dictionary>
+            <name>Metric Configuration</name>
+            <value>Metric Configuration</value>
+        </dictionary>
+        <dictionary>
             <name>Replication configuration</name>
             <value>Replication configuration</value>
         </dictionary>
         <dictionary>
-            <name>Partition (Load balancing) configuration</name>
-            <value>Partition (Load balancing) configuration</value>
+            <name>Load balancing configuration</name>
+            <value>Load balancing configuration</value>
         </dictionary>
         <dictionary>
             <name>Cluster management</name>
@@ -5120,10 +5709,6 @@
             <value>PIPE Configuration</value>
         </dictionary>
         <dictionary>
-            <name>Connection Configuration</name>
-            <value>Connection Configuration</value>
-        </dictionary>
-        <dictionary>
             <name>RatisConsensus Configuration</name>
             <value>RatisConsensus Configuration</value>
         </dictionary>
@@ -5136,8 +5721,24 @@
             <value>MQTT Broker Configuration</value>
         </dictionary>
         <dictionary>
+            <name>REST Service Configuration</name>
+            <value>REST Service Configuration</value>
+        </dictionary>
+        <dictionary>
             <name>InfluxDB RPC Service Configuration</name>
             <value>InfluxDB RPC Service Configuration</value>
+        </dictionary>
+        <dictionary>
+            <name>CEA</name>
+            <value>CEA</value>
+        </dictionary>
+        <dictionary>
+            <name>License</name>
+            <value>License</value>
+        </dictionary>
+        <dictionary>
+            <name>部署调整项</name>
+            <value>部署调整项</value>
         </dictionary>
         <dictionary>
             <name>Memory size</name>
