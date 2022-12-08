@@ -45,6 +45,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class PropertiesUtils {
 
@@ -87,6 +88,10 @@ public class PropertiesUtils {
   public static final String CONFIGURATION_CEA_NAME = "configuration-cea.xml";
   public static final String CONFIGNODE_CONF = "CONFIGNODE_CONF";
   public static final String CONFIGNODE_HOME = "CONFIGNODE_HOME";
+  public static final String GROUP_NAME = "部署调整项";
+  public static final String RATIS_CONSENSUS = "org.apache.iotdb.consensus.ratis.RatisConsensus";
+  public static final String SIMPLE_CONSENSUS = "org.apache.iotdb.consensus.simple.SimpleConsensus";
+  public static final String IOT_CONSENSUS = "org.apache.iotdb.consensus.iot.IoTConsensus";
 
   /**
    * Check if node is null
@@ -479,11 +484,19 @@ public class PropertiesUtils {
           || "influxdb_rpc_port".equals(nameText)) {
         flag.addAttribute("type", "port");
       }
+      if ("dn_rpc_address".equals(nameText)
+          || "dn_internal_address".equals(nameText)
+          || "cn_internal_address".equals(nameText)) {
+        flag.addAttribute("type", "resource");
+      }
       Element name = flag.addElement(NAME);
       name.setText(nameText);
       Element meaning = flag.addElement(MEANING);
       meaning.setText(meaningText);
       Element group = flag.addElement(GROUP);
+      if ("1".equals(fillText)) {
+        groupText = groupText + "," + GROUP_NAME;
+      }
       group.setText(groupText);
       Element fill = flag.addElement(FILL);
       fill.setText(fillText);
@@ -494,9 +507,44 @@ public class PropertiesUtils {
       Element format1 = flag.addElement(FORMAT);
       format1.setText(formatText);
       if (formatText.equals("select")) {
-
         Element options = flag.addElement(OPTIONS);
-        options.setText("true,false");
+        if ("config_node_consensus_protocol_class".equals(nameText)) {
+          options.setText(RATIS_CONSENSUS + "," + SIMPLE_CONSENSUS);
+        } else if ("schema_region_consensus_protocol_class".equals(nameText)) {
+          options.setText(RATIS_CONSENSUS + "," + SIMPLE_CONSENSUS);
+        } else if ("data_region_consensus_protocol_class".equals(nameText)) {
+          options.setText(RATIS_CONSENSUS + "," + SIMPLE_CONSENSUS + IOT_CONSENSUS);
+        } else if ("series_partition_executor_class".equals(nameText)) {
+          options.setText("BKDRHashExecutor,APHashExecutor,JSHashExecutor,SDBMHashExecutor");
+        } else if ("region_allocate_strategy".equals(nameText)) {
+          options.setText("GREEDY,COPY_SET");
+        } else if ("routing_policy".equals(nameText)) {
+          options.setText("leader,greedy");
+        } else if ("read_consistency_level".equals(nameText)) {
+          options.setText("strong,weak");
+        } else if ("handle_system_error".equals(nameText)) {
+          options.setText("CHANGE_TO_READ_ONLY,SHUTDOWN");
+        } else if ("tvlist_sort_algorithm".equals(nameText)) {
+          options.setText("TIM,QUICK,BACKWARD");
+        } else if ("cross_selector".equals(nameText)) {
+          options.setText("rewrite");
+        } else if ("cross_performer".equals(nameText)) {
+          options.setText("read_point");
+        } else if ("inner_seq_selector".equals(nameText)) {
+          options.setText("size_tiered");
+        } else if ("inner_seq_performer".equals(nameText)) {
+          options.setText("read_chunk");
+        } else if ("inner_unseq_selector".equals(nameText)) {
+          options.setText("size_tiered");
+        } else if ("inner_unseq_performer".equals(nameText)) {
+          options.setText("read_point");
+        } else if ("compaction_priority".equals(nameText)) {
+          options.setText("INNER_CROSS,CROSS_INNER,BALANCE");
+        } else if ("wal_mode".equals(nameText)) {
+          options.setText("DISABLE,SYNC,ASYNC");
+        } else {
+          options.setText("true,false");
+        }
       }
       Element aDefault = flag.addElement(DEFAULTS);
       aDefault.setText(aDefaultText);
@@ -639,6 +687,28 @@ public class PropertiesUtils {
       Element value = dictionary.addElement(VALUE);
       value.setText(dictionaryFlag);
     }
+    // cea 部署配置项
+    Element groupName = dictionariesFlag.addElement(DICTIONARY);
+    Element name = groupName.addElement(NAME);
+    name.setText(GROUP_NAME);
+    Element value = groupName.addElement(VALUE);
+    value.setText(GROUP_NAME);
+
+    // Memory size
+    Element memory = dictionariesFlag.addElement(DICTIONARY);
+    Element memoryName = memory.addElement(NAME);
+    memoryName.setText("Memory size");
+    Element memoryValue = memory.addElement(VALUE);
+    memoryValue.setText("Memory size");
+  }
+
+  public static void main(String[] args) {
+    String xmlFilePath = "";
+    List<String> fileNames = new ArrayList<>();
+    fileNames.add("");
+    fileNames.add("");
+    fileNames.add("");
+    getXml(fileNames, xmlFilePath);
   }
 
   /**
@@ -737,26 +807,27 @@ public class PropertiesUtils {
               text[6] = "ipPortList";
             } else if (split[1].matches("^[/\\\\A-Za-z]+$")) {
               text[6] = "string";
-            } else if (split[1].contains(".")) {
-              text[6] = "double";
-            } else if ("config_node_consensus_protocol_class".equals(split[0])
-                || "schema_region_consensus_protocol_class".equals(split[0])
-                || "data_region_consensus_protocol_class".equals(split[0])
-                || "series_partition_executor_class".equals(split[0])
-                || "region_allocate_strategy".equals(split[0])
-                || "routing_policy".equals(split[0])
-                || "read_consistency_level".equals(split[0])
-                || "handle_system_error".equals(split[0])
-                || "tvlist_sort_algorithm".equals(split[0])
-                || "cross_selector".equals(split[0])
-                || "cross_performer".equals(split[0])
-                || "inner_seq_selector".equals(split[0])
-                || "inner_seq_performer".equals(split[0])
-                || "inner_unseq_selector".equals(split[0])
-                || "inner_unseq_performer".equals(split[0])
-                || "compaction_priority".equals(split[0])
-                || "wal_mode".equals(split[0])) {
+            } else if (" config_node_consensus_protocol_class".equals(split[0])
+                || " schema_region_consensus_protocol_class".equals(split[0])
+                || " data_region_consensus_protocol_class".equals(split[0])
+                || " series_partition_executor_class".equals(split[0])
+                || " region_allocate_strategy".equals(split[0])
+                || " routing_policy".equals(split[0])
+                || " read_consistency_level".equals(split[0])
+                || " handle_system_error".equals(split[0])
+                || " tvlist_sort_algorithm".equals(split[0])
+                || " cross_selector".equals(split[0])
+                || " cross_performer".equals(split[0])
+                || " inner_seq_selector".equals(split[0])
+                || " inner_seq_performer".equals(split[0])
+                || " inner_unseq_selector".equals(split[0])
+                || " inner_unseq_performer".equals(split[0])
+                || " compaction_priority".equals(split[0])
+                || " wal_mode".equals(split[0])) {
               text[6] = "select";
+            } else if (split[1].contains(".")
+                && !Pattern.compile("(?i)[a-z]]").matcher(split[1]).find()) {
+              text[6] = "double";
             } else if ("dn_join_cluster_retry_interval_ms".equals(split[0])
                 || "time_partition_interval_for_routing".equals(split[0])
                 || "heartbeat_interval_in_ms".equals(split[0])
@@ -853,6 +924,66 @@ public class PropertiesUtils {
           }
           currentNum++;
         }
+        text = new String[13];
+        text[0] = "MAX_HEAP_SIZE";
+        text[1] = "Maximum heap size";
+        text[2] = "memory size";
+        text[3] = "0";
+        text[4] = "";
+        text[5] = "";
+        text[6] = "string";
+        text[7] = "2G";
+        text[8] = "2G";
+        text[9] = "2G";
+        text[10] = "2G";
+        text[11] = "";
+        text[12] = DATANODE_ENV_SH;
+        list.add(text);
+        text = new String[13];
+        text[0] = "HEAP_NEWSIZE";
+        text[1] = "Minimum heap size";
+        text[2] = "memory size";
+        text[3] = "0";
+        text[4] = "";
+        text[5] = "";
+        text[6] = "string";
+        text[7] = "2G";
+        text[8] = "2G";
+        text[9] = "2G";
+        text[10] = "2G";
+        text[11] = "";
+        text[12] = DATANODE_ENV_SH;
+        list.add(text);
+        text = new String[13];
+        text[0] = "MAX_HEAP_SIZE";
+        text[1] = "Maximum heap size";
+        text[2] = "memory size";
+        text[3] = "0";
+        text[4] = "";
+        text[5] = "";
+        text[6] = "string";
+        text[7] = "2G";
+        text[8] = "2G";
+        text[9] = "2G";
+        text[10] = "2G";
+        text[11] = "";
+        text[12] = CONFIGNODE_ENV_SH;
+        list.add(text);
+        text = new String[13];
+        text[0] = "HEAP_NEWSIZE";
+        text[1] = "Minimum heap size";
+        text[2] = "memory size";
+        text[3] = "0";
+        text[4] = "";
+        text[5] = "";
+        text[6] = "string";
+        text[7] = "2G";
+        text[8] = "2G";
+        text[9] = "2G";
+        text[10] = "2G";
+        text[11] = "";
+        text[12] = CONFIGNODE_ENV_SH;
+        list.add(text);
         for (String[] strings : list) {
           createXml(
               strings[0],
