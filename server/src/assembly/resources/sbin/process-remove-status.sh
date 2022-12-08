@@ -23,8 +23,10 @@ dn_rpc_port=`sed '/^dn_rpc_port=/!d;s/.*=//' ${DATANODE_CONF}/iotdb-datanode.pro
 dn_rpc_address=`sed '/^dn_rpc_address=/!d;s/.*=//' ${DATANODE_CONF}/iotdb-datanode.properties`
 
 result=`sh start-cli.sh -p $dn_rpc_port -h $dn_rpc_address -e 'show cluster'`
+result=`echo $result | sed 's/[[:space:]]//g'`
+node=$1'|'$2
 
-if [[ "$result" =~ "$1" && "$result" =~ "$2" ]]; then
+if [[ "$result" =~ "$node" ]]; then
   echo "{"
   echo -e "\t\"result\": false,"
   echo -e "\t\"message\": {"
