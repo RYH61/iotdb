@@ -24,7 +24,7 @@ echo ``````````````````````
 
 @REM cea:%1    license:%2
 echo cea_enable=%1 >> node-commons/src/assembly/resources/conf/iotdb-common.properties
-echo enable_cea=%2 >> node-commons/src/assembly/resources/conf/iotdb-common.properties
+echo cea_memory=%2 >> node-commons/src/assembly/resources/conf/iotdb-common.properties
 
 call mvn clean package -pl distribution -am -DskipTests
 
@@ -36,8 +36,33 @@ cd distribution/target/apache-iotdb-1.0.1-SNAPSHOT-all-bin
 
 if exist CirroData-Times-1.0 del CirroData-Times-1.0
 if exist CirroData-TimeS-1.0.tar.gz del CirroData-TimeS-1.0.tar.gz
+if exist version.json del version.json
+if exist CirroDataTimeS del CirroDataTimeS
 
 ren apache-iotdb-1.0.1-SNAPSHOT-all-bin CirroData-Times-1.0
 
-tar -czvf CirroData-TimeS-1.0.tar.gz CirroData-TimeS-1.0
+call tar -czvf CirroData-TimeS-1.0.tar.gz CirroData-TimeS-1.0
+
+if %1% equ true (
+echo [ >> version.json
+echo { >> version.json
+echo "packageName" : "CirroData-TimeS-1.0.tar.gz", >> version.json
+echo "name" : "CirroDataTimeS", >> version.json
+echo "version": "1.0" >> version.json
+echo } >> version.json
+echo ] >> version.json
+
+md CirroDataTimeS
+cd CirroDataTimeS
+md config
+cd ..
+
+copy CirroData-Times-1.0\conf\configuration-cea.xml CirroDataTimeS\config\
+tar -czvf CirroData-TimeS-1.0.0.tar.gz CirroDataTimeS CirroData-TimeS-1.0.tar.gz version.json
+
+) else (
+pause
+)
+
+
 
