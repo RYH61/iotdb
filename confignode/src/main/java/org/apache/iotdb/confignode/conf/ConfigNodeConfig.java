@@ -150,6 +150,22 @@ public class ConfigNodeConfig {
   private String triggerTemporaryLibDir =
       triggerDir + File.separator + IoTDBConstant.TMP_FOLDER_NAME;
 
+  /** Space quota directory, stores space quota information of each storage group */
+  private String spaceQuotaDir =
+      systemDir
+          + File.separator
+          + IoTDBConstant.QUOTA_FOLDER_NAME
+          + File.separator
+          + IoTDBConstant.SPACE_QUOTA_FOLDER_NAME;
+
+  /** Throttle quota directory, stores throttle quota information of each storage group */
+  private String throttleQuotaDir =
+      systemDir
+          + File.separator
+          + IoTDBConstant.QUOTA_FOLDER_NAME
+          + File.separator
+          + IoTDBConstant.THROTTLE_QUOTA_FOLDER_NAME;
+
   /** Time partition interval in milliseconds */
   private long timePartitionInterval = 604_800_000;
 
@@ -283,6 +299,8 @@ public class ConfigNodeConfig {
     udfTemporaryLibDir = addHomeDir(udfTemporaryLibDir);
     triggerDir = addHomeDir(triggerDir);
     triggerTemporaryLibDir = addHomeDir(triggerTemporaryLibDir);
+    spaceQuotaDir = addHomeDir(spaceQuotaDir);
+    throttleQuotaDir = addHomeDir(throttleQuotaDir);
   }
 
   private String addHomeDir(String dir) {
@@ -572,6 +590,22 @@ public class ConfigNodeConfig {
 
   public void updateTriggerTemporaryLibDir() {
     this.triggerTemporaryLibDir = triggerDir + File.separator + IoTDBConstant.TMP_FOLDER_NAME;
+  }
+
+  public String getSpaceQuotaDir() {
+    return spaceQuotaDir;
+  }
+
+  public void setSpaceQuotaDir(String spaceQuotaDir) {
+    this.spaceQuotaDir = spaceQuotaDir;
+  }
+
+  public String getThrottleQuotaDir() {
+    return throttleQuotaDir;
+  }
+
+  public void setThrottleQuotaDir(String throttleQuotaDir) {
+    this.throttleQuotaDir = throttleQuotaDir;
   }
 
   public int getSchemaReplicationFactor() {

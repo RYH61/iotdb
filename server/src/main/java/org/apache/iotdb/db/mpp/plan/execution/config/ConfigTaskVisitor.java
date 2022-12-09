@@ -58,6 +58,7 @@ import org.apache.iotdb.db.mpp.plan.execution.config.sys.FlushTask;
 import org.apache.iotdb.db.mpp.plan.execution.config.sys.LoadConfigurationTask;
 import org.apache.iotdb.db.mpp.plan.execution.config.sys.MergeTask;
 import org.apache.iotdb.db.mpp.plan.execution.config.sys.SetSystemStatusTask;
+import org.apache.iotdb.db.mpp.plan.execution.config.sys.quota.SetSpaceQuotaTask;
 import org.apache.iotdb.db.mpp.plan.execution.config.sys.sync.CreatePipeSinkTask;
 import org.apache.iotdb.db.mpp.plan.execution.config.sys.sync.CreatePipeTask;
 import org.apache.iotdb.db.mpp.plan.execution.config.sys.sync.DropPipeSinkTask;
@@ -107,6 +108,7 @@ import org.apache.iotdb.db.mpp.plan.statement.sys.FlushStatement;
 import org.apache.iotdb.db.mpp.plan.statement.sys.LoadConfigurationStatement;
 import org.apache.iotdb.db.mpp.plan.statement.sys.MergeStatement;
 import org.apache.iotdb.db.mpp.plan.statement.sys.SetSystemStatusStatement;
+import org.apache.iotdb.db.mpp.plan.statement.sys.quota.SetSpaceQuotaStatement;
 import org.apache.iotdb.db.mpp.plan.statement.sys.sync.CreatePipeSinkStatement;
 import org.apache.iotdb.db.mpp.plan.statement.sys.sync.CreatePipeStatement;
 import org.apache.iotdb.db.mpp.plan.statement.sys.sync.DropPipeSinkStatement;
@@ -296,6 +298,12 @@ public class ConfigTaskVisitor
   public IConfigTask visitDropSchemaTemplate(
       DropSchemaTemplateStatement dropSchemaTemplateStatement, TaskContext context) {
     return new DropSchemaTemplateTask(dropSchemaTemplateStatement);
+  }
+
+  @Override
+  public IConfigTask visitSetSpaceQuota(
+      SetSpaceQuotaStatement setSpaceQuotaStatement, TaskContext context) {
+    return new SetSpaceQuotaTask(setSpaceQuotaStatement);
   }
 
   @Override

@@ -575,6 +575,14 @@ struct TDeleteTimeSeriesReq{
 }
 
 // ====================================================
+// Quota
+// ====================================================
+struct TSetSpaceQuotaReq {
+  1: required list<string> storageGroup
+  2: required common.TSpaceQuota spaceLimit
+}
+
+// ====================================================
 // CQ
 // ====================================================
 struct TCreateCQReq {
@@ -1095,5 +1103,7 @@ service IConfigNodeRPCService {
    * Return the trigger table of config leader
    */
   TShowCQResp showCQ()
+
+  common.TSStatus setSpaceQuota(TSetSpaceQuotaReq req)
 }
 
