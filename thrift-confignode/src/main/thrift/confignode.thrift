@@ -575,14 +575,6 @@ struct TDeleteTimeSeriesReq{
 }
 
 // ====================================================
-// Quota
-// ====================================================
-struct TSetSpaceQuotaReq {
-  1: required list<string> storageGroup
-  2: required common.TSpaceQuota spaceLimit
-}
-
-// ====================================================
 // CQ
 // ====================================================
 struct TCreateCQReq {
@@ -624,6 +616,15 @@ struct TUnsetSchemaTemplateReq{
   1: required string queryId
   2: required string templateName
   3: required string path
+}
+
+// ====================================================
+// Quota
+// ====================================================
+struct TSpaceQuotaResp{
+  1: required common.TSStatus status
+  2: optional map<string, common.TSpaceQuota> spaceQuota
+  3: optional map<string, common.TSpaceQuota> spaceQuotaUsage
 }
 
 service IConfigNodeRPCService {
@@ -1104,6 +1105,13 @@ service IConfigNodeRPCService {
    */
   TShowCQResp showCQ()
 
-  common.TSStatus setSpaceQuota(TSetSpaceQuotaReq req)
+  /**
+   * Set space quota
+   **/
+  common.TSStatus setSpaceQuota(common.TSetSpaceQuotaReq req)
+
+  TSpaceQuotaResp showSpaceQuota(list<string> storageGroups);
+
+  TSpaceQuotaResp getSpaceQuota();
 }
 

@@ -1828,6 +1828,16 @@ public class RSchemaRegion implements ISchemaRegion {
   }
 
   @Override
+  public long countDeviceNumBySchemaRegion() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public long countTimeSeriesNumBySchemaRegion() throws MetadataException {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public String toString() {
     return String.format("database:[%s]", storageGroupFullPath);
   }

@@ -40,16 +40,25 @@ public class DataNodeHeartbeatHandler implements AsyncMethodCallback<THeartbeatR
   private final DataNodeHeartbeatCache dataNodeHeartbeatCache;
   private final Map<TConsensusGroupId, RegionGroupCache> regionGroupCacheMap;
   private final RouteBalancer routeBalancer;
+  private final Map<Integer, Integer> deviceNum;
+  private final Map<Integer, Integer> timeSeriesNum;
+  private final Map<Integer, Long> regionDisk;
 
   public DataNodeHeartbeatHandler(
       TDataNodeLocation dataNodeLocation,
       DataNodeHeartbeatCache dataNodeHeartbeatCache,
       Map<TConsensusGroupId, RegionGroupCache> regionGroupCacheMap,
-      RouteBalancer routeBalancer) {
+      RouteBalancer routeBalancer,
+      Map<Integer, Integer> deviceNum,
+      Map<Integer, Integer> timeSeriesNum,
+      Map<Integer, Long> regionDisk) {
     this.dataNodeLocation = dataNodeLocation;
     this.dataNodeHeartbeatCache = dataNodeHeartbeatCache;
     this.regionGroupCacheMap = regionGroupCacheMap;
     this.routeBalancer = routeBalancer;
+    this.deviceNum = deviceNum;
+    this.timeSeriesNum = timeSeriesNum;
+    this.regionDisk = regionDisk;
   }
 
   @Override
@@ -82,6 +91,15 @@ public class DataNodeHeartbeatHandler implements AsyncMethodCallback<THeartbeatR
                         heartbeatResp.getHeartbeatTimestamp(), dataNodeLocation.getDataNodeId()));
               }
             });
+    if (heartbeatResp.getDeviceNum() != null) {
+      deviceNum.putAll(heartbeatResp.getDeviceNum());
+    }
+    if (heartbeatResp.getTimeSeriesNum() != null) {
+      timeSeriesNum.putAll(heartbeatResp.getTimeSeriesNum());
+    }
+    if (heartbeatResp.getRegionDisk() != null) {
+      regionDisk.putAll(heartbeatResp.getRegionDisk());
+    }
   }
 
   @Override

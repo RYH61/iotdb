@@ -17,10 +17,13 @@
  * under the License.
  */
 
-package org.apache.iotdb.commons.enums;
+package org.apache.iotdb.db.exception.quota;
 
-public enum SpaceQuotaType {
-  diskSize,
-  deviceNum,
-  timeSeriesNum
+import org.apache.iotdb.commons.exception.MetadataException;
+
+public class ExceedQuotaException extends MetadataException {
+
+  public ExceedQuotaException(String message, int errorCode) {
+    super(message, errorCode);
+  }
 }

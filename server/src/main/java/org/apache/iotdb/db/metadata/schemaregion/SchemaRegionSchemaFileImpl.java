@@ -19,6 +19,7 @@
 package org.apache.iotdb.db.metadata.schemaregion;
 
 import org.apache.iotdb.common.rpc.thrift.TSchemaNode;
+import org.apache.iotdb.commons.conf.IoTDBConstant;
 import org.apache.iotdb.commons.consensus.SchemaRegionId;
 import org.apache.iotdb.commons.exception.MetadataException;
 import org.apache.iotdb.commons.file.SystemFileFactory;
@@ -1736,6 +1737,27 @@ public class SchemaRegionSchemaFileImpl implements ISchemaRegion {
     }
     return result;
   }
+
+  @Override
+  public long countDeviceNumBySchemaRegion() throws MetadataException {
+    return getDevicesNum(
+        new PartialPath(
+            IoTDBConstant.PATH_ROOT
+                + IoTDBConstant.PATH_SEPARATOR
+                + IoTDBConstant.MULTI_LEVEL_PATH_WILDCARD),
+        false);
+  }
+
+  @Override
+  public long countTimeSeriesNumBySchemaRegion() throws MetadataException {
+    return getAllTimeseriesCount(
+        new PartialPath(
+            IoTDBConstant.PATH_ROOT
+                + IoTDBConstant.PATH_SEPARATOR
+                + IoTDBConstant.MULTI_LEVEL_PATH_WILDCARD),
+        false);
+  }
+
   // endregion
 
   private static class RecoverOperationResult {

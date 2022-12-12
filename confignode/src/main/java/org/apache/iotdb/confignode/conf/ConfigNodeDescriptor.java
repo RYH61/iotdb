@@ -410,6 +410,7 @@ public class ConfigNodeDescriptor {
 
     loadRatisConsensusConfig(properties);
     loadCQConfig(properties);
+    loadQuotaConfig(properties);
 
     // CEA enable
     loadCeaProps(properties);
@@ -419,6 +420,10 @@ public class ConfigNodeDescriptor {
     conf.setCeaEnable(
         Boolean.parseBoolean(
             properties.getProperty("cea_enable", String.valueOf(conf.isCeaEnable()))));
+  }
+
+  private void loadQuotaConfig(Properties properties) {
+    conf.setSpaceQuotaDir(properties.getProperty("space_quota_dir", conf.getSpaceQuotaDir()));
   }
 
   private void loadRatisConsensusConfig(Properties properties) {

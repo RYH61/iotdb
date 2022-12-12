@@ -391,4 +391,9 @@ public interface ISchemaRegion {
       throws MetadataException;
 
   // endregion
+
+  // count
+  long countDeviceNumBySchemaRegion() throws MetadataException;
+
+  long countTimeSeriesNumBySchemaRegion() throws MetadataException;
 }

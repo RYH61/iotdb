@@ -33,6 +33,7 @@ import org.apache.iotdb.db.exception.metadata.PathAlreadyExistException;
 import org.apache.iotdb.db.exception.metadata.PathNotExistException;
 import org.apache.iotdb.db.exception.metadata.template.TemplateImcompatibeException;
 import org.apache.iotdb.db.exception.metadata.template.TemplateIsInUseException;
+import org.apache.iotdb.db.exception.quota.ExceedQuotaException;
 import org.apache.iotdb.db.metadata.MetadataConstant;
 import org.apache.iotdb.db.metadata.mnode.IEntityMNode;
 import org.apache.iotdb.db.metadata.mnode.IMNode;
@@ -57,6 +58,8 @@ import org.apache.iotdb.db.qp.physical.sys.ShowDevicesPlan;
 import org.apache.iotdb.db.qp.physical.sys.ShowTimeSeriesPlan;
 import org.apache.iotdb.db.query.context.QueryContext;
 import org.apache.iotdb.db.query.dataset.ShowDevicesResult;
+import org.apache.iotdb.db.quotas.DataNodeSpaceQuotaManager;
+import org.apache.iotdb.rpc.TSStatusCode;
 import org.apache.iotdb.tsfile.file.metadata.enums.CompressionType;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSDataType;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSEncoding;
@@ -211,7 +214,6 @@ public class MTreeBelowSGMemoryImpl implements IMTreeBelowSG {
     MetaFormatUtils.checkTimeseries(path);
     PartialPath devicePath = path.getDevicePath();
     IMNode deviceParent = checkAndAutoCreateInternalPath(devicePath);
-
     // synchronize check and add, we need addChild and add Alias become atomic operation
     // only write on mtree will be synchronized
     synchronized (this) {
@@ -381,13 +383,18 @@ public class MTreeBelowSGMemoryImpl implements IMTreeBelowSG {
   }
 
   private IMNode checkAndAutoCreateDeviceNode(String deviceName, IMNode deviceParent)
-      throws PathAlreadyExistException {
+      throws PathAlreadyExistException, ExceedQuotaException {
     if (deviceParent == null) {
       // device is sg
       return storageGroupMNode;
     }
     IMNode device = store.getChild(deviceParent, deviceName);
     if (device == null) {
+      if (!DataNodeSpaceQuotaManager.getInstance().checkDeviceLimit(storageGroupMNode.getName())) {
+        throw new ExceedQuotaException(
+            "The number of devices has reached the upper limit",
+            TSStatusCode.EXCEED_QUOTA_ERROR.getStatusCode());
+      }
       device =
           store.addChild(deviceParent, deviceName, new InternalMNode(deviceParent, deviceName));
     }
@@ -439,6 +446,14 @@ public class MTreeBelowSGMemoryImpl implements IMTreeBelowSG {
             i,
             new AliasAlreadyExistException(
                 devicePath.getFullPath() + "." + measurementList.get(i), aliasList.get(i)));
+      }
+      if (!DataNodeSpaceQuotaManager.getInstance()
+          .checkTimeSeriesNum(storageGroupMNode.getName())) {
+        failingMeasurementMap.put(
+            i,
+            new ExceedQuotaException(
+                "The number of timeSeries has reached the upper limit",
+                TSStatusCode.EXCEED_QUOTA_ERROR.getStatusCode()));
       }
     }
     return failingMeasurementMap;
