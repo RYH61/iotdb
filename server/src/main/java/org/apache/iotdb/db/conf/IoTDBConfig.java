@@ -1060,8 +1060,6 @@ public class IoTDBConfig {
   private long ratisFirstElectionTimeoutMinMs = 50L;
   private long ratisFirstElectionTimeoutMaxMs = 150L;
 
-  private boolean quotaEnable = false;
-
   private boolean ceaEnable = false;
 
   private long dataRatisLogMax = 20L * 1024 * 1024 * 1024; // 20G
@@ -3616,14 +3614,6 @@ public class IoTDBConfig {
 
   public void setRatisFirstElectionTimeoutMaxMs(long ratisFirstElectionTimeoutMaxMs) {
     this.ratisFirstElectionTimeoutMaxMs = ratisFirstElectionTimeoutMaxMs;
-  }
-
-  public boolean isQuotaEnable() {
-    return quotaEnable;
-  }
-
-  public void setQuotaEnable(boolean quotaEnable) {
-    this.quotaEnable = quotaEnable;
   }
 
   public boolean isCeaEnable() {

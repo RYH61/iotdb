@@ -977,15 +977,17 @@ public class DataNodeInternalRPCServiceImpl implements IDataNodeRPCService.Iface
     if (CommonDescriptor.getInstance().getConfig().getStatusReason() != null) {
       resp.setStatusReason(CommonDescriptor.getInstance().getConfig().getStatusReason());
     }
-    if (req.getSchemaRegionIds() != null) {
-      spaceQuotaManager.updateSpaceQuotaUsage(req.getSpaceQuotaUsage());
-      resp.setDeviceNum(schemaEngine.countDeviceNumBySchemaRegion(req.getSchemaRegionIds()));
-      resp.setTimeSeriesNum(
-          schemaEngine.countTimeSeriesNumBySchemaRegion(req.getSchemaRegionIds()));
-    }
-    if (req.getDataRegionIds() != null) {
-      spaceQuotaManager.setDataRegionIds(req.getDataRegionIds());
-      resp.setRegionDisk(spaceQuotaManager.getRegionDisk());
+    if (CommonDescriptor.getInstance().getConfig().isQuotaEnable()) {
+      if (req.getSchemaRegionIds() != null) {
+        spaceQuotaManager.updateSpaceQuotaUsage(req.getSpaceQuotaUsage());
+        resp.setDeviceNum(schemaEngine.countDeviceNumBySchemaRegion(req.getSchemaRegionIds()));
+        resp.setTimeSeriesNum(
+            schemaEngine.countTimeSeriesNumBySchemaRegion(req.getSchemaRegionIds()));
+      }
+      if (req.getDataRegionIds() != null) {
+        spaceQuotaManager.setDataRegionIds(req.getDataRegionIds());
+        resp.setRegionDisk(spaceQuotaManager.getRegionDisk());
+      }
     }
     return resp;
   }

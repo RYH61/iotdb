@@ -95,6 +95,8 @@ public class CommonConfig {
    */
   private String licenseFileName = "license";
 
+  private boolean quotaEnable = false;
+
   /** Default system file storage is in local file system (unsupported) */
   private FSType systemFileStorageFs = FSType.LOCAL;
 
@@ -318,6 +320,14 @@ public class CommonConfig {
 
   public void setLicenseFileName(String licenseFileName) {
     this.licenseFileName = licenseFileName;
+  }
+
+  public boolean isQuotaEnable() {
+    return quotaEnable;
+  }
+
+  public void setQuotaEnable(boolean quotaEnable) {
+    this.quotaEnable = quotaEnable;
   }
 
   public double getDiskSpaceWarningThreshold() {

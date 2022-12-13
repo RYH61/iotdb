@@ -45,11 +45,7 @@ public class DataNodeSizeStore {
     dataRegionIds = new ArrayList<>();
     this.scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
     ScheduledExecutorUtil.safelyScheduleAtFixedRate(
-        scheduledExecutorService,
-        () -> calculateRegionSize(dataRegionIds),
-        0,
-        5,
-        TimeUnit.SECONDS);
+        scheduledExecutorService, () -> calculateRegionSize(dataRegionIds), 0, 5, TimeUnit.SECONDS);
   }
 
   public void calculateRegionSize(List<Integer> dataRegionIds) {

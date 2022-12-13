@@ -22,6 +22,8 @@ import org.apache.iotdb.common.rpc.thrift.TDataNodeLocation;
 import org.apache.iotdb.common.rpc.thrift.TSStatus;
 import org.apache.iotdb.common.rpc.thrift.TSetSpaceQuotaReq;
 import org.apache.iotdb.common.rpc.thrift.TSpaceQuota;
+import org.apache.iotdb.commons.conf.CommonConfig;
+import org.apache.iotdb.commons.conf.CommonDescriptor;
 import org.apache.iotdb.confignode.client.DataNodeRequestType;
 import org.apache.iotdb.confignode.client.async.AsyncDataNodeClientPool;
 import org.apache.iotdb.confignode.client.async.handlers.AsyncClientHandler;
@@ -56,6 +58,8 @@ public class ClusterQuotaManager {
   private final Map<String, List<Integer>> schemaRegionIdMap;
   private final Map<String, List<Integer>> dataRegionIdMap;
   private final Map<Integer, Long> regionDisk;
+
+  private final CommonConfig config = CommonDescriptor.getInstance().getConfig();
 
   public ClusterQuotaManager(IManager configManager, QuotaInfo quotaInfo) {
     this.configManager = configManager;
@@ -163,6 +167,9 @@ public class ClusterQuotaManager {
   }
 
   public void updateSpaceQuotaUsage() {
+    if (!config.isQuotaEnable()) {
+      return;
+    }
     AtomicInteger deviceCount = new AtomicInteger();
     AtomicInteger timeSeriesCount = new AtomicInteger();
     for (Map.Entry<String, List<Integer>> entry : schemaRegionIdMap.entrySet()) {

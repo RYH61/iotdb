@@ -125,6 +125,11 @@ public class CommonDescriptor {
     config.setPublicKeyFileName(
         properties.getProperty("public_key_file_name", config.getPublicKeyFileName()));
 
+    // quota
+    config.setQuotaEnable(
+        Boolean.parseBoolean(
+            properties.getProperty("quota_enable", String.valueOf(config.isQuotaEnable()))));
+
     config.setHandleSystemErrorStrategy(
         HandleSystemErrorStrategy.valueOf(
             properties
