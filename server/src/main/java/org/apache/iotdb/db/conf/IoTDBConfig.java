@@ -1536,7 +1536,7 @@ public class IoTDBConfig {
     this.subRawQueryThreadCount = subRawQueryThreadCount;
   }
 
-  public long getMaxBytesPerQuery() {
+  public long getMaxBytesPerFragmentInstance() {
     return allocateMemoryForDataExchange / queryThreadCount;
   }
 
