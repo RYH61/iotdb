@@ -1235,10 +1235,12 @@ public class IoTDBConfig {
 
   private String addDirPrefix(String prefix, String dir) {
     if (!new File(dir).isAbsolute() && prefix != null && prefix.length() > 0) {
-      if (!prefix.endsWith(File.separator)) {
-        dir = prefix + File.separatorChar + dir;
-      } else {
-        dir = prefix + dir;
+      if (!ceaEnable) {
+        if (!prefix.endsWith(File.separator)) {
+          dir = prefix + File.separatorChar + dir;
+        } else {
+          dir = prefix + dir;
+        }
       }
     }
     return dir;

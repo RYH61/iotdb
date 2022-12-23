@@ -144,6 +144,9 @@ public class CommonDescriptor {
                     "disk_space_warning_threshold",
                     String.valueOf(config.getDiskSpaceWarningThreshold()))
                 .trim()));
+    config.setCeaEnable(
+        Boolean.parseBoolean(
+            properties.getProperty("cea_enable", String.valueOf(config.isCeaEnable()))));
   }
 
   public void loadGlobalConfig(TGlobalConfig globalConfig) {

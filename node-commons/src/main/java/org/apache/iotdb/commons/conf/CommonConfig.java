@@ -135,6 +135,8 @@ public class CommonConfig {
   /** Disk Monitor */
   private double diskSpaceWarningThreshold = 0.05;
 
+  private boolean ceaEnable = false;
+
   CommonConfig() {}
 
   public void updatePath(String homeDir) {
@@ -149,10 +151,12 @@ public class CommonConfig {
 
   private String addHomeDir(String dir, String homeDir) {
     if (!new File(dir).isAbsolute() && homeDir != null && homeDir.length() > 0) {
-      if (!homeDir.endsWith(File.separator)) {
-        dir = homeDir + File.separatorChar + dir;
-      } else {
-        dir = homeDir + dir;
+      if (!ceaEnable) {
+        if (!homeDir.endsWith(File.separator)) {
+          dir = homeDir + File.separatorChar + dir;
+        } else {
+          dir = homeDir + dir;
+        }
       }
     }
     return dir;
@@ -344,6 +348,14 @@ public class CommonConfig {
 
   public NodeStatus getNodeStatus() {
     return status;
+  }
+
+  public boolean isCeaEnable() {
+    return ceaEnable;
+  }
+
+  public void setCeaEnable(boolean ceaEnable) {
+    this.ceaEnable = ceaEnable;
   }
 
   public void setNodeStatusToShutdown() {

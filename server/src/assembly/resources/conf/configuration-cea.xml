@@ -1338,7 +1338,7 @@
         <showConstraint/>
         <constraint/>
         <format>select</format>
-        <options>org.apache.iotdb.consensus.ratis.RatisConsensus,org.apache.iotdb.consensus.simple.SimpleConsensusorg.apache.iotdb.consensus.iot.IoTConsensus</options>
+        <options>org.apache.iotdb.consensus.ratis.RatisConsensus,org.apache.iotdb.consensus.simple.SimpleConsensus,org.apache.iotdb.consensus.iot.IoTConsensus</options>
         <default>org.apache.iotdb.consensus.iot.IoTConsensus</default>
         <defaultShowValue>org.apache.iotdb.consensus.iot.IoTConsensus</defaultShowValue>
         <showValue>org.apache.iotdb.consensus.iot.IoTConsensus</showValue>
@@ -5476,31 +5476,13 @@
         </userDefined>
     </flag>
     <flag>
-        <name>cea_enable</name>
-        <meaning>CEA When set to true, it can take effect by modifying the configuration-cea.xml configuration file</meaning>
-        <group>CEA</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>select</format>
-        <options>true,false</options>
-        <default>false</default>
-        <defaultShowValue>false</defaultShowValue>
-        <showValue>false</showValue>
-        <current>false</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-common.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
         <name>public_key_file_name</name>
         <meaning>License LicenseV3 the public key file, the default path is under the IoTDB folder(i.e., %IOTDB_HOME%/conf).</meaning>
         <group>License</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>double</format>
+        <format>string</format>
         <default>./conf/public.crt</default>
         <defaultShowValue>./conf/public.crt</defaultShowValue>
         <showValue>./conf/public.crt</showValue>
@@ -5517,7 +5499,7 @@
         <fill>1</fill>
         <showConstraint/>
         <constraint/>
-        <format>double</format>
+        <format>string</format>
         <default>./conf/xxx.license</default>
         <defaultShowValue>./conf/xxx.license</defaultShowValue>
         <showValue>./conf/xxx.license</showValue>
@@ -5727,10 +5709,6 @@
         <dictionary>
             <name>InfluxDB RPC Service Configuration</name>
             <value>InfluxDB RPC Service Configuration</value>
-        </dictionary>
-        <dictionary>
-            <name>CEA</name>
-            <value>CEA</value>
         </dictionary>
         <dictionary>
             <name>License</name>
