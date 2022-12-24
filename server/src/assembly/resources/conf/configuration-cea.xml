@@ -570,7 +570,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>double</format>
+        <format>ip</format>
         <default>127.0.0.1</default>
         <defaultShowValue>127.0.0.1</defaultShowValue>
         <showValue>127.0.0.1</showValue>
@@ -1080,7 +1080,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>double</format>
+        <format>ip</format>
         <default>127.0.0.1</default>
         <defaultShowValue>127.0.0.1</defaultShowValue>
         <showValue>127.0.0.1</showValue>
@@ -1527,7 +1527,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>string</format>
         <default>MIN_COST_FLOW</default>
         <defaultShowValue>MIN_COST_FLOW</defaultShowValue>
         <showValue>MIN_COST_FLOW</showValue>
@@ -1654,7 +1654,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>string</format>
         <default>3:3:1:1:2</default>
         <defaultShowValue>3:3:1:1:2</defaultShowValue>
         <showValue>3:3:1:1:2</showValue>
@@ -1671,7 +1671,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>string</format>
         <default>5:3:1:1</default>
         <defaultShowValue>5:3:1:1</defaultShowValue>
         <showValue>5:3:1:1</showValue>
@@ -1688,7 +1688,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>string</format>
         <default>8:2</default>
         <defaultShowValue>8:2</defaultShowValue>
         <showValue>8:2</showValue>
@@ -1705,7 +1705,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>string</format>
         <default>19:1</default>
         <defaultShowValue>19:1</defaultShowValue>
         <showValue>19:1</showValue>
@@ -2323,7 +2323,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>string</format>
         <default>1:100:200:50:200:200:200:50</default>
         <defaultShowValue>1:100:200:50:200:200:200:50</defaultShowValue>
         <showValue>1:100:200:50:200:200:200:50</showValue>
@@ -3250,7 +3250,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>long</format>
         <default>5368709120</default>
         <defaultShowValue>5368709120</defaultShowValue>
         <showValue>5368709120</showValue>
@@ -3607,7 +3607,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>long</format>
         <default>53687091200</default>
         <defaultShowValue>53687091200</defaultShowValue>
         <showValue>53687091200</showValue>
@@ -3753,7 +3753,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>string</format>
         <default>TS_2DIFF</default>
         <defaultShowValue>TS_2DIFF</defaultShowValue>
         <showValue>TS_2DIFF</showValue>
@@ -3890,7 +3890,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>string</format>
         <default>IoTDB*2019@Beijing</default>
         <defaultShowValue>IoTDB*2019@Beijing</defaultShowValue>
         <showValue>IoTDB*2019@Beijing</showValue>
@@ -3907,7 +3907,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>string</format>
         <default>100101110100</default>
         <defaultShowValue>100101110100</defaultShowValue>
         <showValue>100101110100</showValue>
@@ -3924,7 +3924,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>string</format>
         <default>GroupBasedLSBMethod(embed_row_cycle</default>
         <defaultShowValue>GroupBasedLSBMethod(embed_row_cycle</defaultShowValue>
         <showValue>GroupBasedLSBMethod(embed_row_cycle</showValue>
@@ -3941,7 +3941,8 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>double</format>
+        <format>select</format>
+        <options>org.apache.iotdb.commons.auth.authorizer.LocalFileAuthorizer,org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer</options>
         <default>org.apache.iotdb.commons.auth.authorizer.LocalFileAuthorizer</default>
         <defaultShowValue>org.apache.iotdb.commons.auth.authorizer.LocalFileAuthorizer</defaultShowValue>
         <showValue>org.apache.iotdb.commons.auth.authorizer.LocalFileAuthorizer</showValue>
@@ -3975,7 +3976,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>double</format>
+        <format>string</format>
         <default>org.apache.iotdb.commons.security.encrypt.MessageDigestEncrypt</default>
         <defaultShowValue>org.apache.iotdb.commons.security.encrypt.MessageDigestEncrypt</defaultShowValue>
         <showValue>org.apache.iotdb.commons.security.encrypt.MessageDigestEncrypt</showValue>
@@ -4082,7 +4083,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>string</format>
         <default>1:1:1</default>
         <defaultShowValue>1:1:1</defaultShowValue>
         <showValue>1:1:1</showValue>
@@ -4223,7 +4224,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>double</format>
+        <format>ip</format>
         <default>127.0.0.1/32</default>
         <defaultShowValue>127.0.0.1/32</defaultShowValue>
         <showValue>127.0.0.1/32</showValue>
@@ -5053,7 +5054,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>long</format>
         <default>2147483648</default>
         <defaultShowValue>2147483648</defaultShowValue>
         <showValue>2147483648</showValue>
@@ -5070,7 +5071,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>long</format>
         <default>2147483648</default>
         <defaultShowValue>2147483648</defaultShowValue>
         <showValue>2147483648</showValue>
@@ -5087,7 +5088,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>int</format>
+        <format>long</format>
         <default>21474836480</default>
         <defaultShowValue>21474836480</defaultShowValue>
         <showValue>21474836480</showValue>
@@ -5183,7 +5184,7 @@
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
-        <format>double</format>
+        <format>ip</format>
         <default>0.0.0.0</default>
         <defaultShowValue>0.0.0.0</defaultShowValue>
         <showValue>0.0.0.0</showValue>
