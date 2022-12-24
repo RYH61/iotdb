@@ -70,6 +70,15 @@ public class QuotaInfo implements SnapshotProcessor {
         if (spaceQuota.getDiskSize() == 0) {
           spaceQuota.setDiskSize(spaceQuotaLimit.get(storageGroup).getDiskSize());
         }
+        if (spaceQuota.getDeviceNum() == -1) {
+          spaceQuota.setDeviceNum(0);
+        }
+        if (spaceQuota.getTimeserieNum() == -1) {
+          spaceQuota.setTimeserieNum(0);
+        }
+        if (spaceQuota.getDiskSize() == -1) {
+          spaceQuota.setDiskSize(0);
+        }
       }
       if (!spaceQuotaUsage.containsKey(storageGroup)) {
         spaceQuotaUsage.put(storageGroup, new TSpaceQuota());

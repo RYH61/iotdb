@@ -51,6 +51,12 @@ public class DataNodeSpaceQuotaManager {
     recover();
   }
 
+  public DataNodeSpaceQuotaManager(
+      Map<String, TSpaceQuota> spaceQuotaLimit, Map<String, TSpaceQuota> spaceQuotaUsage) {
+    this.spaceQuotaLimit = spaceQuotaLimit;
+    this.spaceQuotaUsage = spaceQuotaUsage;
+  }
+
   /** SingleTone */
   private static class DataNodeSpaceQuotaManagerHolder {
     private static final DataNodeSpaceQuotaManager INSTANCE = new DataNodeSpaceQuotaManager();
@@ -87,7 +93,7 @@ public class DataNodeSpaceQuotaManager {
     TSpaceQuota spaceQuota = spaceQuotaLimit.get(storageGroup);
     if (spaceQuota == null) {
       return true;
-    } else if (spaceQuota.getDeviceNum() == 0) {
+    } else if (spaceQuota.getDeviceNum() == 0 || spaceQuota.getDeviceNum() == -1) {
       return true;
     }
     int deviceNum = spaceQuotaUsage.get(storageGroup).getDeviceNum();
@@ -106,7 +112,7 @@ public class DataNodeSpaceQuotaManager {
     TSpaceQuota spaceQuota = spaceQuotaLimit.get(storageGroup);
     if (spaceQuota == null) {
       return true;
-    } else if (spaceQuota.getTimeserieNum() == 0) {
+    } else if (spaceQuota.getTimeserieNum() == 0 || spaceQuota.getTimeserieNum() == -1) {
       return true;
     }
     int timeSeriesNum = spaceQuotaUsage.get(storageGroup).getTimeserieNum();
@@ -120,7 +126,7 @@ public class DataNodeSpaceQuotaManager {
     TSpaceQuota spaceQuota = spaceQuotaLimit.get(storageGroup);
     if (spaceQuota == null) {
       return true;
-    } else if (spaceQuota.getDiskSize() == 0) {
+    } else if (spaceQuota.getDiskSize() == 0 || spaceQuota.getDiskSize() == -1) {
       return true;
     }
     long diskSize = spaceQuotaUsage.get(storageGroup).getDiskSize();
@@ -136,5 +142,9 @@ public class DataNodeSpaceQuotaManager {
 
   public Map<Integer, Long> getRegionDisk() {
     return dataNodeSizeStore.getDataRegionDisk();
+  }
+
+  public void setSpaceQuotaLimit(Map<String, TSpaceQuota> spaceQuotaLimit) {
+    this.spaceQuotaLimit = spaceQuotaLimit;
   }
 }
