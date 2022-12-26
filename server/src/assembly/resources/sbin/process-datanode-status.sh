@@ -46,13 +46,25 @@ if [ -z "$PID" ]; then
   echo -e "\t}"
   echo "}"
 elif [[ "${PIDS}" =~ "${PID}" ]]; then
-  echo "{"
-  echo -e "\t\"result\": true,"
-  echo -e "\t\"message\": {"
-  echo -e "\t\t\"ip\": \""$dn_rpc_address"\","
-  echo -e "\t\t\"port\": \""$dn_rpc_port"\""
-  echo -e "\t}"
-  echo "}"
+  pwd_path=$(pwd)
+  cwd_path=$(ls -l /proc/$PID | grep "cwd ->" | grep -v grep | awk '{print $NF}')
+  if [[ "$pwd_path" =~ "$cwd_path" ]]; then
+    echo "{"
+    echo -e "\t\"result\": true,"
+    echo -e "\t\"message\": {"
+    echo -e "\t\t\"ip\": \""$dn_rpc_address"\","
+    echo -e "\t\t\"port\": \""$dn_rpc_port"\""
+    echo -e "\t}"
+    echo "}"
+  else
+    echo "{"
+    echo -e "\t\"result\": false,"
+    echo -e "\t\"message\": {"
+    echo -e "\t\t\"ip\": \""$dn_rpc_address"\","
+    echo -e "\t\t\"port\": \""$dn_rpc_port"\""
+    echo -e "\t}"
+    echo "}"
+  fi
 else
   echo "{"
   echo -e "\t\"result\": false,"

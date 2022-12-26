@@ -45,11 +45,23 @@ if [ -z "$PID" ]; then
   echo -e "\t}"
   echo "}"
 else
-  echo "{"
-  echo -e "\t\"result\": true,"
-  echo -e "\t\"message\": {"
-  echo -e "\t\t\"ip\": \""$cn_internal_address"\","
-  echo -e "\t\t\"port\": \""$cn_internal_port"\""
-  echo -e "\t}"
-  echo "}"
+  pwd_path=$(pwd)
+  cwd_path=$(ls -l /proc/$PID | grep "cwd ->" | grep -v grep | awk '{print $NF}')
+  if [[ "$pwd_path" =~ "$cwd_path" ]]; then
+    echo "{"
+    echo -e "\t\"result\": true,"
+    echo -e "\t\"message\": {"
+    echo -e "\t\t\"ip\": \""$cn_internal_address"\","
+    echo -e "\t\t\"port\": \""$cn_internal_port"\""
+    echo -e "\t}"
+    echo "}"
+  else
+    echo "{"
+    echo -e "\t\"result\": false,"
+    echo -e "\t\"message\": {"
+    echo -e "\t\t\"ip\": \""$cn_internal_address"\","
+    echo -e "\t\t\"port\": \""$cn_internal_port"\""
+    echo -e "\t}"
+    echo "}"
+  fi
 fi
