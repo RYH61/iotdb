@@ -88,7 +88,7 @@ public class NewIoTDB implements NewIoTDBMBean {
       }
     }
     try {
-      IoTDBStartCheck.getInstance().checkConfig();
+      IoTDBStartCheck.getInstance().checkSystemConfig();
       IoTDBStartCheck.getInstance().checkDirectory();
       IoTDBRestServiceCheck.getInstance().checkConfig();
     } catch (ConfigurationException | IOException e) {

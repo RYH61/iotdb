@@ -74,7 +74,7 @@ public class IoTDB implements IoTDBMBean {
 
   public static void main(String[] args) {
     try {
-      IoTDBStartCheck.getInstance().checkConfig();
+      IoTDBStartCheck.getInstance().checkSystemConfig();
       IoTDBStartCheck.getInstance().checkDirectory();
       IoTDBRestServiceCheck.getInstance().checkConfig();
     } catch (ConfigurationException | IOException e) {
