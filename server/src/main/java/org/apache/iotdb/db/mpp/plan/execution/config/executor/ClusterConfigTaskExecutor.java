@@ -1144,7 +1144,7 @@ public class ClusterConfigTaskExecutor implements IConfigTaskExecutor {
         CONFIG_NODE_CLIENT_MANAGER.borrowClient(ConfigNodeInfo.configNodeRegionId)) {
       // Send request to some API server
       tsStatus = client.setSpaceQuota(req);
-    } catch (IOException | TException e) {
+    } catch (TException | ClientManagerException e) {
       future.setException(e);
     }
     if (tsStatus.getCode() == TSStatusCode.SUCCESS_STATUS.getStatusCode()) {
