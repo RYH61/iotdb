@@ -22,13 +22,15 @@ echo "``````````````````````"
 echo Starting Package Times
 echo "``````````````````````"
 
+build_name=`git describe --tags --dirty=M --always --long`
+
 enable_cea=$1
 enable_license=$2
 
 echo cea_enable=$enable_cea >> node-commons/src/assembly/resources/conf/iotdb-common.properties
 echo cea_memory=$enable_license >> node-commons/src/assembly/resources/conf/iotdb-common.properties
 
-#mvn clean package install -pl distribution -am -Drat.skip=true -Dspotless.check.skip=true -DskipTests
+mvn clean package install -pl distribution -am -Drat.skip=true -Dspotless.check.skip=true -DskipTests
 
 echo ``````````````````````
 echo Starting Rename
@@ -36,12 +38,15 @@ echo ``````````````````````
 
 cd distribution/target/apache-iotdb-1.*-SNAPSHOT-all-bin
 
-if [ -f "CirroData-TimeS-1.0" ] || [ -d "CirroData-TimeS-1.0" ];then
-  rm CirroData-TimeS-1.0
+package_name='CirroData-TimeS-'${build_name}
+tar_package_name=${package_name}'.tar.gz'
+inner_tar_package_name=${package_name}'-inner.tar.gz'
+if [ -f ${package_name} ] || [ -d ${package_name} ];then
+  rm ${package_name}
 fi
 
-if [ -f "CirroData-TimeS-1.0.tar.gz" ]; then
-  rm CirroData-TimeS-1.0.tar.gz
+if [ -f ${tar_package_name} ]; then
+  rm ${tar_package_name}
 fi
 
 if [ -f "version.json" ]; then
@@ -52,15 +57,14 @@ if [ -d "CirroDataTimeS" ]; then
   rm CirroDataTimeS
 fi
 
-scp -r apache-iotdb-1.*-SNAPSHOT-all-bin CirroData-TimeS-1.0
-
+scp -r apache-iotdb-1.*-SNAPSHOT-all-bin ${package_name}
 
 if [ "$1" == "true"  ]; then
   echo '[' >> version.json
   echo '{' >> version.json
-  echo '"packageName" : "CirroData-TimeS-1.0.tar.gz",' >> version.json
+  echo '"packageName" : "'${inner_tar_package_name}'",' >> version.json
   echo '"name" : "CirroDataTimeS",' >> version.json
-  echo '"version": "1.0"' >> version.json
+  echo '"version": "'$build_name'"' >> version.json
   echo '}' >> version.json
   echo ']' >> version.json
 
@@ -68,10 +72,10 @@ if [ "$1" == "true"  ]; then
   cd CirroDataTimeS
   mkdir config
   cd ..
-  scp -r CirroData-Times-1.0/conf/configuration-cea.xml CirroDataTimeS/config/
-  tar -zcvf CirroData-TimeS-1.0.tar.gz CirroData-TimeS-1.0
-  tar -czvf CirroData-TimeS-1.0.0.tar.gz CirroDataTimeS CirroData-TimeS-1.0.tar.gz version.json
+  scp -r ${package_name}/conf/configuration-cea.xml CirroDataTimeS/config/
+  tar -zcvf ${inner_tar_package_name} ${package_name}
+  tar -zcvf ${tar_package_name} CirroDataTimeS ${inner_tar_package_name} version.json
 else
-  tar -zcvf CirroData-TimeS-1.0.tar.gz CirroData-TimeS-1.0
+  tar -zcvf ${tar_package_name} ${package_name}
 fi
 
