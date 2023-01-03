@@ -52,71 +52,64 @@ else
   cn_pwd_path=$(pwd)
   cn_cwd_path=$(ls -l /proc/$CN_PID | grep "cwd ->" | grep -v grep | awk '{print $NF}')
   if [[ "$cn_pwd_path" =~ "$cn_cwd_path" ]]; then
-    echo "{"
-    echo -e "\t\"result\": true,"
-    echo -e "\t\"message\": {"
-    echo -e "\t\t\"ip\": \""$cn_internal_address"\","
-    echo -e "\t\t\"port\": \""$cn_internal_port"\""
-    echo -e "\t}"
-    echo "}"
-  else
-    echo "{"
-    echo -e "\t\"result\": false,"
-    echo -e "\t\"message\": {"
-    echo -e "\t\t\"ip\": \""$cn_internal_address"\","
-    echo -e "\t\t\"port\": \""$cn_internal_port"\""
-    echo -e "\t}"
-    echo "}"
-  fi
-  if  type lsof > /dev/null 2>&1 ; then
-    DN_PID=$(lsof -t -i:${dn_rpc_port} -sTCP:LISTEN)
-  elif type netstat > /dev/null 2>&1 ; then
-    DN_PID=$(netstat -anp 2>/dev/null | grep ":${dn_rpc_port} " | grep ' LISTEN ' | awk '{print $NF}' | sed "s|/.*||g" )
-  else
-    echo "{"
-    echo -e "\t\"result\": false,"
-    echo -e "\t\"message\": {"
-    echo -e "\t\t\"ip\": \""$dn_rpc_address"\","
-    echo -e "\t\t\"port\": \""$dn_rpc_port"\""
-    echo -e "\t}"
-    echo "}"
-  fi
+    if  type lsof > /dev/null 2>&1 ; then
+        DN_PID=$(lsof -t -i:${dn_rpc_port} -sTCP:LISTEN)
+      elif type netstat > /dev/null 2>&1 ; then
+        DN_PID=$(netstat -anp 2>/dev/null | grep ":${dn_rpc_port} " | grep ' LISTEN ' | awk '{print $NF}' | sed "s|/.*||g" )
+      else
+        echo "{"
+        echo -e "\t\"result\": false,"
+        echo -e "\t\"message\": {"
+        echo -e "\t\t\"ip\": \""$dn_rpc_address"\","
+        echo -e "\t\t\"port\": \""$dn_rpc_port"\""
+        echo -e "\t}"
+        echo "}"
+      fi
 
-  PIDS=$(ps ax | grep -i 'DataNode' | grep java | grep -v grep | awk '{print $1}')
-  if [ -z "$DN_PID" ]; then
-    echo "{"
-    echo -e "\t\"result\": false,"
-    echo -e "\t\"message\": {"
-    echo -e "\t\t\"ip\": \""$dn_rpc_address"\","
-    echo -e "\t\t\"port\": \""$dn_rpc_port"\""
-    echo -e "\t}"
-    echo "}"
-  elif [[ "${PIDS}" =~ "${DN_PID}" ]]; then
-    dn_pwd_path=$(pwd)
-    dn_cwd_path=$(ls -l /proc/$DN_PID | grep "cwd ->" | grep -v grep | awk '{print $NF}')
-    if [[ "$dn_pwd_path" =~ "$dn_cwd_path" ]]; then
-      echo "{"
-      echo -e "\t\"result\": true,"
-      echo -e "\t\"message\": {"
-      echo -e "\t\t\"ip\": \""$dn_rpc_address"\","
-      echo -e "\t\t\"port\": \""$dn_rpc_port"\""
-      echo -e "\t}"
-      echo "}"
-    else
-      echo "{"
-      echo -e "\t\"result\": false,"
-      echo -e "\t\"message\": {"
-      echo -e "\t\t\"ip\": \""$dn_rpc_address"\","
-      echo -e "\t\t\"port\": \""$dn_rpc_port"\""
-      echo -e "\t}"
-      echo "}"
-    fi
+      PIDS=$(ps ax | grep -i 'DataNode' | grep java | grep -v grep | awk '{print $1}')
+      if [ -z "$DN_PID" ]; then
+        echo "{"
+        echo -e "\t\"result\": false,"
+        echo -e "\t\"message\": {"
+        echo -e "\t\t\"ip\": \""$dn_rpc_address"\","
+        echo -e "\t\t\"port\": \""$dn_rpc_port"\""
+        echo -e "\t}"
+        echo "}"
+      elif [[ "${PIDS}" =~ "${DN_PID}" ]]; then
+        dn_pwd_path=$(pwd)
+        dn_cwd_path=$(ls -l /proc/$DN_PID | grep "cwd ->" | grep -v grep | awk '{print $NF}')
+        if [[ "$dn_pwd_path" =~ "$dn_cwd_path" ]]; then
+          echo "{"
+          echo -e "\t\"result\": true,"
+          echo -e "\t\"message\": {"
+          echo -e "\t\t\"ip\": \""$dn_rpc_address"\","
+          echo -e "\t\t\"port\": \""$dn_rpc_port"\""
+          echo -e "\t}"
+          echo "}"
+        else
+          echo "{"
+          echo -e "\t\"result\": false,"
+          echo -e "\t\"message\": {"
+          echo -e "\t\t\"ip\": \""$dn_rpc_address"\","
+          echo -e "\t\t\"port\": \""$dn_rpc_port"\""
+          echo -e "\t}"
+          echo "}"
+        fi
+      else
+        echo "{"
+        echo -e "\t\"result\": false,"
+        echo -e "\t\"message\": {"
+        echo -e "\t\t\"ip\": \""$dn_rpc_address"\","
+        echo -e "\t\t\"port\": \""$dn_rpc_port"\""
+        echo -e "\t}"
+        echo "}"
+      fi
   else
     echo "{"
     echo -e "\t\"result\": false,"
     echo -e "\t\"message\": {"
-    echo -e "\t\t\"ip\": \""$dn_rpc_address"\","
-    echo -e "\t\t\"port\": \""$dn_rpc_port"\""
+    echo -e "\t\t\"ip\": \""$cn_internal_address"\","
+    echo -e "\t\t\"port\": \""$cn_internal_port"\""
     echo -e "\t}"
     echo "}"
   fi
