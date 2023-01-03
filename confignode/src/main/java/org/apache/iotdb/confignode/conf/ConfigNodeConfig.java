@@ -307,7 +307,7 @@ public class ConfigNodeConfig {
   private String addHomeDir(String dir) {
     String homeDir = System.getProperty(ConfigNodeConstant.CONFIGNODE_HOME, null);
     if (!new File(dir).isAbsolute() && homeDir != null && homeDir.length() > 0) {
-      if (!ceaEnable) {
+      if (!dir.contains(homeDir)) {
         if (!homeDir.endsWith(File.separator)) {
           dir = homeDir + File.separatorChar + dir;
         } else {

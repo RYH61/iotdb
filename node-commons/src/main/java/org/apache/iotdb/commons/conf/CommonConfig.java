@@ -151,7 +151,7 @@ public class CommonConfig {
 
   private String addHomeDir(String dir, String homeDir) {
     if (!new File(dir).isAbsolute() && homeDir != null && homeDir.length() > 0) {
-      if (!ceaEnable) {
+      if (!dir.contains(homeDir)) {
         if (!homeDir.endsWith(File.separator)) {
           dir = homeDir + File.separatorChar + dir;
         } else {
