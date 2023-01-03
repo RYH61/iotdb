@@ -196,4 +196,5 @@ keyWords
     | WITHOUT
     | WRITABLE
     | PRIVILEGE_VALUE
+    | PARAMETERS
     ;

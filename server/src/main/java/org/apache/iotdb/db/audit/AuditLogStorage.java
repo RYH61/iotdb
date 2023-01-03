@@ -16,19 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.iotdb.db.audit;
 
-package org.apache.iotdb.tsfile.fileSystem.fileInputFactory;
-
-import org.apache.iotdb.tsfile.read.reader.LocalTsFileInput;
-import org.apache.iotdb.tsfile.read.reader.TsFileInput;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-
-public class LocalFSInputFactory implements FileInputFactory {
+public enum AuditLogStorage {
+  IOTDB,
+  LOGGER;
 
   @Override
-  public TsFileInput getTsFileInput(String filePath) throws IOException {
-    return new LocalTsFileInput(Paths.get(filePath));
+  public String toString() {
+    return name();
   }
 }
