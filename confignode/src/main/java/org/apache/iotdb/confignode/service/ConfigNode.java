@@ -21,7 +21,6 @@ package org.apache.iotdb.confignode.service;
 import org.apache.iotdb.common.rpc.thrift.TConfigNodeLocation;
 import org.apache.iotdb.common.rpc.thrift.TEndPoint;
 import org.apache.iotdb.common.rpc.thrift.TSStatus;
-import org.apache.iotdb.commons.exception.PropertiesEmptyException;
 import org.apache.iotdb.commons.exception.StartupException;
 import org.apache.iotdb.commons.service.JMXService;
 import org.apache.iotdb.commons.service.RegisterManager;
@@ -84,13 +83,7 @@ public class ConfigNode implements ConfigNodeMBean {
       File file =
           new File(PropertiesUtils.getConfigNodePropsUrl(PropertiesUtils.CONFIGURATION_CEA_NAME));
       if (file.exists()) {
-        try {
-          PropertiesUtils.updateConfigNodeParameterInformation();
-          ConfigNodeDescriptor.getInstance().loadProps();
-        } catch (PropertiesEmptyException e) {
-          LOGGER.error(e.getMessage());
-          return;
-        }
+        ConfigNodeDescriptor.getInstance().loadProps();
       }
     }
     new ConfigNodeCommandLine().doMain(args);

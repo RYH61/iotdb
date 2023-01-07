@@ -542,6 +542,9 @@ public class PropertiesUtils {
           options.setText("INNER_CROSS,CROSS_INNER,BALANCE");
         } else if ("wal_mode".equals(nameText)) {
           options.setText("DISABLE,SYNC,ASYNC");
+        } else if ("authorizer_provider_class".equals(nameText)) {
+          options.setText(
+              "org.apache.iotdb.commons.auth.authorizer.LocalFileAuthorizer,org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer");
         } else {
           options.setText("true,false");
         }
@@ -785,7 +788,9 @@ public class PropertiesUtils {
             if ("dn_rpc_address".equals(split[0])
                 || "dn_internal_address".equals(split[0])
                 || "cn_internal_address".equals(split[0])
-                || "mqtt_host".equals(split[0])) {
+                || " mqtt_host".equals(split[0])
+                || " cn_metric_iotdb_reporter_host".equals(split[0])
+                || " dn_metric_iotdb_reporter_host".equals(split[0])) {
               text[6] = "ip";
               String s = lines.get(currentNum - 1) + lines.get(currentNum - 2);
               String replace = s.replace("#", "");
@@ -797,15 +802,30 @@ public class PropertiesUtils {
                 || "dn_data_region_consensus_port".equals(split[0])
                 || "cn_internal_port".equals(split[0])
                 || "cn_consensus_port".equals(split[0])
-                || "mqtt_port".equals(split[0])
-                || "influxdb_rpc_port".equals(split[0])) {
+                || " mqtt_port".equals(split[0])
+                || " influxdb_rpc_port".equals(split[0])) {
               text[6] = "port";
             } else if ("true".equals(split[1]) || "false".equals(split[1])) {
               text[6] = "select";
             } else if ("dn_target_config_node_list".equals(split[0])
                 || "cn_target_config_node_list".equals(split[0])) {
               text[6] = "ipPortList";
-            } else if (split[1].matches("^[/\\\\A-Za-z]+$")) {
+            } else if (split[1].matches("^[/\\\\A-Za-z]+$")
+                || " leader_distribution_policy".equals(split[0])
+                || " schema_memory_allocate_proportion".equals(split[0])
+                || " storage_engine_memory_proportion".equals(split[0])
+                || " write_memory_proportion".equals(split[0])
+                || " time_encoder".equals(split[0])
+                || " watermark_secret_key".equals(split[0])
+                || " watermark_bit_string".equals(split[0])
+                || " watermark_method".equals(split[0])
+                || " public_key_file_name".equals(split[0])
+                || "license_file_name".equals(split[0])
+                || " iotdb_server_encrypt_decrypt_provider".equals(split[0])
+                || " udf_reader_transformer_collector_memory_proportion".equals(split[0])
+                || " ip_white_list".equals(split[0])
+                || " chunk_timeseriesmeta_free_memory_proportion".equals(split[0])
+                || " storage_query_schema_consensus_free_memory_proportion".equals(split[0])) {
               text[6] = "string";
             } else if (" config_node_consensus_protocol_class".equals(split[0])
                 || " schema_region_consensus_protocol_class".equals(split[0])
@@ -823,73 +843,79 @@ public class PropertiesUtils {
                 || " inner_unseq_selector".equals(split[0])
                 || " inner_unseq_performer".equals(split[0])
                 || " compaction_priority".equals(split[0])
+                || " authorizer_provider_class".equals(split[0])
                 || " wal_mode".equals(split[0])) {
               text[6] = "select";
             } else if (split[1].contains(".")
                 && !Pattern.compile("(?i)[a-z]]").matcher(split[1]).find()) {
               text[6] = "double";
-            } else if ("dn_join_cluster_retry_interval_ms".equals(split[0])
-                || "time_partition_interval_for_routing".equals(split[0])
-                || "heartbeat_interval_in_ms".equals(split[0])
-                || "concurrent_writing_time_partition".equals(split[0])
-                || "sync_mlog_period_in_ms".equals(split[0])
-                || "slow_query_threshold".equals(split[0])
-                || "default_ttl_in_ms".equals(split[0])
-                || "time_partition_interval_for_storage".equals(split[0])
-                || "memtable_size_threshold".equals(split[0])
-                || "seq_memtable_flush_interval_in_ms".equals(split[0])
-                || "seq_memtable_flush_check_interval_in_ms".equals(split[0])
-                || "unseq_memtable_flush_interval_in_ms".equals(split[0])
-                || "unseq_memtable_flush_check_interval_in_ms".equals(split[0])
-                || "target_compaction_file_size".equals(split[0])
-                || "target_chunk_size".equals(split[0])
-                || "chunk_size_lower_bound_in_compaction".equals(split[0])
-                || "chunk_point_num_lower_bound_in_compaction".equals(split[0])
-                || "max_cross_compaction_candidate_file_size".equals(split[0])
-                || "cross_compaction_file_selection_time_budget".equals(split[0])
-                || "compaction_schedule_interval_in_ms".equals(split[0])
-                || "compaction_submission_interval_in_ms".equals(split[0])
-                || "fsync_wal_delay_in_ms".equals(split[0])
-                || "wal_file_size_threshold_in_byte".equals(split[0])
-                || "wal_memtable_snapshot_threshold_in_byte".equals(split[0])
-                || "delete_wal_files_period_in_ms".equals(split[0])
-                || "multi_leader_throttle_threshold_in_byte".equals(split[0])
-                || "multi_leader_cache_window_time_in_ms".equals(split[0])
-                || "continuous_query_min_every_interval_in_ms".equals(split[0])
-                || "config_node_ratis_log_appender_buffer_size_max".equals(split[0])
-                || "schema_region_ratis_log_appender_buffer_size_max".equals(split[0])
-                || "data_region_ratis_log_appender_buffer_size_max".equals(split[0])
-                || "config_node_ratis_snapshot_trigger_threshold".equals(split[0])
-                || "schema_region_ratis_snapshot_trigger_threshold".equals(split[0])
-                || "data_region_ratis_snapshot_trigger_threshold".equals(split[0])
-                || "config_node_simple_consensus_snapshot_trigger_threshold".equals(split[0])
-                || "config_node_ratis_log_segment_size_max_in_byte".equals(split[0])
-                || "schema_region_ratis_log_segment_size_max_in_byte".equals(split[0])
-                || "data_region_ratis_log_segment_size_max_in_byte".equals(split[0])
-                || "config_node_simple_consensus_log_segment_size_max_in_byte".equals(split[0])
-                || "config_node_ratis_grpc_flow_control_window".equals(split[0])
-                || "schema_region_ratis_grpc_flow_control_window".equals(split[0])
-                || "data_region_ratis_grpc_flow_control_window".equals(split[0])
-                || "config_node_ratis_rpc_leader_election_timeout_min_ms".equals(split[0])
-                || "schema_region_ratis_rpc_leader_election_timeout_min_ms".equals(split[0])
-                || "data_region_ratis_rpc_leader_election_timeout_min_ms".equals(split[0])
-                || "config_node_ratis_rpc_leader_election_timeout_max_ms".equals(split[0])
-                || "schema_region_ratis_rpc_leader_election_timeout_max_ms".equals(split[0])
-                || "data_region_ratis_rpc_leader_election_timeout_max_ms".equals(split[0])
-                || "config_node_ratis_request_timeout_ms".equals(split[0])
-                || "schema_region_ratis_request_timeout_ms".equals(split[0])
-                || "data_region_ratis_request_timeout_ms".equals(split[0])
-                || "config_node_ratis_initial_sleep_time_ms".equals(split[0])
-                || "config_node_ratis_max_sleep_time_ms".equals(split[0])
-                || "schema_region_ratis_initial_sleep_time_ms".equals(split[0])
-                || "schema_region_ratis_max_sleep_time_ms".equals(split[0])
-                || "data_region_ratis_initial_sleep_time_ms".equals(split[0])
-                || "data_region_ratis_max_sleep_time_ms".equals(split[0])
-                || "config_node_ratis_preserve_logs_num_when_purge".equals(split[0])
-                || "schema_region_ratis_preserve_logs_num_when_purge".equals(split[0])
-                || "data_region_ratis_preserve_logs_num_when_purge".equals(split[0])
-                || "ratis_first_election_timeout_min_ms".equals(split[0])
-                || "ratis_first_election_timeout_max_ms".equals(split[0])) {
+            } else if (" dn_join_cluster_retry_interval_ms".equals(split[0])
+                || " time_partition_interval_for_routing".equals(split[0])
+                || " heartbeat_interval_in_ms".equals(split[0])
+                || " concurrent_writing_time_partition".equals(split[0])
+                || " sync_mlog_period_in_ms".equals(split[0])
+                || " slow_query_threshold".equals(split[0])
+                || " default_ttl_in_ms".equals(split[0])
+                || " time_partition_interval_for_storage".equals(split[0])
+                || " memtable_size_threshold".equals(split[0])
+                || " seq_memtable_flush_interval_in_ms".equals(split[0])
+                || " seq_memtable_flush_check_interval_in_ms".equals(split[0])
+                || " unseq_memtable_flush_interval_in_ms".equals(split[0])
+                || " unseq_memtable_flush_check_interval_in_ms".equals(split[0])
+                || " target_compaction_file_size".equals(split[0])
+                || " target_chunk_size".equals(split[0])
+                || " chunk_size_lower_bound_in_compaction".equals(split[0])
+                || " chunk_point_num_lower_bound_in_compaction".equals(split[0])
+                || " max_cross_compaction_candidate_file_size".equals(split[0])
+                || " cross_compaction_file_selection_time_budget".equals(split[0])
+                || " compaction_schedule_interval_in_ms".equals(split[0])
+                || " compaction_submission_interval_in_ms".equals(split[0])
+                || " fsync_wal_delay_in_ms".equals(split[0])
+                || " wal_file_size_threshold_in_byte".equals(split[0])
+                || " wal_memtable_snapshot_threshold_in_byte".equals(split[0])
+                || " delete_wal_files_period_in_ms".equals(split[0])
+                || " multi_leader_throttle_threshold_in_byte".equals(split[0])
+                || " multi_leader_cache_window_time_in_ms".equals(split[0])
+                || " continuous_query_min_every_interval_in_ms".equals(split[0])
+                || " config_node_ratis_log_appender_buffer_size_max".equals(split[0])
+                || " schema_region_ratis_log_appender_buffer_size_max".equals(split[0])
+                || " data_region_ratis_log_appender_buffer_size_max".equals(split[0])
+                || " config_node_ratis_snapshot_trigger_threshold".equals(split[0])
+                || " schema_region_ratis_snapshot_trigger_threshold".equals(split[0])
+                || " data_region_ratis_snapshot_trigger_threshold".equals(split[0])
+                || " config_node_simple_consensus_snapshot_trigger_threshold".equals(split[0])
+                || " config_node_ratis_log_segment_size_max_in_byte".equals(split[0])
+                || " schema_region_ratis_log_segment_size_max_in_byte".equals(split[0])
+                || " data_region_ratis_log_segment_size_max_in_byte".equals(split[0])
+                || " config_node_simple_consensus_log_segment_size_max_in_byte".equals(split[0])
+                || " config_node_ratis_grpc_flow_control_window".equals(split[0])
+                || " schema_region_ratis_grpc_flow_control_window".equals(split[0])
+                || " data_region_ratis_grpc_flow_control_window".equals(split[0])
+                || " config_node_ratis_rpc_leader_election_timeout_min_ms".equals(split[0])
+                || " schema_region_ratis_rpc_leader_election_timeout_min_ms".equals(split[0])
+                || " data_region_ratis_rpc_leader_election_timeout_min_ms".equals(split[0])
+                || " config_node_ratis_rpc_leader_election_timeout_max_ms".equals(split[0])
+                || " schema_region_ratis_rpc_leader_election_timeout_max_ms".equals(split[0])
+                || " data_region_ratis_rpc_leader_election_timeout_max_ms".equals(split[0])
+                || " config_node_ratis_request_timeout_ms".equals(split[0])
+                || " schema_region_ratis_request_timeout_ms".equals(split[0])
+                || " data_region_ratis_request_timeout_ms".equals(split[0])
+                || " config_node_ratis_initial_sleep_time_ms".equals(split[0])
+                || " config_node_ratis_max_sleep_time_ms".equals(split[0])
+                || " schema_region_ratis_initial_sleep_time_ms".equals(split[0])
+                || " schema_region_ratis_max_sleep_time_ms".equals(split[0])
+                || " data_region_ratis_initial_sleep_time_ms".equals(split[0])
+                || " data_region_ratis_max_sleep_time_ms".equals(split[0])
+                || " config_node_ratis_preserve_logs_num_when_purge".equals(split[0])
+                || " schema_region_ratis_preserve_logs_num_when_purge".equals(split[0])
+                || " data_region_ratis_preserve_logs_num_when_purge".equals(split[0])
+                || " ratis_first_election_timeout_min_ms".equals(split[0])
+                || " config_node_ratis_log_max_size".equals(split[0])
+                || " time_partition_interval".equals(split[0])
+                || " schema_region_ratis_log_max_size".equals(split[0])
+                || " data_region_ratis_log_max_size".equals(split[0])
+                || " iot_consensus_throttle_threshold_in_byte".equals(split[0])
+                || " ratis_first_election_timeout_max_ms".equals(split[0])) {
               text[6] = "long";
             } else {
               text[6] = "int";
@@ -1024,6 +1050,9 @@ public class PropertiesUtils {
     }
   }
 
+  /**
+   * update: iotdb-datanode.properties, iotdb-confignode.properties, iotdb-commons.properties, env
+   */
   public static void updateConfigNodeParameterInformation() throws PropertiesEmptyException {
     setValue(
         PropertiesUtils.updateProperties(

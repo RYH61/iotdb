@@ -28,7 +28,6 @@ import org.apache.iotdb.commons.concurrent.IoTDBDefaultThreadExceptionHandler;
 import org.apache.iotdb.commons.conf.CommonDescriptor;
 import org.apache.iotdb.commons.conf.IoTDBConstant;
 import org.apache.iotdb.commons.exception.ConfigurationException;
-import org.apache.iotdb.commons.exception.PropertiesEmptyException;
 import org.apache.iotdb.commons.exception.StartupException;
 import org.apache.iotdb.commons.file.SystemFileFactory;
 import org.apache.iotdb.commons.service.JMXService;
@@ -148,13 +147,7 @@ public class DataNode implements DataNodeMBean {
       File file =
           new File(PropertiesUtils.getDataNodePropsUrl(PropertiesUtils.CONFIGURATION_CEA_NAME));
       if (file.exists()) {
-        try {
-          PropertiesUtils.updateDataNodeParameterInformation();
-          IoTDBDescriptor.getInstance().loadProps();
-        } catch (PropertiesEmptyException e) {
-          logger.error(e.getMessage());
-          return;
-        }
+        IoTDBDescriptor.getInstance().loadProps();
       }
     }
     new DataNodeServerCommandLine().doMain(args);
