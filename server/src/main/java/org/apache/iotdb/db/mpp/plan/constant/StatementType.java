@@ -153,4 +153,6 @@ public enum StatementType {
 
   SET_SPACE_QUOTA,
   SHOW_SPACE_QUOTA,
+  SET_THROTTLE_QUOTA,
+  SHOW_THROTTLE_QUOTA,
 }

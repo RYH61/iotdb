@@ -662,6 +662,15 @@ struct TSpaceQuotaResp{
   3: optional map<string, common.TSpaceQuota> spaceQuotaUsage
 }
 
+struct TThrottleQuotaResp{
+  1: required common.TSStatus status
+  2: optional map<string, map<common.ThrottleType, common.TTimedQuota>> throttleQuota
+}
+
+struct TShowThrottleReq{
+  1: optional string userName;
+}
+
 service IConfigNodeRPCService {
 
   // ======================================================
@@ -1167,13 +1176,23 @@ service IConfigNodeRPCService {
    */
   TShowCQResp showCQ()
 
-  /**
-   * Set space quota
-   **/
+  // ====================================================
+  // Quota
+  // ====================================================
+
+  /** Set space quota */
   common.TSStatus setSpaceQuota(common.TSetSpaceQuotaReq req)
 
-  TSpaceQuotaResp showSpaceQuota(list<string> storageGroups);
+  /** Show space quota */
+  TSpaceQuotaResp showSpaceQuota(list<string> storageGroups)
 
-  TSpaceQuotaResp getSpaceQuota();
+  /** Get space quota information */
+  TSpaceQuotaResp getSpaceQuota()
+
+  /** Set throttle quota */
+  common.TSStatus setThrottleQuota(common.TSetThrottleQuotaReq req)
+
+  /** Show throttle quota */
+  TThrottleQuotaResp showThrottleQuota(TShowThrottleReq req)
 }
 

@@ -144,14 +144,6 @@ public class LocalConfigNode {
     File schemaFolder = SystemFileFactory.INSTANCE.getFile(schemaDir);
     createFolder(schemaFolder);
 
-    // create space quota dir
-    File spaceQuotaFolder = SystemFileFactory.INSTANCE.getFile(config.getSpaceQuotaDir());
-    createFolder(spaceQuotaFolder);
-
-    // create throttle quota dir
-    File throttleQuotaFolder = SystemFileFactory.INSTANCE.getFile(config.getThrottleQuotaDir());
-    createFolder(throttleQuotaFolder);
-
     try {
       iAuthorizer = BasicAuthorizer.getInstance();
     } catch (AuthException e) {

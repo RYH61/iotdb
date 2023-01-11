@@ -17,10 +17,6 @@
  * under the License.
  */
 
-package org.apache.iotdb.commons.enums;
+package org.apache.iotdb.db.quotas;
 
-public enum SpaceQuotaType {
-  diskSize,
-  deviceNum,
-  timeSeriesNum
-}
+public class FixedIntervalRateLimiter extends RateLimiter {}

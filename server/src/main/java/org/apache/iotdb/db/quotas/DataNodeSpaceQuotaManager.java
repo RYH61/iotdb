@@ -35,7 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// TODO: Store quota information of each sg
 public class DataNodeSpaceQuotaManager {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DataNodeSpaceQuotaManager.class);

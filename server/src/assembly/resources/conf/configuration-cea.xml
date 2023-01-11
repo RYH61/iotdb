@@ -564,6 +564,27 @@
         </userDefined>
     </flag>
     <flag>
+        <name>dn_metric_reporter_list</name>
+        <meaning>The reporters of metric module to report metrics. If there are more than one reporter, please separate
+            them by commas ",". Options: [JMX, PROMETHEUS, IOTDB]
+            Datatype: String
+        </meaning>
+        <group>Metric Configuration,部署调整项</group>
+        <fill>0</fill>
+        <showConstraint></showConstraint>
+        <constraint></constraint>
+        <format>select</format>
+        <options>JMX,PROMETHEUS,IOTDB</options>
+        <default>JMX</default>
+        <defaultShowValue>JMX</defaultShowValue>
+        <showValue>JMX</showValue>
+        <current>JMX</current>
+        <valueUnits></valueUnits>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
         <name>dn_metric_frame_type</name>
         <meaning>Metric Configuration The reporters of metric module to report metrics If there are more than one
             reporter, please separate them by commas ",". Options: [JMX, PROMETHEUS, IOTDB] Datatype: String
@@ -574,7 +595,8 @@
         <fill>0</fill>
         <showConstraint></showConstraint>
         <constraint></constraint>
-        <format>string</format>
+        <format>select</format>
+        <options>MICROMETER,DROPWIZARD</options>
         <default>MICROMETER</default>
         <defaultShowValue>MICROMETER</defaultShowValue>
         <showValue>MICROMETER</showValue>
@@ -591,7 +613,8 @@
         <fill>0</fill>
         <showConstraint></showConstraint>
         <constraint></constraint>
-        <format>string</format>
+        <format>select</format>
+        <options>CORE,IMPORTANT,NORMAL,ALL</options>
         <default>CORE</default>
         <defaultShowValue>CORE</defaultShowValue>
         <showValue>CORE</showValue>
@@ -621,7 +644,7 @@
     <flag>
         <name>dn_metric_prometheus_reporter_port</name>
         <meaning>The port of prometheus reporter of metric module Datatype: int</meaning>
-        <group>Metric Configuration</group>
+        <group>Metric Configuration,部署调整项</group>
         <fill>0</fill>
         <showConstraint></showConstraint>
         <constraint></constraint>
@@ -1105,6 +1128,27 @@
         </userDefined>
     </flag>
     <flag>
+        <name>cn_metric_reporter_list</name>
+        <meaning>The reporters of metric module to report metrics. If there are more than one reporter, please separate
+            them by commas ",". Options: [JMX, PROMETHEUS, IOTDB]
+            Datatype: String
+        </meaning>
+        <group>Metric Configuration,部署调整项</group>
+        <fill>0</fill>
+        <showConstraint></showConstraint>
+        <constraint></constraint>
+        <format>select</format>
+        <options>JMX,PROMETHEUS,IOTDB</options>
+        <default>JMX</default>
+        <defaultShowValue>JMX</defaultShowValue>
+        <showValue>JMX</showValue>
+        <current>JMX</current>
+        <valueUnits></valueUnits>
+        <userDefined>
+            <position>iotdb-confignode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
         <name>cn_metric_frame_type</name>
         <meaning>Metric Configuration The reporters of metric module to report metrics If there are more than one
             reporter, please separate them by commas ",". Options: [JMX, PROMETHEUS, IOTDB] Datatype: String
@@ -1115,7 +1159,8 @@
         <fill>0</fill>
         <showConstraint></showConstraint>
         <constraint></constraint>
-        <format>string</format>
+        <format>select</format>
+        <options>MICROMETER,DROPWIZARD</options>
         <default>MICROMETER</default>
         <defaultShowValue>MICROMETER</defaultShowValue>
         <showValue>MICROMETER</showValue>
@@ -1132,7 +1177,8 @@
         <fill>0</fill>
         <showConstraint></showConstraint>
         <constraint></constraint>
-        <format>string</format>
+        <format>select</format>
+        <options>CORE,IMPORTANT,NORMAL,ALL</options>
         <default>CORE</default>
         <defaultShowValue>CORE</defaultShowValue>
         <showValue>CORE</showValue>
@@ -1162,7 +1208,7 @@
     <flag>
         <name>cn_metric_prometheus_reporter_port</name>
         <meaning>The port of prometheus reporter of metric module Datatype: int</meaning>
-        <group>Metric Configuration</group>
+        <group>Metric Configuration,部署调整项</group>
         <fill>0</fill>
         <showConstraint></showConstraint>
         <constraint></constraint>
@@ -5413,7 +5459,7 @@
         <fill>0</fill>
         <showConstraint></showConstraint>
         <constraint></constraint>
-        <format>int</format>
+        <format>long</format>
         <default>2147483648</default>
         <defaultShowValue>2147483648</defaultShowValue>
         <showValue>2147483648</showValue>
@@ -5430,7 +5476,7 @@
         <fill>0</fill>
         <showConstraint></showConstraint>
         <constraint></constraint>
-        <format>int</format>
+        <format>long</format>
         <default>2147483648</default>
         <defaultShowValue>2147483648</defaultShowValue>
         <showValue>2147483648</showValue>
@@ -5447,7 +5493,7 @@
         <fill>0</fill>
         <showConstraint></showConstraint>
         <constraint></constraint>
-        <format>int</format>
+        <format>long</format>
         <default>21474836480</default>
         <defaultShowValue>21474836480</defaultShowValue>
         <showValue>21474836480</showValue>
@@ -5557,7 +5603,7 @@
     <flag type="port">
         <name>mqtt_port</name>
         <meaning>the mqtt service binding port. Datatype: int</meaning>
-        <group>MQTT Broker Configuration</group>
+        <group>MQTT Broker Configuration,部署调整项</group>
         <fill>1</fill>
         <showConstraint></showConstraint>
         <constraint></constraint>
@@ -5829,7 +5875,7 @@
     <flag type="port">
         <name>influxdb_rpc_port</name>
         <meaning>Datatype: int</meaning>
-        <group>InfluxDB RPC Service Configuration</group>
+        <group>InfluxDB RPC Service Configuration,部署调整项</group>
         <fill>1</fill>
         <showConstraint></showConstraint>
         <constraint></constraint>

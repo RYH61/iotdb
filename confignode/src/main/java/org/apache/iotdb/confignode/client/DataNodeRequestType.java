@@ -88,5 +88,6 @@ public enum DataNodeRequestType {
   COUNT_PATHS_USING_TEMPLATE,
 
   /** Quota */
-  SET_SPACE_QUOTA
+  SET_SPACE_QUOTA,
+  SET_THROTTLE_QUOTA
 }

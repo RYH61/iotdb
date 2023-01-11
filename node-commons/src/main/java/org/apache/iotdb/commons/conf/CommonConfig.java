@@ -97,6 +97,8 @@ public class CommonConfig {
 
   private boolean quotaEnable = false;
 
+  private String RateLimiterType = "FixedIntervalRateLimiter";
+
   /** Default system file storage is in local file system (unsupported) */
   private FSType systemFileStorageFs = FSType.LOCAL;
 
@@ -332,6 +334,14 @@ public class CommonConfig {
 
   public void setQuotaEnable(boolean quotaEnable) {
     this.quotaEnable = quotaEnable;
+  }
+
+  public String getRateLimiterType() {
+    return RateLimiterType;
+  }
+
+  public void setRateLimiterType(String rateLimiterType) {
+    RateLimiterType = rateLimiterType;
   }
 
   public double getDiskSpaceWarningThreshold() {

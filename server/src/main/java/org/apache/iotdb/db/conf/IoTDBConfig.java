@@ -309,26 +309,6 @@ public class IoTDBConfig {
 
   private String schemaRegionConsensusDir = consensusDir + File.separator + "schema_region";
 
-  /** Space quota directory, stores space quota information of each storage group */
-  private String spaceQuotaDir =
-      IoTDBConstant.DEFAULT_BASE_DIR
-          + File.separator
-          + IoTDBConstant.SYSTEM_FOLDER_NAME
-          + File.separator
-          + IoTDBConstant.QUOTA_FOLDER_NAME
-          + File.separator
-          + IoTDBConstant.SPACE_QUOTA_FOLDER_NAME;
-
-  /** Throttle quota directory, stores throttle quota information of each storage group */
-  private String throttleQuotaDir =
-      IoTDBConstant.DEFAULT_BASE_DIR
-          + File.separator
-          + IoTDBConstant.SYSTEM_FOLDER_NAME
-          + File.separator
-          + IoTDBConstant.QUOTA_FOLDER_NAME
-          + File.separator
-          + IoTDBConstant.THROTTLE_QUOTA_FOLDER_NAME;
-
   /** Maximum MemTable number. Invalid when enableMemControl is true. */
   private int maxMemtableNumber = 0;
 
@@ -1199,9 +1179,6 @@ public class IoTDBConfig {
 
     extPipeDir = addDataHomeDir(extPipeDir);
 
-    spaceQuotaDir = addDataHomeDir(spaceQuotaDir);
-    throttleQuotaDir = addDataHomeDir(throttleQuotaDir);
-
     if (TSFileDescriptor.getInstance().getConfig().getTSFileStorageFs().equals(FSType.HDFS)) {
       String hdfsDir = getHdfsDir();
       queryDir = hdfsDir + File.separatorChar + queryDir;
@@ -1473,22 +1450,6 @@ public class IoTDBConfig {
 
   public void setMqttDir(String mqttDir) {
     this.mqttDir = mqttDir;
-  }
-
-  public String getSpaceQuotaDir() {
-    return spaceQuotaDir;
-  }
-
-  public void setSpaceQuotaDir(String spaceQuotaDir) {
-    this.spaceQuotaDir = spaceQuotaDir;
-  }
-
-  public String getThrottleQuotaDir() {
-    return throttleQuotaDir;
-  }
-
-  public void setThrottleQuotaDir(String throttleQuotaDir) {
-    this.throttleQuotaDir = throttleQuotaDir;
   }
 
   public String getMultiDirStrategyClassName() {

@@ -140,7 +140,8 @@ public enum ConfigPhysicalPlanType {
   SHOW_CQ((short) 1104),
 
   /** Quota */
-  SET_SPACE_QUOTA((short) 1200);
+  SET_SPACE_QUOTA((short) 1200),
+  SET_THROTTLE_QUOTA((short) 1201);
 
   private final short planType;
 

@@ -26,20 +26,6 @@ echo ----------------------------
 
 source "$(dirname "$0")/iotdb-common.sh"
 
-if [ -z "${CONFIGNODE_HOME}" ]; then
-  export CONFIGNODE_HOME="`dirname "$0"`/.."
-fi
-
-if [ -f "$CONFIGNODE_HOME/sbin/load-cea.sh" ]; then
-  export LOAD_CEA="$CONFIGNODE_HOME/sbin/load-cea.sh"
-else
-  echo "Can't find load-cea.sh"
-  exit 0
-fi
-
-nohup bash "$LOAD_CEA" >/dev/null 2>&1 &
-sleep 3
-
 # iotdb server runs on foreground by default
 foreground="yes"
 

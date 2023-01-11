@@ -21,8 +21,11 @@ package org.apache.iotdb.confignode.persistence.quota;
 
 import org.apache.iotdb.common.rpc.thrift.TSStatus;
 import org.apache.iotdb.common.rpc.thrift.TSpaceQuota;
+import org.apache.iotdb.common.rpc.thrift.TTimedQuota;
+import org.apache.iotdb.common.rpc.thrift.ThrottleType;
 import org.apache.iotdb.commons.snapshot.SnapshotProcessor;
 import org.apache.iotdb.confignode.consensus.request.write.quota.SetSpaceQuotaPlan;
+import org.apache.iotdb.confignode.consensus.request.write.quota.SetThrottleQuotaPlan;
 import org.apache.iotdb.rpc.RpcUtils;
 import org.apache.iotdb.rpc.TSStatusCode;
 import org.apache.iotdb.tsfile.utils.ReadWriteIOUtils;
@@ -46,6 +49,7 @@ public class QuotaInfo implements SnapshotProcessor {
   private final ReentrantReadWriteLock spaceQuotaReadWriteLock;
   private final Map<String, TSpaceQuota> spaceQuotaLimit;
   private final Map<String, TSpaceQuota> spaceQuotaUsage;
+  private final Map<String, Map<ThrottleType, TTimedQuota>> throttleQuotaLimit;
 
   private final String snapshotFileName = "quota_info.bin";
 
@@ -53,6 +57,7 @@ public class QuotaInfo implements SnapshotProcessor {
     spaceQuotaReadWriteLock = new ReentrantReadWriteLock();
     spaceQuotaLimit = new HashMap<>();
     spaceQuotaUsage = new HashMap<>();
+    throttleQuotaLimit = new HashMap<>();
   }
 
   public TSStatus setSpaceQuota(SetSpaceQuotaPlan setSpaceQuotaPlan) {
@@ -88,11 +93,16 @@ public class QuotaInfo implements SnapshotProcessor {
     return RpcUtils.getStatus(TSStatusCode.SUCCESS_STATUS);
   }
 
+  public TSStatus setThrottleQuota(SetThrottleQuotaPlan setThrottleQuotaPlan) {
+    throttleQuotaLimit.put(
+        setThrottleQuotaPlan.getUserName(), setThrottleQuotaPlan.getThrottleLimit());
+    return RpcUtils.getStatus(TSStatusCode.SUCCESS_STATUS);
+  }
+
   public Map<String, TSpaceQuota> getSpaceQuotaLimit() {
     return spaceQuotaLimit;
   }
 
-  // TODO: add Snapshot
   @Override
   public boolean processTakeSnapshot(File snapshotDir) throws TException, IOException {
     File snapshotFile = new File(snapshotDir, snapshotFileName);
@@ -106,6 +116,7 @@ public class QuotaInfo implements SnapshotProcessor {
     spaceQuotaReadWriteLock.writeLock().lock();
     try (FileOutputStream fileOutputStream = new FileOutputStream(snapshotFile)) {
       serializeSpaceQuotaLimit(fileOutputStream);
+      serializeThrottleQuotaLimit(fileOutputStream);
     } finally {
       spaceQuotaReadWriteLock.writeLock().unlock();
     }
@@ -122,6 +133,20 @@ public class QuotaInfo implements SnapshotProcessor {
     }
   }
 
+  private void serializeThrottleQuotaLimit(FileOutputStream fileOutputStream) throws IOException {
+    ReadWriteIOUtils.write(throttleQuotaLimit.size(), fileOutputStream);
+    for (Map.Entry<String, Map<ThrottleType, TTimedQuota>> throttleQuotaEntry :
+        throttleQuotaLimit.entrySet()) {
+      ReadWriteIOUtils.write(throttleQuotaEntry.getKey(), fileOutputStream);
+      ReadWriteIOUtils.write(throttleQuotaEntry.getValue().size(), fileOutputStream);
+      for (Map.Entry<ThrottleType, TTimedQuota> entry : throttleQuotaEntry.getValue().entrySet()) {
+        ReadWriteIOUtils.write(entry.getKey().name(), fileOutputStream);
+        ReadWriteIOUtils.write(entry.getValue().getTimeUnit(), fileOutputStream);
+        ReadWriteIOUtils.write(entry.getValue().getSoftLimit(), fileOutputStream);
+      }
+    }
+  }
+
   @Override
   public void processLoadSnapshot(File snapshotDir) throws TException, IOException {
     File snapshotFile = new File(snapshotDir, snapshotFileName);
@@ -135,6 +160,7 @@ public class QuotaInfo implements SnapshotProcessor {
     try (FileInputStream fileInputStream = new FileInputStream(snapshotFile)) {
       clear();
       deserializeSpaceQuotaLimit(fileInputStream);
+      deserializeThrottleQuotaLimit(fileInputStream);
     } finally {
       spaceQuotaReadWriteLock.writeLock().unlock();
     }
@@ -153,11 +179,35 @@ public class QuotaInfo implements SnapshotProcessor {
     }
   }
 
+  private void deserializeThrottleQuotaLimit(FileInputStream fileInputStream) throws IOException {
+    int size = ReadWriteIOUtils.readInt(fileInputStream);
+    while (size > 0) {
+      String userName = ReadWriteIOUtils.readString(fileInputStream);
+      int quotaSize = ReadWriteIOUtils.readInt(fileInputStream);
+      Map<ThrottleType, TTimedQuota> quotaLimit = new HashMap<>();
+      while (quotaSize > 0) {
+        ThrottleType throttleType =
+            ThrottleType.valueOf(ReadWriteIOUtils.readString(fileInputStream));
+        long timeUnit = ReadWriteIOUtils.readLong(fileInputStream);
+        long softLimit = ReadWriteIOUtils.readLong(fileInputStream);
+        quotaLimit.put(throttleType, new TTimedQuota(timeUnit, softLimit));
+        quotaSize--;
+      }
+      throttleQuotaLimit.put(userName, quotaLimit);
+      size--;
+    }
+  }
+
   public Map<String, TSpaceQuota> getSpaceQuotaUsage() {
     return spaceQuotaUsage;
   }
 
+  public Map<String, Map<ThrottleType, TTimedQuota>> getThrottleQuotaLimit() {
+    return throttleQuotaLimit;
+  }
+
   public void clear() {
     spaceQuotaLimit.clear();
+    throttleQuotaLimit.clear();
   }
 }

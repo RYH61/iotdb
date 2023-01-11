@@ -170,6 +170,7 @@ keyWords
     | TAGS
     | TASK
     | TEMPLATE
+    | THROTTLE
     | TIMEOUT
     | TIMESERIES
     | TIMESLOTID

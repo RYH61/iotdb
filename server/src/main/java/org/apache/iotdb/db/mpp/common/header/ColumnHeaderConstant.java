@@ -147,10 +147,14 @@ public class ColumnHeaderConstant {
   public static final String QUERY = "Query";
 
   // column names for show space quota
-  public static final String COLUMN_DATABASE = "database";
-  public static final String COLUMN_QUOTA_TYPE = "quotaType";
-  public static final String COLUMN_LIMIT = "limit";
-  public static final String COLUMN_USED = "used";
+  public static final String COLUMN_DATABASE = "Database";
+  public static final String COLUMN_QUOTA_TYPE = "QuotaType";
+  public static final String COLUMN_LIMIT = "Limit";
+  public static final String COLUMN_USED = "Used";
+
+  // column names for show throttle quota
+  public static final String COLUMN_USER = "User";
+  public static final String COLUMN_READ_WRITE = "Read/Write";
 
   public static final List<ColumnHeader> lastQueryColumnHeaders =
       ImmutableList.of(
@@ -367,4 +371,11 @@ public class ColumnHeaderConstant {
           new ColumnHeader(COLUMN_QUOTA_TYPE, TSDataType.TEXT),
           new ColumnHeader(COLUMN_LIMIT, TSDataType.TEXT),
           new ColumnHeader(COLUMN_USED, TSDataType.TEXT));
+
+  public static final List<ColumnHeader> showThrottleQuotaColumnHeaders =
+      ImmutableList.of(
+          new ColumnHeader(COLUMN_USER, TSDataType.TEXT),
+          new ColumnHeader(COLUMN_QUOTA_TYPE, TSDataType.TEXT),
+          new ColumnHeader(COLUMN_LIMIT, TSDataType.TEXT),
+          new ColumnHeader(COLUMN_READ_WRITE, TSDataType.TEXT));
 }

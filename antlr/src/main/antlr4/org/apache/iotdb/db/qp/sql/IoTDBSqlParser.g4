@@ -40,12 +40,13 @@ ddlStatement
     | createFunction | createTrigger | createContinuousQuery
     | alterTimeseries | deleteStorageGroup | deleteTimeseries | deletePartition | deleteTimeseriesOfSchemaTemplate
     | dropFunction | dropTrigger | dropContinuousQuery | dropSchemaTemplate
-    | setTTL | unsetTTL | startTrigger | stopTrigger | setSchemaTemplate | unsetSchemaTemplate | setSpaceQuota
+    | setTTL | unsetTTL | startTrigger | stopTrigger | setSchemaTemplate | unsetSchemaTemplate
+    | setSpaceQuota | setThrottleQuota
     | showStorageGroup | showDevices | showTimeseries | showChildPaths | showChildNodes
     | showFunctions | showTriggers | showContinuousQueries | showTTL | showAllTTL | showCluster | showVariables | showRegion | showDataNodes | showConfigNodes
     | showSchemaTemplates | showNodesInSchemaTemplate
     | showPathsUsingSchemaTemplate | showPathsSetSchemaTemplate
-    | showSpaceQuota
+    | showSpaceQuota | showThrottleQuota
     | countStorageGroup | countDevices | countTimeseries | countNodes
     | getRegionId | getTimeSlotList | getSeriesSlotList
     ;
@@ -280,6 +281,12 @@ setSpaceQuota
     : SET SPACE QUOTA attributePair (COMMA attributePair)* ON prefixPath (COMMA prefixPath)*
     ;
 
+// Set Throttle Quota
+setThrottleQuota
+    : SET THROTTLE QUOTA attributePair (COMMA attributePair)* ON userName=identifier
+    ;
+
+
 // Start Trigger
 startTrigger
     : START TRIGGER triggerName=identifier
@@ -388,6 +395,11 @@ showPathsUsingSchemaTemplate
 // Show Space Quota
 showSpaceQuota
     : SHOW SPACE QUOTA (prefixPath (COMMA prefixPath)*)?
+    ;
+
+// Show Throttle Quota
+showThrottleQuota
+    : SHOW THROTTLE QUOTA (userName=identifier)?
     ;
 
 // Count Storage Group

@@ -20,7 +20,8 @@
 package org.apache.iotdb.db.mpp.plan.execution.config.sys.quota;
 
 import org.apache.iotdb.common.rpc.thrift.TSpaceQuota;
-import org.apache.iotdb.commons.enums.SpaceQuotaType;
+import org.apache.iotdb.commons.conf.IoTDBConstant;
+import org.apache.iotdb.commons.quotas.SpaceQuotaType;
 import org.apache.iotdb.confignode.rpc.thrift.TSpaceQuotaResp;
 import org.apache.iotdb.db.mpp.common.header.ColumnHeader;
 import org.apache.iotdb.db.mpp.common.header.ColumnHeaderConstant;
@@ -73,7 +74,7 @@ public class ShowSpaceQuotaTask implements IConfigTask {
               .writeBinary(
                   Binary.valueOf(
                       spaceQuotaEntry.getValue().getDiskSize() == 0
-                          ? "unlimited"
+                          ? IoTDBConstant.SPACE_QUOTA_UNLIMITED
                           : spaceQuotaEntry.getValue().getDiskSize() + "M"));
           builder
               .getColumnBuilder(3)
@@ -91,7 +92,7 @@ public class ShowSpaceQuotaTask implements IConfigTask {
               .writeBinary(
                   Binary.valueOf(
                       spaceQuotaEntry.getValue().getDeviceNum() == 0
-                          ? "unlimited"
+                          ? IoTDBConstant.SPACE_QUOTA_UNLIMITED
                           : spaceQuotaEntry.getValue().getDeviceNum() + ""));
           builder
               .getColumnBuilder(3)
@@ -111,7 +112,7 @@ public class ShowSpaceQuotaTask implements IConfigTask {
               .writeBinary(
                   Binary.valueOf(
                       spaceQuotaEntry.getValue().getTimeserieNum() == 0
-                          ? "unlimited"
+                          ? IoTDBConstant.SPACE_QUOTA_UNLIMITED
                           : spaceQuotaEntry.getValue().getTimeserieNum() + ""));
           builder
               .getColumnBuilder(3)

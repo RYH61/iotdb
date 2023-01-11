@@ -135,3 +135,22 @@ struct TSetSpaceQuotaReq {
   1: required list<string> storageGroup
   2: required TSpaceQuota spaceLimit
 }
+
+struct TTimedQuota {
+  1: required i64 timeUnit
+  2: required i64 softLimit
+}
+
+struct TSetThrottleQuotaReq {
+  1: required string userName
+  2: required map<ThrottleType, TTimedQuota> throttleLimit
+}
+
+enum ThrottleType {
+  REQUEST_NUMBER,
+  REQUEST_SIZE,
+  WRITE_NUMBER,
+  WRITE_SIZE,
+  READ_NUMBER,
+  READ_SIZE
+}

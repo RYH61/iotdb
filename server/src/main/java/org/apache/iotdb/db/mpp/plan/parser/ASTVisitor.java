@@ -22,6 +22,8 @@ package org.apache.iotdb.db.mpp.plan.parser;
 import org.apache.iotdb.common.rpc.thrift.TConsensusGroupType;
 import org.apache.iotdb.common.rpc.thrift.TSeriesPartitionSlot;
 import org.apache.iotdb.common.rpc.thrift.TTimePartitionSlot;
+import org.apache.iotdb.common.rpc.thrift.TTimedQuota;
+import org.apache.iotdb.common.rpc.thrift.ThrottleType;
 import org.apache.iotdb.commons.auth.entity.PrivilegeType;
 import org.apache.iotdb.commons.cluster.NodeStatus;
 import org.apache.iotdb.commons.conf.CommonDescriptor;
@@ -148,7 +150,9 @@ import org.apache.iotdb.db.mpp.plan.statement.sys.MergeStatement;
 import org.apache.iotdb.db.mpp.plan.statement.sys.SetSystemStatusStatement;
 import org.apache.iotdb.db.mpp.plan.statement.sys.ShowVersionStatement;
 import org.apache.iotdb.db.mpp.plan.statement.sys.quota.SetSpaceQuotaStatement;
+import org.apache.iotdb.db.mpp.plan.statement.sys.quota.SetThrottleQuotaStatement;
 import org.apache.iotdb.db.mpp.plan.statement.sys.quota.ShowSpaceQuotaStatement;
+import org.apache.iotdb.db.mpp.plan.statement.sys.quota.ShowThrottleQuotaStatement;
 import org.apache.iotdb.db.mpp.plan.statement.sys.sync.CreatePipeSinkStatement;
 import org.apache.iotdb.db.mpp.plan.statement.sys.sync.CreatePipeStatement;
 import org.apache.iotdb.db.mpp.plan.statement.sys.sync.DropPipeSinkStatement;
@@ -1977,7 +1981,8 @@ public class ASTVisitor extends IoTDBSqlParserBaseVisitor<Statement> {
       if (quotas.get(IoTDBConstant.SPACE_QUOTA_DISK).equals(IoTDBConstant.SPACE_QUOTA_UNLIMITED)) {
         setSpaceQuotaStatement.setDiskSize(-1);
       } else {
-        setSpaceQuotaStatement.setDiskSize(parseUnit(quotas.get(IoTDBConstant.SPACE_QUOTA_DISK)));
+        setSpaceQuotaStatement.setDiskSize(
+            parseSpaceQuotaSizeUnit(quotas.get(IoTDBConstant.SPACE_QUOTA_DISK)));
       }
     }
     return setSpaceQuotaStatement;
@@ -2002,23 +2007,148 @@ public class ASTVisitor extends IoTDBSqlParserBaseVisitor<Statement> {
     return showSpaceQuotaStatement;
   }
 
-  private long parseUnit(String data) {
+  @Override
+  public Statement visitSetThrottleQuota(IoTDBSqlParser.SetThrottleQuotaContext ctx) {
+    if (!CommonDescriptor.getInstance().getConfig().isQuotaEnable()) {
+      throw new SQLParserException("Limit configuration is not enabled, please enable it first.");
+    }
+
+    SetThrottleQuotaStatement setThrottleQuotaStatement = new SetThrottleQuotaStatement();
+    setThrottleQuotaStatement.setUserName(parseIdentifier(ctx.userName.getText()));
+    Map<String, String> quotas = new HashMap<>();
+    Map<ThrottleType, TTimedQuota> throttleLimit = new HashMap<>();
+    for (IoTDBSqlParser.AttributePairContext attributePair : ctx.attributePair()) {
+      quotas.put(
+          parseAttributeKey(attributePair.attributeKey()),
+          parseAttributeValue(attributePair.attributeValue()));
+    }
+    if (quotas.containsKey(IoTDBConstant.REQUEST_NUM_PER_UNIT_TIME)) {
+      TTimedQuota timedQuota;
+      String request = quotas.get(IoTDBConstant.REQUEST_NUM_PER_UNIT_TIME);
+      if (request.equals(IoTDBConstant.SPACE_QUOTA_UNLIMITED)) {
+        timedQuota = new TTimedQuota(1000, Long.MAX_VALUE);
+      } else {
+        String[] split = request.toLowerCase().split("req/");
+        if (Long.parseLong(split[0]) < 0) {
+          throw new SQLParserException("Please set the number of requests greater than 0");
+        }
+        timedQuota =
+            new TTimedQuota(parseThrottleQuotaTimeUnit(split[1]), Long.parseLong(split[0]));
+      }
+      if (quotas.get(IoTDBConstant.REQUEST_TYPE) == null) {
+        throttleLimit.put(ThrottleType.REQUEST_NUMBER, timedQuota);
+      } else {
+        switch (quotas.get(IoTDBConstant.REQUEST_TYPE)) {
+          case IoTDBConstant.REQUEST_TYPE_READ:
+            throttleLimit.put(ThrottleType.READ_NUMBER, timedQuota);
+            break;
+          case IoTDBConstant.REQUEST_TYPE_WRITE:
+            throttleLimit.put(ThrottleType.WRITE_NUMBER, timedQuota);
+            break;
+          default:
+            throw new SQLParserException(
+                "Please set the correct request type: " + quotas.get(IoTDBConstant.REQUEST_TYPE));
+        }
+      }
+    }
+
+    if (quotas.containsKey(IoTDBConstant.REQUEST_SIZE_PER_UNIT_TIME)) {
+      TTimedQuota timedQuota;
+      String mem = quotas.get(IoTDBConstant.REQUEST_SIZE_PER_UNIT_TIME);
+      if (mem.equals(IoTDBConstant.SPACE_QUOTA_UNLIMITED)) {
+        timedQuota = new TTimedQuota(1000, Long.MAX_VALUE);
+      } else {
+        String[] split = mem.toLowerCase().split("/");
+        timedQuota =
+            new TTimedQuota(
+                parseThrottleQuotaTimeUnit(split[1]), parseThrottleQuotaSizeUnit(split[0]));
+      }
+      if (quotas.get(IoTDBConstant.REQUEST_TYPE) == null) {
+        throttleLimit.put(ThrottleType.REQUEST_SIZE, timedQuota);
+      } else {
+        switch (quotas.get(IoTDBConstant.REQUEST_TYPE)) {
+          case IoTDBConstant.REQUEST_TYPE_READ:
+            throttleLimit.put(ThrottleType.READ_SIZE, timedQuota);
+            break;
+          case IoTDBConstant.REQUEST_TYPE_WRITE:
+            throttleLimit.put(ThrottleType.WRITE_SIZE, timedQuota);
+            break;
+          default:
+            throw new SQLParserException(
+                "Please set the correct request type: " + quotas.get(IoTDBConstant.REQUEST_TYPE));
+        }
+      }
+    }
+    setThrottleQuotaStatement.setThrottleLimit(throttleLimit);
+    return setThrottleQuotaStatement;
+  }
+
+  @Override
+  public Statement visitShowThrottleQuota(IoTDBSqlParser.ShowThrottleQuotaContext ctx) {
+    if (!CommonDescriptor.getInstance().getConfig().isQuotaEnable()) {
+      throw new SQLParserException("Limit configuration is not enabled, please enable it first.");
+    }
+    ShowThrottleQuotaStatement showThrottleQuotaStatement = new ShowThrottleQuotaStatement();
+    if (ctx.userName != null) {
+      showThrottleQuotaStatement.setUserName(parseIdentifier(ctx.userName.getText()));
+    }
+    return showThrottleQuotaStatement;
+  }
+
+  private long parseThrottleQuotaTimeUnit(String timeUnit) {
+    switch (timeUnit.toLowerCase()) {
+      case "sec":
+        return 1000;
+      case "min":
+        return 60 * 1000;
+      case "hour":
+        return 60 * 60 * 1000;
+      case "day":
+        return 24 * 60 * 60 * 1000;
+      default:
+        throw new SQLParserException(
+            "When setting the request, the unit is incorrect. Please use 'sec', 'min', 'hour', 'day' as the unit");
+    }
+  }
+
+  private long parseThrottleQuotaSizeUnit(String data) {
+    String unit = data.substring(data.length() - 1);
+    long size = Long.parseLong(data.substring(0, data.length() - 1));
+    if (size <= 0) {
+      throw new SQLParserException("Please set the size greater than 0");
+    }
+    switch (unit.toLowerCase()) {
+      case "b":
+        return size;
+      case "k":
+        return size * 1024;
+      case "m":
+        return size * 1024 * 1024;
+      case "g":
+        return size * 1024 * 1024 * 1024;
+      case "t":
+        return size * 1024 * 1024 * 1024 * 1024;
+      case "p":
+        return size * 1024 * 1024 * 1024 * 1024 * 1024;
+      default:
+        throw new SQLParserException(
+            "When setting the size/time, the unit is incorrect. Please use 'B', 'K', 'M', 'G', 'P', 'T' as the unit");
+    }
+  }
+
+  private long parseSpaceQuotaSizeUnit(String data) {
     String unit = data.substring(data.length() - 1);
     long disk = Long.parseLong(data.substring(0, data.length() - 1));
     if (disk <= 0) {
       throw new SQLParserException("Please set the disk size greater than 0");
     }
-    switch (unit) {
-      case "M":
+    switch (unit.toLowerCase()) {
       case "m":
         return disk;
-      case "G":
       case "g":
         return disk * 1024;
-      case "T":
       case "t":
         return disk * 1024 * 1024;
-      case "P":
       case "p":
         return disk * 1024 * 1024 * 1024;
       default:
