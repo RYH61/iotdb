@@ -73,8 +73,8 @@ public class SetSpaceQuotaPlan extends ConfigPhysicalPlan {
   @Override
   protected void deserializeImpl(ByteBuffer buffer) throws IOException {
     List<String> prefixPathList = BasicStructureSerDeUtil.readStringList(buffer);
-    int deviceNum = BasicStructureSerDeUtil.readInt(buffer);
-    int timeserieNum = BasicStructureSerDeUtil.readInt(buffer);
+    long deviceNum = BasicStructureSerDeUtil.readLong(buffer);
+    long timeserieNum = BasicStructureSerDeUtil.readLong(buffer);
     long disk = BasicStructureSerDeUtil.readLong(buffer);
     this.prefixPathList = prefixPathList;
     TSpaceQuota spaceLimit = new TSpaceQuota();

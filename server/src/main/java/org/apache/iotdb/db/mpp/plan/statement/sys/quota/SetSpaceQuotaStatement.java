@@ -31,8 +31,8 @@ import java.util.List;
 
 public class SetSpaceQuotaStatement extends Statement implements IConfigStatement {
 
-  private int timeSeriesNum;
-  private int deviceNum;
+  private long timeSeriesNum;
+  private long deviceNum;
   private long diskSize;
   private String policy;
   private List<String> prefixPathList;
@@ -43,19 +43,19 @@ public class SetSpaceQuotaStatement extends Statement implements IConfigStatemen
     statementType = StatementType.SET_SPACE_QUOTA;
   }
 
-  public int getTimeSeriesNum() {
+  public long getTimeSeriesNum() {
     return timeSeriesNum;
   }
 
-  public void setTimeSeriesNum(int timeSeriesNum) {
+  public void setTimeSeriesNum(long timeSeriesNum) {
     this.timeSeriesNum = timeSeriesNum;
   }
 
-  public int getDeviceNum() {
+  public long getDeviceNum() {
     return deviceNum;
   }
 
-  public void setDeviceNum(int deviceNum) {
+  public void setDeviceNum(long deviceNum) {
     this.deviceNum = deviceNum;
   }
 

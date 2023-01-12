@@ -40,8 +40,8 @@ public class DataNodeHeartbeatHandler implements AsyncMethodCallback<THeartbeatR
   private final DataNodeHeartbeatCache dataNodeHeartbeatCache;
   private final Map<TConsensusGroupId, RegionGroupCache> regionGroupCacheMap;
   private final RouteBalancer routeBalancer;
-  private final Map<Integer, Integer> deviceNum;
-  private final Map<Integer, Integer> timeSeriesNum;
+  private final Map<Integer, Long> deviceNum;
+  private final Map<Integer, Long> timeSeriesNum;
   private final Map<Integer, Long> regionDisk;
 
   public DataNodeHeartbeatHandler(
@@ -49,8 +49,8 @@ public class DataNodeHeartbeatHandler implements AsyncMethodCallback<THeartbeatR
       DataNodeHeartbeatCache dataNodeHeartbeatCache,
       Map<TConsensusGroupId, RegionGroupCache> regionGroupCacheMap,
       RouteBalancer routeBalancer,
-      Map<Integer, Integer> deviceNum,
-      Map<Integer, Integer> timeSeriesNum,
+      Map<Integer, Long> deviceNum,
+      Map<Integer, Long> timeSeriesNum,
       Map<Integer, Long> regionDisk) {
     this.dataNodeLocation = dataNodeLocation;
     this.dataNodeHeartbeatCache = dataNodeHeartbeatCache;

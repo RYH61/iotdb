@@ -95,7 +95,7 @@ public class DataNodeSpaceQuotaManager {
     } else if (spaceQuota.getDeviceNum() == 0 || spaceQuota.getDeviceNum() == -1) {
       return true;
     }
-    int deviceNum = spaceQuotaUsage.get(storageGroup).getDeviceNum();
+    long deviceNum = spaceQuotaUsage.get(storageGroup).getDeviceNum();
     if (spaceQuota.getDeviceNum() - deviceNum > 0) {
       return true;
     }
@@ -114,7 +114,7 @@ public class DataNodeSpaceQuotaManager {
     } else if (spaceQuota.getTimeserieNum() == 0 || spaceQuota.getTimeserieNum() == -1) {
       return true;
     }
-    int timeSeriesNum = spaceQuotaUsage.get(storageGroup).getTimeserieNum();
+    long timeSeriesNum = spaceQuotaUsage.get(storageGroup).getTimeserieNum();
     if (spaceQuota.getTimeserieNum() - timeSeriesNum > 0) {
       return true;
     }

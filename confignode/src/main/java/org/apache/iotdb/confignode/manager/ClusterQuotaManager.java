@@ -49,7 +49,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class ClusterQuotaManager {
@@ -58,8 +57,8 @@ public class ClusterQuotaManager {
 
   private final IManager configManager;
   private final QuotaInfo quotaInfo;
-  private final Map<Integer, Integer> deviceNum;
-  private final Map<Integer, Integer> timeSeriesNum;
+  private final Map<Integer, Long> deviceNum;
+  private final Map<Integer, Long> timeSeriesNum;
   private final Map<String, List<Integer>> schemaRegionIdMap;
   private final Map<String, List<Integer>> dataRegionIdMap;
   private final Map<Integer, Long> regionDisk;
@@ -205,11 +204,11 @@ public class ClusterQuotaManager {
     return quotaInfo.getSpaceQuotaUsage();
   }
 
-  public Map<Integer, Integer> getDeviceNum() {
+  public Map<Integer, Long> getDeviceNum() {
     return deviceNum;
   }
 
-  public Map<Integer, Integer> getTimeSeriesNum() {
+  public Map<Integer, Long> getTimeSeriesNum() {
     return timeSeriesNum;
   }
 
@@ -221,8 +220,8 @@ public class ClusterQuotaManager {
     if (!config.isQuotaEnable()) {
       return;
     }
-    AtomicInteger deviceCount = new AtomicInteger();
-    AtomicInteger timeSeriesCount = new AtomicInteger();
+    AtomicLong deviceCount = new AtomicLong();
+    AtomicLong timeSeriesCount = new AtomicLong();
     for (Map.Entry<String, List<Integer>> entry : schemaRegionIdMap.entrySet()) {
       deviceCount.set(0);
       timeSeriesCount.set(0);

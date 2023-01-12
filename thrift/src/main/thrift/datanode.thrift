@@ -225,8 +225,8 @@ struct THeartbeatResp {
   3: optional string statusReason
   4: optional map<common.TConsensusGroupId, bool> judgedLeaders
   5: optional TLoadSample loadSample
-  6: optional map<i32, i32> deviceNum
-  7: optional map<i32, i32> timeSeriesNum
+  6: optional map<i32, i64> deviceNum
+  7: optional map<i32, i64> timeSeriesNum
   8: optional map<i32, i64> regionDisk
 }
 

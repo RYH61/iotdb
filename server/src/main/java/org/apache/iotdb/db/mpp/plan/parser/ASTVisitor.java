@@ -1960,21 +1960,21 @@ public class ASTVisitor extends IoTDBSqlParserBaseVisitor<Statement> {
     if (quotas.containsKey(IoTDBConstant.COLUMN_DEVICES)) {
       if (quotas.get(IoTDBConstant.COLUMN_DEVICES).equals(IoTDBConstant.SPACE_QUOTA_UNLIMITED)) {
         setSpaceQuotaStatement.setDeviceNum(-1);
-      } else if (Integer.parseInt(quotas.get(IoTDBConstant.COLUMN_DEVICES)) <= 0) {
+      } else if (Long.parseLong(quotas.get(IoTDBConstant.COLUMN_DEVICES)) <= 0) {
         throw new SQLParserException("Please set the number of devices greater than 0");
       } else {
         setSpaceQuotaStatement.setDeviceNum(
-            Integer.parseInt(quotas.get(IoTDBConstant.COLUMN_DEVICES)));
+            Long.parseLong(quotas.get(IoTDBConstant.COLUMN_DEVICES)));
       }
     }
     if (quotas.containsKey(IoTDBConstant.COLUMN_TIMESERIES)) {
       if (quotas.get(IoTDBConstant.COLUMN_TIMESERIES).equals(IoTDBConstant.SPACE_QUOTA_UNLIMITED)) {
         setSpaceQuotaStatement.setTimeSeriesNum(-1);
-      } else if (Integer.parseInt(quotas.get(IoTDBConstant.COLUMN_TIMESERIES)) <= 0) {
+      } else if (Long.parseLong(quotas.get(IoTDBConstant.COLUMN_TIMESERIES)) <= 0) {
         throw new SQLParserException("Please set the number of timeseries greater than 0");
       } else {
         setSpaceQuotaStatement.setTimeSeriesNum(
-            Integer.parseInt(quotas.get(IoTDBConstant.COLUMN_TIMESERIES)));
+            Long.parseLong(quotas.get(IoTDBConstant.COLUMN_TIMESERIES)));
       }
     }
     if (quotas.containsKey(IoTDBConstant.SPACE_QUOTA_DISK)) {

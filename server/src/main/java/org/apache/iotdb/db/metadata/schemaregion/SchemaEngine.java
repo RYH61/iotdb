@@ -348,13 +348,12 @@ public class SchemaEngine {
     this.seriesNumerMonitor = seriesNumerMonitor;
   }
 
-  public Map<Integer, Integer> countDeviceNumBySchemaRegion(List<Integer> schemaIds) {
-    Map<Integer, Integer> deviceNum = new HashMap<>();
+  public Map<Integer, Long> countDeviceNumBySchemaRegion(List<Integer> schemaIds) {
+    Map<Integer, Long> deviceNum = new HashMap<>();
     try {
       for (Map.Entry<SchemaRegionId, ISchemaRegion> entry : schemaRegionMap.entrySet()) {
         if (schemaIds.contains(entry.getKey().getId())) {
-          deviceNum.put(
-              entry.getKey().getId(), (int) entry.getValue().countDeviceNumBySchemaRegion());
+          deviceNum.put(entry.getKey().getId(), entry.getValue().countDeviceNumBySchemaRegion());
         }
       }
     } catch (MetadataException e) {
@@ -363,13 +362,13 @@ public class SchemaEngine {
     return deviceNum;
   }
 
-  public Map<Integer, Integer> countTimeSeriesNumBySchemaRegion(List<Integer> schemaIds) {
-    Map<Integer, Integer> timeSeriesNum = new HashMap<>();
+  public Map<Integer, Long> countTimeSeriesNumBySchemaRegion(List<Integer> schemaIds) {
+    Map<Integer, Long> timeSeriesNum = new HashMap<>();
     try {
       for (Map.Entry<SchemaRegionId, ISchemaRegion> entry : schemaRegionMap.entrySet()) {
         if (schemaIds.contains(entry.getKey().getId())) {
           timeSeriesNum.put(
-              entry.getKey().getId(), (int) entry.getValue().countTimeSeriesNumBySchemaRegion());
+              entry.getKey().getId(), entry.getValue().countTimeSeriesNumBySchemaRegion());
         }
       }
     } catch (MetadataException e) {
