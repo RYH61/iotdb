@@ -122,7 +122,7 @@ public class BasicStructureSerDeUtil {
   }
 
   /**
-   * write a int n to byteBuffer.
+   * write an int n to byteBuffer.
    *
    * @return The number of bytes used to represent n.
    */
@@ -132,7 +132,7 @@ public class BasicStructureSerDeUtil {
   }
 
   /**
-   * write a int n to dataOutputStream.
+   * write an int n to dataOutputStream.
    *
    * @return The number of bytes used to represent n.
    */

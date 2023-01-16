@@ -160,7 +160,7 @@ import static org.apache.iotdb.db.mpp.plan.analyze.SelectIntoUtils.constructTarg
 /** This visitor is used to analyze each type of Statement and returns the {@link Analysis}. */
 public class AnalyzeVisitor extends StatementVisitor<Analysis, MPPQueryContext> {
 
-  private static final Logger logger = LoggerFactory.getLogger(Analyzer.class);
+  private static final Logger logger = LoggerFactory.getLogger(AnalyzeVisitor.class);
 
   private static final IoTDBConfig CONFIG = IoTDBDescriptor.getInstance().getConfig();
 
@@ -1748,6 +1748,13 @@ public class AnalyzeVisitor extends StatementVisitor<Analysis, MPPQueryContext> 
 
     // analyze tsfile metadata
     for (File tsFile : loadTsFileStatement.getTsFiles()) {
+      if (tsFile.length() == 0) {
+        logger.warn(String.format("TsFile %s is empty.", tsFile.getPath()));
+        throw new SemanticException(
+            String.format(
+                "TsFile %s is empty, please check it be flushed to disk correctly.",
+                tsFile.getPath()));
+      }
       try {
         TsFileResource resource =
             analyzeTsFile(
@@ -1758,6 +1765,13 @@ public class AnalyzeVisitor extends StatementVisitor<Analysis, MPPQueryContext> 
                 device2Schemas,
                 device2IsAligned);
         loadTsFileStatement.addTsFileResource(resource);
+      } catch (IllegalArgumentException e) {
+        logger.warn(
+            String.format(
+                "Parse file %s to resource error, this TsFile maybe empty.", tsFile.getPath()),
+            e);
+        throw new SemanticException(
+            String.format("TsFile %s is empty or incomplete.", tsFile.getPath()));
       } catch (Exception e) {
         logger.warn(String.format("Parse file %s to resource error.", tsFile.getPath()), e);
         throw new SemanticException(

@@ -16,27 +16,23 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.iotdb.confignode.manager;
 
-package org.apache.iotdb.db.mpp.transformation.dag.column.leaf;
+import org.junit.Assert;
+import org.junit.Test;
 
-import org.apache.iotdb.db.mpp.transformation.dag.column.ColumnTransformer;
-import org.apache.iotdb.tsfile.read.common.block.TsBlock;
-import org.apache.iotdb.tsfile.read.common.type.Type;
+public class ClusterSchemaManagerTest {
 
-public abstract class LeafColumnTransformer extends ColumnTransformer {
-  protected LeafColumnTransformer(Type returnType) {
-    super(returnType);
+  @Test
+  public void testCalcMaxRegionGroupNum() {
+
+    // The maxRegionGroupNum should be great or equal to the leastRegionGroupNum
+    Assert.assertEquals(100, ClusterSchemaManager.calcMaxRegionGroupNum(100, 1.0, 3, 1, 3, 0));
+
+    // The maxRegionGroupNum should be great or equal to the allocatedRegionGroupCount
+    Assert.assertEquals(100, ClusterSchemaManager.calcMaxRegionGroupNum(3, 1.0, 6, 2, 3, 100));
+
+    // (resourceWeight * resource) / (createdStorageGroupNum * replicationFactor)
+    Assert.assertEquals(20, ClusterSchemaManager.calcMaxRegionGroupNum(3, 1.0, 120, 2, 3, 5));
   }
-
-  @Override
-  public void evaluate() {
-    // do nothing
-  }
-
-  @Override
-  public void checkType() {
-    // do nothing
-  }
-
-  public abstract void initFromTsBlock(TsBlock input);
 }
