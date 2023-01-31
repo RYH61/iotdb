@@ -177,11 +177,11 @@ public class ConfigPlanExecutor {
     this.authorInfo = authorInfo;
     this.snapshotProcessorList.add(authorInfo);
 
-    this.udfInfo = udfInfo;
-    this.snapshotProcessorList.add(udfInfo);
-
     this.triggerInfo = triggerInfo;
     this.snapshotProcessorList.add(triggerInfo);
+
+    this.udfInfo = udfInfo;
+    this.snapshotProcessorList.add(udfInfo);
 
     this.syncInfo = syncInfo;
     this.snapshotProcessorList.add(syncInfo);
@@ -409,8 +409,7 @@ public class ConfigPlanExecutor {
     }
 
     AtomicBoolean result = new AtomicBoolean(true);
-    snapshotProcessorList
-        .parallelStream()
+    snapshotProcessorList.stream()
         .forEach(
             x -> {
               boolean takeSnapshotResult = true;

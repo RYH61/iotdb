@@ -1288,6 +1288,8 @@ public class IoTDBConfig {
 
   public void setDataDirs(String[] dataDirs) {
     this.dataDirs = dataDirs;
+    setRatisDataRegionSnapshotDir(
+        dataDirs[0] + File.separator + IoTDBConstant.SNAPSHOT_FOLDER_NAME);
     setLoadTsFileDir(dataDirs[0] + File.separator + IoTDBConstant.LOAD_TSFILE_FOLDER_NAME);
   }
 
@@ -1381,6 +1383,10 @@ public class IoTDBConfig {
 
   public String getRatisDataRegionSnapshotDir() {
     return ratisDataRegionSnapshotDir;
+  }
+
+  public void setRatisDataRegionSnapshotDir(String ratisDataRegionSnapshotDir) {
+    this.ratisDataRegionSnapshotDir = ratisDataRegionSnapshotDir;
   }
 
   public String getConsensusDir() {
