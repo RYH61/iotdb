@@ -178,6 +178,15 @@ public class ClusterQuotaManager {
     return throttleQuotaResp;
   }
 
+  public TThrottleQuotaResp getThrottleQuota() {
+    TThrottleQuotaResp throttleQuotaResp = new TThrottleQuotaResp();
+    if (!quotaInfo.getThrottleQuotaLimit().isEmpty()) {
+      throttleQuotaResp.setThrottleQuota(quotaInfo.getThrottleQuotaLimit());
+    }
+    throttleQuotaResp.setStatus(RpcUtils.getStatus(TSStatusCode.SUCCESS_STATUS));
+    return throttleQuotaResp;
+  }
+
   public boolean hasSpaceQuotaLimit() {
     return quotaInfo.getSpaceQuotaLimit().keySet().isEmpty();
   }

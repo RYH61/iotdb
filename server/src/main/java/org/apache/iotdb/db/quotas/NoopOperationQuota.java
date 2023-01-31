@@ -16,34 +16,33 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package org.apache.iotdb.db.quotas;
 
-import org.apache.iotdb.common.rpc.thrift.TSetThrottleQuotaReq;
+import org.apache.iotdb.db.mpp.plan.statement.Statement;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.nio.ByteBuffer;
+import java.util.List;
 
-public class ThrottleQuotaLimit {
-  private Map<String, QuotaLimiter> userQuotaLimiter;
+/** Noop operation quota returned when no quota is associated to the user/table */
+class NoopOperationQuota implements OperationQuota {
+  private static OperationQuota instance = new NoopOperationQuota();
 
-  public ThrottleQuotaLimit() {
-    userQuotaLimiter = new HashMap<>();
+  private NoopOperationQuota() {
+    // no-op
   }
 
-  public void setQuotas(TSetThrottleQuotaReq req) {
-    userQuotaLimiter.put(req.getUserName(), QuotaLimiter.fromThrottle(req.getThrottleLimit()));
+  public static OperationQuota get() {
+    return instance;
   }
 
-  public Map<String, QuotaLimiter> getUserQuotaLimiter() {
-    return userQuotaLimiter;
-  }
+  @Override
+  public void checkQuota(int numWrites, int numReads, Statement s) {}
 
-  public void setUserQuotaLimiter(Map<String, QuotaLimiter> userQuotaLimiter) {
-    this.userQuotaLimiter = userQuotaLimiter;
-  }
+  @Override
+  public void addReadResult(List<ByteBuffer> queryResult) {}
 
-  public QuotaLimiter getUserLimiter(String userName) {
-    return userQuotaLimiter.get(userName);
+  @Override
+  public void close() {
+    // no-op
   }
 }

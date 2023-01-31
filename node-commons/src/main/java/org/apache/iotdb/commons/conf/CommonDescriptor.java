@@ -185,6 +185,9 @@ public class CommonDescriptor {
         Boolean.parseBoolean(
             properties.getProperty("quota_enable", String.valueOf(config.isQuotaEnable()))));
 
+    config.setRateLimiterType(
+        properties.getProperty("rate_limiter_type", config.getRateLimiterType()));
+
     config.setHandleSystemErrorStrategy(
         HandleSystemErrorStrategy.valueOf(
             properties

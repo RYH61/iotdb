@@ -842,4 +842,9 @@ public class ConfigNodeRPCServiceProcessor implements IConfigNodeRPCService.Ifac
   public TThrottleQuotaResp showThrottleQuota(TShowThrottleReq req) throws TException {
     return configManager.showThrottleQuota(req);
   }
+
+  @Override
+  public TThrottleQuotaResp getThrottleQuota() throws TException {
+    return configManager.getThrottleQuota();
+  }
 }

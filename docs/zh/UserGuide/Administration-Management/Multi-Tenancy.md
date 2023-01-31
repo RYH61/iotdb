@@ -102,3 +102,79 @@ Total line number = 3
 It costs 0.007s
 ```
 
+
+
+## 资源限额
+
+### 基本概念
+
+对某个用户，在限制单位内，访问资源的次数或数据量。
+
+该限制目前包括以下类型：
+
+| 类型    | 解释                                         | 单位      | 读写限制   |
+| ------- | -------------------------------------------- | --------- | ---------- |
+| type    | 设置read/write限制，当不设置时，默认是所有。 |           |            |
+| request | 单位时间内请求次数                           | req/time  | read/write |
+| size    | 单位时间内请求大小                           | size/time | read/write |
+
+其中，时间范围单位和请求大小单位如下：
+
+1. 时间范围单位（time）：sec、min、hour、day
+2. 请求大小单位（size）：B（字节）、K（千字节）、M（兆字节）、G（千兆字节）、T（TB）、P（PB）
+
+
+
+### 设置限额
+
+我们可以为用户设置 throttle quota，以此来限制这个用户对资源的使用；
+
+示例1：设置用户 user1 每分钟请求只有 1G大小：
+
+```
+set throttle quota size='1G/min' on user1;
+```
+
+示例2：设置用户user1 查询最大频率为1分钟10次: 
+
+```
+set throttle quota request='10/min', type='read' on user1;
+```
+
+取消某一个 throttle quota 的方式如同上面取消 space quota 的方式，把 quota 设置为 unlimited即可。
+
+
+
+### 限额信息查看
+
+我们支持对 quota 信息的查看，主要语法如下：
+
+1、查看用户的throttle quota
+
+- 查看全部用户的throttle quota信息
+
+```SQL
+show throttle quota
+```
+
+- 查看指定用户的throttle quota信息
+
+```SQL
+show throttle quota user1;
+```
+
+对以下结果做出解释：
+
+为用户usera设置读次数为每分钟10次。
+
+为用户usera设置读写请求大小为1分钟100MB。
+
+为用户userb设置写入操作为每小时5次。
+
+如果在为用户设置throttle quota时，如果没有指定读写类型，那么默认就是全部。
+
+| **user** | **Throttle type** | **Throttle quota** | **read/write** |
+| -------- | ----------------- | ------------------ | -------------- |
+| usera    | request           | 10req/min          | read           |
+| usera    | size              | 100M/min           |                |
+| userb    | request           | 5req/hour          | write          |

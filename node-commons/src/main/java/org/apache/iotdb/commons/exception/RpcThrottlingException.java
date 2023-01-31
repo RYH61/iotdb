@@ -17,33 +17,10 @@
  * under the License.
  */
 
-package org.apache.iotdb.db.quotas;
+package org.apache.iotdb.commons.exception;
 
-import org.apache.iotdb.common.rpc.thrift.TSetThrottleQuotaReq;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public class ThrottleQuotaLimit {
-  private Map<String, QuotaLimiter> userQuotaLimiter;
-
-  public ThrottleQuotaLimit() {
-    userQuotaLimiter = new HashMap<>();
-  }
-
-  public void setQuotas(TSetThrottleQuotaReq req) {
-    userQuotaLimiter.put(req.getUserName(), QuotaLimiter.fromThrottle(req.getThrottleLimit()));
-  }
-
-  public Map<String, QuotaLimiter> getUserQuotaLimiter() {
-    return userQuotaLimiter;
-  }
-
-  public void setUserQuotaLimiter(Map<String, QuotaLimiter> userQuotaLimiter) {
-    this.userQuotaLimiter = userQuotaLimiter;
-  }
-
-  public QuotaLimiter getUserLimiter(String userName) {
-    return userQuotaLimiter.get(userName);
+public class RpcThrottlingException extends IoTDBException {
+  public RpcThrottlingException(String message, int errorCode) {
+    super(message, errorCode);
   }
 }

@@ -1194,5 +1194,8 @@ service IConfigNodeRPCService {
 
   /** Show throttle quota */
   TThrottleQuotaResp showThrottleQuota(TShowThrottleReq req)
+
+  /** Get throttle quota information */
+  TThrottleQuotaResp getThrottleQuota()
 }
 

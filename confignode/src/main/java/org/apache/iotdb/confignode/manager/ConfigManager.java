@@ -1536,6 +1536,13 @@ public class ConfigManager implements IManager {
         : status;
   }
 
+  public TThrottleQuotaResp getThrottleQuota() {
+    TSStatus status = confirmLeader();
+    return status.getCode() == TSStatusCode.SUCCESS_STATUS.getStatusCode()
+        ? clusterQuotaManager.getThrottleQuota()
+        : new TThrottleQuotaResp(status);
+  }
+
   public TThrottleQuotaResp showThrottleQuota(TShowThrottleReq req) {
     TSStatus status = confirmLeader();
     return status.getCode() == TSStatusCode.SUCCESS_STATUS.getStatusCode()

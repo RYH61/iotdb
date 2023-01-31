@@ -104,3 +104,81 @@ Total line number = 3
 It costs 0.007s
 ```
 
+
+
+## Throttle Quota
+
+### Basic Concepts
+
+The number of times or amount of data that a user can access resources within a limited unit.
+
+This restriction currently includes the following types:
+
+| Type    | Explain                                                     | Unit      | read/write limit |
+| ------- | ----------------------------------------------------------- | --------- | ---------------- |
+| type    | Set the read/write limit. When not set, it defaults to all. |           |                  |
+| request | Number of requests per unit time                            | req/time  | read/write       |
+| size    | Request size per unit time                                  | size/time | read/write       |
+
+The time range unit and request size unit are as follows:
+
+1. Time range unit（time）：sec、min、hour、day
+2. Request size unit（size）：B（字节）、K（千字节）、M（兆字节）、G（千兆字节）、T（TB）、P（PB）
+
+
+
+### Set Throttle Quota
+
+We can set throttle quota for users to limit their use of resources;
+
+Example 1: Set user user1 to request only 1G per minute:
+
+```
+set throttle quota size='1G/min' on user1;
+```
+
+Example 2: Set the maximum query frequency of user user1 to 10 times per minute:
+
+```
+set throttle quota request='10/min', type='read' on user1;
+```
+
+The way to cancel a certain throttle quota is the same as the way to cancel space quota above. Set quota to unlimited.
+
+
+
+### Show Quota Information
+
+We support viewing quota information. The main syntax is as follows:
+
+- View the throttle quota information of all users
+
+```SQL
+show throttle quota
+```
+
+- View the throttle quota information of the specified user
+
+```SQL
+show throttle quota user1;
+```
+
+Explain the following results:
+
+
+Set the number of reads for user usera to 10 per minute.
+
+
+Set the read and write request size for user usera to 100MB in 1 minute.
+
+
+Set the write operation for user userb to 5 times per hour.
+
+
+If you do not specify the read/write type when setting the throttle quota for the user, the default is all.
+
+| **user** | **Throttle type** | **Throttle quota** | **read/write** |
+| -------- | ----------------- | ------------------ | -------------- |
+| usera    | request           | 10req/min          | read           |
+| usera    | size              | 100M/min           |                |
+| userb    | request           | 5req/hour          | write          |

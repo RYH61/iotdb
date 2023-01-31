@@ -33,6 +33,7 @@ import org.apache.iotdb.confignode.rpc.thrift.TShowPipeResp;
 import org.apache.iotdb.confignode.rpc.thrift.TSpaceQuotaResp;
 import org.apache.iotdb.confignode.rpc.thrift.TStorageGroupInfo;
 import org.apache.iotdb.confignode.rpc.thrift.TStorageGroupSchema;
+import org.apache.iotdb.confignode.rpc.thrift.TThrottleQuotaResp;
 import org.apache.iotdb.db.localconfignode.LocalConfigNode;
 import org.apache.iotdb.db.metadata.mnode.IStorageGroupMNode;
 import org.apache.iotdb.db.mpp.plan.execution.config.ConfigTaskResult;
@@ -593,6 +594,13 @@ public class StandaloneConfigTaskExecutor implements IConfigTaskExecutor {
     TSpaceQuotaResp spaceQuotaResp = new TSpaceQuotaResp();
     spaceQuotaResp.setStatus(RpcUtils.getStatus(TSStatusCode.EXECUTE_STATEMENT_ERROR));
     return spaceQuotaResp;
+  }
+
+  @Override
+  public TThrottleQuotaResp getThrottleQuota() {
+    TThrottleQuotaResp throttleQuotaResp = new TThrottleQuotaResp();
+    throttleQuotaResp.setStatus(RpcUtils.getStatus(TSStatusCode.EXECUTE_STATEMENT_ERROR));
+    return throttleQuotaResp;
   }
 
   @Override

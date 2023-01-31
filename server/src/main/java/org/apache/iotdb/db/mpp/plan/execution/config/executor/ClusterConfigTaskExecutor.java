@@ -1260,6 +1260,19 @@ public class ClusterConfigTaskExecutor implements IConfigTaskExecutor {
   }
 
   @Override
+  public TThrottleQuotaResp getThrottleQuota() {
+    TThrottleQuotaResp throttleQuotaResp = new TThrottleQuotaResp();
+    try (ConfigNodeClient configNodeClient =
+        CONFIG_NODE_CLIENT_MANAGER.borrowClient(ConfigNodeInfo.configNodeRegionId)) {
+      // Send request to some API server
+      throttleQuotaResp = configNodeClient.getThrottleQuota();
+    } catch (Exception e) {
+      LOGGER.error(e.getMessage());
+    }
+    return throttleQuotaResp;
+  }
+
+  @Override
   public SettableFuture<ConfigTaskResult> createPipeSink(
       CreatePipeSinkStatement createPipeSinkStatement) {
     SettableFuture<ConfigTaskResult> future = SettableFuture.create();

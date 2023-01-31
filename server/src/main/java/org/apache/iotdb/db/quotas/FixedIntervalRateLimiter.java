@@ -19,4 +19,39 @@
 
 package org.apache.iotdb.db.quotas;
 
-public class FixedIntervalRateLimiter extends RateLimiter {}
+/**
+ * With this limiter resources will be refilled only after a fixed interval of time. Copy from
+ * hbase.
+ */
+public class FixedIntervalRateLimiter extends RateLimiter {
+
+  private long nextRefillTime = -1L;
+
+  @Override
+  public long refill(long limit) {
+    final long now = System.currentTimeMillis();
+    if (now < nextRefillTime) {
+      return 0;
+    }
+    nextRefillTime = now + super.getTimeUnitInMillis();
+    return limit;
+  }
+
+  @Override
+  public long getWaitInterval(long limit, long available, long amount) {
+    if (nextRefillTime == -1) {
+      return 0;
+    }
+    final long now = System.currentTimeMillis();
+    final long refillTime = nextRefillTime;
+    return refillTime - now;
+  }
+
+  public long getNextRefillTime() {
+    return nextRefillTime;
+  }
+
+  public void setNextRefillTime(long nextRefillTime) {
+    this.nextRefillTime = nextRefillTime;
+  }
+}

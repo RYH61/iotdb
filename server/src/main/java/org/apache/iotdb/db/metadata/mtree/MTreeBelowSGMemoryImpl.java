@@ -393,7 +393,7 @@ public class MTreeBelowSGMemoryImpl implements IMTreeBelowSG {
       if (!DataNodeSpaceQuotaManager.getInstance().checkDeviceLimit(storageGroupMNode.getName())) {
         throw new ExceedQuotaException(
             "The number of devices has reached the upper limit",
-            TSStatusCode.EXCEED_QUOTA_ERROR.getStatusCode());
+            TSStatusCode.SPACE_QUOTA_EXCEEDED.getStatusCode());
       }
       device =
           store.addChild(deviceParent, deviceName, new InternalMNode(deviceParent, deviceName));
@@ -453,7 +453,7 @@ public class MTreeBelowSGMemoryImpl implements IMTreeBelowSG {
             i,
             new ExceedQuotaException(
                 "The number of timeSeries has reached the upper limit",
-                TSStatusCode.EXCEED_QUOTA_ERROR.getStatusCode()));
+                TSStatusCode.SPACE_QUOTA_EXCEEDED.getStatusCode()));
       }
     }
     return failingMeasurementMap;

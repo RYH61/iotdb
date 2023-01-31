@@ -21,6 +21,11 @@ package org.apache.iotdb.db.quotas;
 
 import org.apache.iotdb.common.rpc.thrift.TSStatus;
 import org.apache.iotdb.common.rpc.thrift.TSetThrottleQuotaReq;
+import org.apache.iotdb.commons.conf.CommonDescriptor;
+import org.apache.iotdb.commons.exception.RpcThrottlingException;
+import org.apache.iotdb.confignode.rpc.thrift.TThrottleQuotaResp;
+import org.apache.iotdb.db.mpp.plan.execution.config.executor.ClusterConfigTaskExecutor;
+import org.apache.iotdb.db.mpp.plan.statement.Statement;
 import org.apache.iotdb.rpc.RpcUtils;
 import org.apache.iotdb.rpc.TSStatusCode;
 
@@ -35,6 +40,7 @@ public class DataNodeThrottleQuotaManager {
 
   public DataNodeThrottleQuotaManager() {
     throttleQuotaLimit = new ThrottleQuotaLimit();
+    recover();
   }
 
   /** SingleTone */
@@ -59,5 +65,85 @@ public class DataNodeThrottleQuotaManager {
 
   public void setThrottleQuotaLimit(ThrottleQuotaLimit throttleQuotaLimit) {
     this.throttleQuotaLimit = throttleQuotaLimit;
+  }
+
+  /**
+   * Check the quota for the current (rpc-context) user. Returns the OperationQuota used to get the
+   * available quota and to report the data/usage of the operation.
+   *
+   * @param userName the region where the operation will be performed
+   * @return the OperationQuota
+   * @throws RpcThrottlingException if the operation cannot be executed due to quota exceeded.
+   */
+  public OperationQuota checkQuota(String userName, Statement s) throws RpcThrottlingException {
+    if (!CommonDescriptor.getInstance().getConfig().isQuotaEnable()) {
+      return NoopOperationQuota.get();
+    }
+    switch (s.getType()) {
+      case INSERT:
+      case BATCH_INSERT:
+      case BATCH_INSERT_ONE_DEVICE:
+      case BATCH_INSERT_ROWS:
+      case MULTI_BATCH_INSERT:
+        return checkQuota(userName, 1, 0, s);
+      case QUERY:
+      case GROUP_BY_TIME:
+      case QUERY_INDEX:
+      case AGGREGATION:
+      case UDAF:
+      case UDTF:
+      case LAST:
+      case FILL:
+      case GROUP_BY_FILL:
+      case SELECT_INTO:
+        return checkQuota(userName, 0, 1, s);
+      default:
+        return NoopOperationQuota.get();
+    }
+  }
+
+  /**
+   * Check the quota for the current (rpc-context) user. Returns the OperationQuota used to get the
+   * available quota and to report the data/usage of the operation.
+   *
+   * @param userName userName of the current user
+   * @param numWrites number of writes to perform
+   * @param numReads number of short-reads to perform
+   * @return the OperationQuota
+   * @throws RpcThrottlingException if the operation cannot be executed due to quota exceeded.
+   */
+  private OperationQuota checkQuota(String userName, int numWrites, int numReads, Statement s)
+      throws RpcThrottlingException {
+    OperationQuota quota = getQuota(userName);
+    quota.checkQuota(numWrites, numReads, s);
+    return quota;
+  }
+
+  /**
+   * Returns the quota for an operation.
+   *
+   * @param userName login user
+   * @return the OperationQuota
+   */
+  private OperationQuota getQuota(String userName) {
+    QuotaLimiter userLimiter = throttleQuotaLimit.getUserLimiter(userName);
+    if (userLimiter != null) {
+      return new DefaultOperationQuota(userLimiter);
+    }
+    return NoopOperationQuota.get();
+  }
+
+  private void recover() {
+    TThrottleQuotaResp throttleQuota = ClusterConfigTaskExecutor.getInstance().getThrottleQuota();
+    if (throttleQuota.getStatus().getCode() == TSStatusCode.SUCCESS_STATUS.getStatusCode()
+        && throttleQuota.getThrottleQuota() != null) {
+      for (String userName : throttleQuota.getThrottleQuota().keySet()) {
+        TSetThrottleQuotaReq req = new TSetThrottleQuotaReq();
+        req.setUserName(userName);
+        req.setThrottleLimit(throttleQuota.getThrottleQuota().get(userName));
+        setThrottleQuota(req);
+      }
+    }
+    LOGGER.info("Throttle quota limit restored successfully. " + throttleQuota);
   }
 }

@@ -2013,6 +2013,10 @@ public class ASTVisitor extends IoTDBSqlParserBaseVisitor<Statement> {
       throw new SQLParserException("Limit configuration is not enabled, please enable it first.");
     }
 
+    if (parseIdentifier(ctx.userName.getText()).equals(IoTDBConstant.PATH_ROOT)) {
+      throw new SQLParserException("Cannot set throttle quota for user root.");
+    }
+
     SetThrottleQuotaStatement setThrottleQuotaStatement = new SetThrottleQuotaStatement();
     setThrottleQuotaStatement.setUserName(parseIdentifier(ctx.userName.getText()));
     Map<String, String> quotas = new HashMap<>();

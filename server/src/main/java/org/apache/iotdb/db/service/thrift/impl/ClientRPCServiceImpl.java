@@ -63,6 +63,8 @@ import org.apache.iotdb.db.mpp.plan.statement.metadata.template.SetSchemaTemplat
 import org.apache.iotdb.db.mpp.plan.statement.metadata.template.UnsetSchemaTemplateStatement;
 import org.apache.iotdb.db.query.control.SessionManager;
 import org.apache.iotdb.db.query.control.clientsession.IClientSession;
+import org.apache.iotdb.db.quotas.DataNodeThrottleQuotaManager;
+import org.apache.iotdb.db.quotas.OperationQuota;
 import org.apache.iotdb.db.service.basic.BasicOpenSessionResp;
 import org.apache.iotdb.db.sync.SyncService;
 import org.apache.iotdb.db.utils.QueryDataSetUtils;
@@ -187,6 +189,7 @@ public class ClientRPCServiceImpl implements IClientRPCServiceWithHandler {
     boolean finished = false;
     long queryId = Long.MIN_VALUE;
     String statement = req.getStatement();
+    OperationQuota quota = null;
     if (!SESSION_MANAGER.checkLogin(SESSION_MANAGER.getCurrSession())) {
       return RpcUtils.getTSExecuteStatementResp(getNotLoggedInStatus());
     }
@@ -202,11 +205,16 @@ public class ClientRPCServiceImpl implements IClientRPCServiceWithHandler {
             RpcUtils.getStatus(
                 TSStatusCode.SQL_PARSE_ERROR, "This operation type is not supported"));
       }
+
       // permission check
       TSStatus status = AuthorityChecker.checkAuthority(s, SESSION_MANAGER.getCurrSession());
       if (status.getCode() != TSStatusCode.SUCCESS_STATUS.getStatusCode()) {
         return RpcUtils.getTSExecuteStatementResp(status);
       }
+
+      quota =
+          DataNodeThrottleQuotaManager.getInstance()
+              .checkQuota(SESSION_MANAGER.getCurrSession().getUsername(), s);
 
       QUERY_FREQUENCY_RECORDER.incrementAndGet();
       if (enableAuditLog) {
@@ -231,7 +239,6 @@ public class ClientRPCServiceImpl implements IClientRPCServiceWithHandler {
       }
 
       IQueryExecution queryExecution = COORDINATOR.getQueryExecution(queryId);
-
       try (SetThreadName threadName = new SetThreadName(result.queryId.getId())) {
         TSExecuteStatementResp resp;
         if (queryExecution != null && queryExecution.isQuery()) {
@@ -239,6 +246,7 @@ public class ClientRPCServiceImpl implements IClientRPCServiceWithHandler {
           resp.setStatus(result.status);
           finished = setResult.apply(resp, queryExecution, req.fetchSize);
           resp.setMoreData(!finished);
+          quota.addReadResult(resp.getQueryResult());
         } else {
           resp = RpcUtils.getTSExecuteStatementResp(result.status);
         }
@@ -252,6 +260,9 @@ public class ClientRPCServiceImpl implements IClientRPCServiceWithHandler {
       addOperationLatency(Operation.EXECUTE_QUERY, startTime);
       if (finished) {
         COORDINATOR.cleanupQueryExecution(queryId);
+      }
+      if (quota != null) {
+        quota.close();
       }
     }
   }
