@@ -70,7 +70,8 @@
     </flag>
     <flag type="port">
         <name>dn_mpp_data_exchange_port</name>
-        <meaning>Port for data exchange among DataNodes inside cluster Bind with dn_internal_address Datatype: int</meaning>
+        <meaning>Port for data exchange among DataNodes inside cluster Bind with dn_internal_address Datatype: int
+        </meaning>
         <group>Data Node RPC Configuration,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
@@ -87,7 +88,8 @@
     </flag>
     <flag type="port">
         <name>dn_schema_region_consensus_port</name>
-        <meaning>port for consensus's communication for schema region inside cluster. Bind with dn_internal_address Datatype: int</meaning>
+        <meaning>port for consensus's communication for schema region inside cluster. Bind with dn_internal_address Datatype: int
+        </meaning>
         <group>Data Node RPC Configuration,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
@@ -104,7 +106,8 @@
     </flag>
     <flag type="port">
         <name>dn_data_region_consensus_port</name>
-        <meaning>port for consensus's communication for data region inside cluster. Bind with dn_internal_address Datatype: int</meaning>
+        <meaning>port for consensus's communication for data region inside cluster. Bind with dn_internal_address Datatype: int
+        </meaning>
         <group>Data Node RPC Configuration,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
@@ -138,7 +141,8 @@
     </flag>
     <flag>
         <name>dn_target_config_node_list</name>
-        <meaning>Target Config Nodes For the first ConfigNode to start, cn_target_config_node_list points to its own cn_internal_address:cn_internal_port. For other ConfigNodes that to join the cluster, target_config_node_list points to any running ConfigNode's cn_internal_address:cn_internal_port. Format: address:port(,address:port)* e.g. 127.0.0.1:10710,127.0.0.1:10711 Datatype: String</meaning>
+        <meaning>Target Config Nodes For the first ConfigNode to start, cn_target_config_node_list points to its own cn_internal_address:cn_internal_port. For other ConfigNodes that to join the cluster, target_config_node_list points to any running ConfigNode's cn_internal_address:cn_internal_port. Format: address:port(,address:port)* e.g. 127.0.0.1:10710,127.0.0.1:10711 Datatype: String
+        </meaning>
         <group>Target Config Nodes,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
@@ -155,7 +159,8 @@
     </flag>
     <flag>
         <name>dn_session_timeout_threshold</name>
-        <meaning>Connection Configuration The maximum session idle time. unit: ms Idle sessions are the ones that performs neither query or non-query operations for a period of time Set to 0 to disable session timeout Datatype: int</meaning>
+        <meaning>Connection Configuration The maximum session idle time. unit: ms Idle sessions are the ones that performs neither query or non-query operations for a period of time Set to 0 to disable session timeout Datatype: int
+        </meaning>
         <group>Connection Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -190,7 +195,8 @@
     </flag>
     <flag>
         <name>dn_rpc_advanced_compression_enable</name>
-        <meaning>if true, a snappy based compression method will be called before sending data by the network Datatype: boolean this feature is under development, set this as false before it is done.</meaning>
+        <meaning>if true, a snappy based compression method will be called before sending data by the network Datatype: boolean this feature is under development, set this as false before it is done.
+        </meaning>
         <group>Connection Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -309,40 +315,6 @@
         </userDefined>
     </flag>
     <flag>
-        <name>dn_core_connection_for_internal_service</name>
-        <meaning>The maximum number of clients that can be idle for a node's InternalService. When the number of idle clients on a node exceeds this number, newly returned clients will be released Datatype: int</meaning>
-        <group>Connection Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>100</default>
-        <defaultShowValue>100</defaultShowValue>
-        <showValue>100</showValue>
-        <current>100</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-datanode.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
-        <name>dn_max_connection_for_internal_service</name>
-        <meaning>The maximum number of clients that can be applied for a node's InternalService Datatype: int</meaning>
-        <group>Connection Configuration</group>
-        <fill>0</fill>
-        <showConstraint/>
-        <constraint/>
-        <format>int</format>
-        <default>100</default>
-        <defaultShowValue>100</defaultShowValue>
-        <showValue>100</showValue>
-        <current>100</current>
-        <valueUnits/>
-        <userDefined>
-            <position>iotdb-datanode.properties</position>
-        </userDefined>
-    </flag>
-    <flag>
         <name>dn_selector_thread_count_of_client_manager</name>
         <meaning>selector thread (TAsyncClientManager) nums for async thread in a clientManager Datatype: int</meaning>
         <group>Connection Configuration</group>
@@ -360,8 +332,45 @@
         </userDefined>
     </flag>
     <flag>
+        <name>dn_core_client_count_for_each_node_in_client_manager</name>
+        <meaning>The maximum number of clients that can be idle for a node in a clientManager. When the number of idle clients on a node exceeds this number, newly returned clients will be released Datatype: int
+        </meaning>
+        <group>Connection Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>200</default>
+        <defaultShowValue>200</defaultShowValue>
+        <showValue>200</showValue>
+        <current>200</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>dn_max_client_count_for_each_node_in_client_manager</name>
+        <meaning>The maximum number of clients that can be allocated for a node in a clientManager. When the number of the client to a single node exceeds this number, the thread for applying for a client will be blocked for a while, then ClientManager will throw ClientManagerException if there are no clients after the block time. Datatype: int
+        </meaning>
+        <group>Connection Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>300</default>
+        <defaultShowValue>300</defaultShowValue>
+        <showValue>300</showValue>
+        <current>300</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-datanode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
         <name>dn_system_dir</name>
-        <meaning>Directory Configuration system dir If this property is unset, system will save the data in the default relative path directory under the IoTDB folder(i.e., %IOTDB_HOME%/data/datanode/system). If it is absolute, system will save the data in exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the IoTDB folder. For windows platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative. dn_system_dir=data\\datanode\\system For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.</meaning>
+        <meaning>Directory Configuration system dir If this property is unset, system will save the data in the default relative path directory under the IoTDB folder(i.e., %IOTDB_HOME%/data/datanode/system). If it is absolute, system will save the data in exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the IoTDB folder. For windows platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative. dn_system_dir=data\\datanode\\system For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.
+        </meaning>
         <group>Directory Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -378,7 +387,8 @@
     </flag>
     <flag>
         <name>dn_data_dirs</name>
-        <meaning>data dirs If this property is unset, system will save the data in the default relative path directory under the IoTDB folder(i.e., %IOTDB_HOME%/data/datanode/data). If it is absolute, system will save the data in exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the IoTDB folder. If there are more than one directory, please separate them by commas ",". Note: If data_dirs is assigned an empty string(i.e.,zero-size), it will be handled as a relative path. For windows platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative. dn_data_dirs=data\\datanode\\data For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.</meaning>
+        <meaning>data dirs If this property is unset, system will save the data in the default relative path directory under the IoTDB folder(i.e., %IOTDB_HOME%/data/datanode/data). If it is absolute, system will save the data in exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the IoTDB folder. If there are more than one directory, please separate them by commas ",". Note: If data_dirs is assigned an empty string(i.e.,zero-size), it will be handled as a relative path. For windows platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative. dn_data_dirs=data\\datanode\\data For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.
+        </meaning>
         <group>Directory Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -395,7 +405,8 @@
     </flag>
     <flag>
         <name>dn_multi_dir_strategy</name>
-        <meaning>multi_dir_strategy The strategy is used to choose a directory from data_dirs for the system to store a new tsfile. System provides four strategies to choose from, or user can create his own strategy by extending org.apache.iotdb.db.conf.directories.strategy.DirectoryStrategy. The info of the four strategies are as follows: 1. SequenceStrategy: the system will choose the directory in sequence. 2. MaxDiskUsableSpaceFirstStrategy: the system will choose the directory whose disk has the maximum space. 3. MinFolderOccupiedSpaceFirstStrategy: the system will choose the directory whose folder has the minimum occupied space. 4. RandomOnDiskUsableSpaceStrategy: the system will randomly choose the directory based on usable space of disks. The more usable space, the greater the chance of being chosen; Set SequenceStrategy,MaxDiskUsableSpaceFirstStrategy and MinFolderOccupiedSpaceFirstStrategy to apply the corresponding strategy. If this property is unset, system will use MaxDiskUsableSpaceFirstStrategy as default strategy. For this property, fully-qualified class name (include package name) and simple class name are both acceptable.</meaning>
+        <meaning>multi_dir_strategy The strategy is used to choose a directory from data_dirs for the system to store a new tsfile. System provides four strategies to choose from, or user can create his own strategy by extending org.apache.iotdb.db.conf.directories.strategy.DirectoryStrategy. The info of the four strategies are as follows: 1. SequenceStrategy: the system will choose the directory in sequence. 2. MaxDiskUsableSpaceFirstStrategy: the system will choose the directory whose disk has the maximum space. 3. MinFolderOccupiedSpaceFirstStrategy: the system will choose the directory whose folder has the minimum occupied space. 4. RandomOnDiskUsableSpaceStrategy: the system will randomly choose the directory based on usable space of disks. The more usable space, the greater the chance of being chosen; Set SequenceStrategy,MaxDiskUsableSpaceFirstStrategy and MinFolderOccupiedSpaceFirstStrategy to apply the corresponding strategy. If this property is unset, system will use MaxDiskUsableSpaceFirstStrategy as default strategy. For this property, fully-qualified class name (include package name) and simple class name are both acceptable.
+        </meaning>
         <group>Directory Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -412,7 +423,8 @@
     </flag>
     <flag>
         <name>dn_consensus_dir</name>
-        <meaning>consensus dir If this property is unset, system will save the data in the default relative path directory under the IoTDB folder(i.e., %IOTDB_HOME%/data/datanode). If it is absolute, system will save the data in the exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the IoTDB folder. Note: If consensus_dir is assigned an empty string(i.e.,zero-size), it will be handled as a relative path. For windows platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative. dn_consensus_dir=data\\datanode\\consensus For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.</meaning>
+        <meaning>consensus dir If this property is unset, system will save the data in the default relative path directory under the IoTDB folder(i.e., %IOTDB_HOME%/data/datanode). If it is absolute, system will save the data in the exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the IoTDB folder. Note: If consensus_dir is assigned an empty string(i.e.,zero-size), it will be handled as a relative path. For windows platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative. dn_consensus_dir=data\\datanode\\consensus For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.
+        </meaning>
         <group>Directory Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -429,7 +441,8 @@
     </flag>
     <flag>
         <name>dn_wal_dirs</name>
-        <meaning>wal dirs If this property is unset, system will save the data in the default relative path directory under the IoTDB folder(i.e., %IOTDB_HOME%/data/datanode). If it is absolute, system will save the data in the exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the IoTDB folder. If there are more than one directory, please separate them by commas ",". Note: If wal_dirs is assigned an empty string(i.e.,zero-size), it will be handled as a relative path. For windows platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative. dn_wal_dirs=data\\datanode\\wal For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.</meaning>
+        <meaning>wal dirs If this property is unset, system will save the data in the default relative path directory under the IoTDB folder(i.e., %IOTDB_HOME%/data/datanode). If it is absolute, system will save the data in the exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the IoTDB folder. If there are more than one directory, please separate them by commas ",". Note: If wal_dirs is assigned an empty string(i.e.,zero-size), it will be handled as a relative path. For windows platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative. dn_wal_dirs=data\\datanode\\wal For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.
+        </meaning>
         <group>Directory Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -446,7 +459,8 @@
     </flag>
     <flag>
         <name>dn_tracing_dir</name>
-        <meaning>tracing dir Uncomment following fields to configure the tracing root directory. For Window platform, the index is as follows: dn_tracing_dir=datanode\\tracing For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.</meaning>
+        <meaning>tracing dir Uncomment following fields to configure the tracing root directory. For Window platform, the index is as follows: dn_tracing_dir=datanode\\tracing For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.
+        </meaning>
         <group>Directory Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -463,7 +477,8 @@
     </flag>
     <flag>
         <name>dn_sync_dir</name>
-        <meaning>sync dir If this property is unset, system will save the data in the default relative path directory under the IoTDB folder(i.e., %IOTDB_HOME%/data/datanode). If it is absolute, system will save the data in the exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the IoTDB folder. Note: If sync_dir is assigned an empty string(i.e.,zero-size), it will be handled as a relative path. For windows platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative.</meaning>
+        <meaning>sync dir If this property is unset, system will save the data in the default relative path directory under the IoTDB folder(i.e., %IOTDB_HOME%/data/datanode). If it is absolute, system will save the data in the exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the IoTDB folder. Note: If sync_dir is assigned an empty string(i.e.,zero-size), it will be handled as a relative path. For windows platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative.
+        </meaning>
         <group>Directory Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -515,7 +530,8 @@
     </flag>
     <flag>
         <name>dn_metric_frame_type</name>
-        <meaning>Metric Configuration The reporters of metric module to report metrics If there are more than one reporter, please separate them by commas ",". Options: [JMX, PROMETHEUS, IOTDB] Datatype: String dn_metric_reporter_list= The type of metric framework which manage metrics Options: [MICROMETER, DROPWIZARD] Datatype: String</meaning>
+        <meaning>Metric Configuration The reporters of metric module to report metrics If there are more than one reporter, please separate them by commas ",". Options: [JMX, PROMETHEUS, IOTDB] Datatype: String dn_metric_reporter_list= The type of metric framework which manage metrics Options: [MICROMETER, DROPWIZARD] Datatype: String
+        </meaning>
         <group>Metric Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -585,7 +601,7 @@
     </flag>
     <flag>
         <name>dn_metric_iotdb_reporter_host</name>
-        <meaning>The host of IoTDB reporter of metric module Could set 127.0.0.1(for local test) or ipv4 address Datatype: String</meaning>
+        <meaning>Datatype: String Could set 127.0.0.1(for local test) or ipv4 address</meaning>
         <group>Metric Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -670,7 +686,8 @@
     </flag>
     <flag>
         <name>dn_metric_iotdb_reporter_location</name>
-        <meaning>The location of IoTDB reporter of metric module The metrics will write into root.__system.${location} Datatype: String</meaning>
+        <meaning>The location of IoTDB reporter of metric module The metrics will write into root.__system.${location} Datatype: String
+        </meaning>
         <group>Metric Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -840,7 +857,8 @@
     </flag>
     <flag>
         <name>cn_target_config_node_list</name>
-        <meaning>Target Config Nodes For the first ConfigNode to start, cn_target_config_node_list points to its own cn_internal_address:cn_internal_port. For other ConfigNodes that to join the cluster, target_config_node_list points to any running ConfigNode's cn_internal_address:cn_internal_port. Format: address:port(,address:port)* e.g. 127.0.0.1:10710,127.0.0.1:10711 Datatype: String</meaning>
+        <meaning>Target Config Nodes For the first ConfigNode to start, cn_target_config_node_list points to its own cn_internal_address:cn_internal_port. For other ConfigNodes that to join the cluster, target_config_node_list points to any running ConfigNode's cn_internal_address:cn_internal_port. Format: address:port(,address:port)* e.g. 127.0.0.1:10710,127.0.0.1:10711 Datatype: String
+        </meaning>
         <group>Target Config Nodes,部署调整项</group>
         <fill>1</fill>
         <showConstraint/>
@@ -857,7 +875,8 @@
     </flag>
     <flag>
         <name>cn_system_dir</name>
-        <meaning>Directory configuration system dir If this property is unset, system will save the data in the default relative path directory under the confignode folder(i.e., %CONFIGNODE_HOME%/data/confignode/system). If it is absolute, system will save the data in exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the confignode folder. For windows platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative. cn_system_dir=data\\confignode\\system For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.</meaning>
+        <meaning>Directory configuration system dir If this property is unset, system will save the data in the default relative path directory under the confignode folder(i.e., %CONFIGNODE_HOME%/data/confignode/system). If it is absolute, system will save the data in exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the confignode folder. For windows platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative. cn_system_dir=data\\confignode\\system For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.
+        </meaning>
         <group>Directory configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -874,7 +893,8 @@
     </flag>
     <flag>
         <name>cn_consensus_dir</name>
-        <meaning>consensus dir If this property is unset, system will save the data in the default relative path directory under the confignode folder(i.e., %CONFIGNODE_HOME%/data/confignode/consensus). If it is absolute, system will save the data in exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the confignode folder. Note: If data_dir is assigned an empty string(i.e.,zero-size), it will be handled as a relative path. For windows platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative. cn_consensus_dir=data\\confignode\\consensus For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.</meaning>
+        <meaning>consensus dir If this property is unset, system will save the data in the default relative path directory under the confignode folder(i.e., %CONFIGNODE_HOME%/data/confignode/consensus). If it is absolute, system will save the data in exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the confignode folder. Note: If data_dir is assigned an empty string(i.e.,zero-size), it will be handled as a relative path. For windows platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative. cn_consensus_dir=data\\confignode\\consensus For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.
+        </meaning>
         <group>Directory configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -891,7 +911,8 @@
     </flag>
     <flag>
         <name>cn_rpc_thrift_compression_enable</name>
-        <meaning>thrift rpc configuration this feature is under development, set this as false before it is done. Datatype: boolean</meaning>
+        <meaning>thrift rpc configuration this feature is under development, set this as false before it is done. Datatype: boolean
+        </meaning>
         <group>thrift rpc configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -909,7 +930,8 @@
     </flag>
     <flag>
         <name>cn_rpc_advanced_compression_enable</name>
-        <meaning>if true, a snappy based compression method will be called before sending data by the network Datatype: boolean this feature is under development, set this as false before it is done.</meaning>
+        <meaning>if true, a snappy based compression method will be called before sending data by the network Datatype: boolean this feature is under development, set this as false before it is done.
+        </meaning>
         <group>thrift rpc configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1026,6 +1048,42 @@
         </userDefined>
     </flag>
     <flag>
+        <name>cn_core_client_count_for_each_node_in_client_manager</name>
+        <meaning>The maximum number of clients that can be idle for a node in a clientManager. When the number of idle clients on a node exceeds this number, newly returned clients will be released Datatype: int
+        </meaning>
+        <group>thrift rpc configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>200</default>
+        <defaultShowValue>200</defaultShowValue>
+        <showValue>200</showValue>
+        <current>200</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-confignode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>cn_max_client_count_for_each_node_in_client_manager</name>
+        <meaning>The maximum number of clients that can be allocated for a node in a clientManager. when the number of the client to a single node exceeds this number, the thread for applying for a client will be blocked for a while, then ClientManager will throw ClientManagerException if there are no clients after the block time. Datatype: int
+        </meaning>
+        <group>thrift rpc configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>int</format>
+        <default>300</default>
+        <defaultShowValue>300</defaultShowValue>
+        <showValue>300</showValue>
+        <current>300</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-confignode.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
         <name>cn_metric_reporter_list</name>
         <meaning>The reporters of metric module to report metrics. If there are more than one reporter, please separate them by commas ",". Options: [JMX, PROMETHEUS, IOTDB] Datatype: String</meaning>
         <group>Metric Configuration,部署调整项</group>
@@ -1045,7 +1103,8 @@
     </flag>
     <flag>
         <name>cn_metric_frame_type</name>
-        <meaning>Metric Configuration The reporters of metric module to report metrics If there are more than one reporter, please separate them by commas ",". Options: [JMX, PROMETHEUS, IOTDB] Datatype: String cn_metric_reporter_list= The type of metric framework which manage metrics Options: [MICROMETER, DROPWIZARD] Datatype: String</meaning>
+        <meaning>Metric Configuration The reporters of metric module to report metrics If there are more than one reporter, please separate them by commas ",". Options: [JMX, PROMETHEUS, IOTDB] Datatype: String cn_metric_reporter_list= The type of metric framework which manage metrics Options: [MICROMETER, DROPWIZARD] Datatype: String
+        </meaning>
         <group>Metric Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1200,7 +1259,8 @@
     </flag>
     <flag>
         <name>cn_metric_iotdb_reporter_location</name>
-        <meaning>The location of IoTDB reporter of metric module The metrics will write into root.__system.${location} Datatype: String</meaning>
+        <meaning>The location of IoTDB reporter of metric module The metrics will write into root.__system.${location} Datatype: String
+        </meaning>
         <group>Metric Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1301,14 +1361,33 @@
         </userDefined>
     </flag>
     <flag>
+        <name>cluster_name</name>
+        <meaning>Datatype: string</meaning>
+        <group>Cluster Configuration,部署调整项</group>
+        <fill>1</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>string</format>
+        <default>defaultCluster</default>
+        <defaultShowValue>defaultCluster</defaultShowValue>
+        <showValue>defaultCluster</showValue>
+        <current>defaultCluster</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
         <name>config_node_consensus_protocol_class</name>
-        <meaning>This parameter is unmodifiable after ConfigNode starts for the first time. These consensus protocols are currently supported: 1. org.apache.iotdb.consensus.ratis.RatisConsensus 2. org.apache.iotdb.consensus.simple.SimpleConsensus Datatype: string</meaning>
+        <meaning>Replication configuration ConfigNode consensus protocol type. This parameter is unmodifiable after ConfigNode starts for the first time. These consensus protocols are currently supported: 1. org.apache.iotdb.consensus.ratis.RatisConsensus 2. org.apache.iotdb.consensus.simple.SimpleConsensus Datatype: string
+        </meaning>
         <group>Replication configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
         <format>select</format>
-        <options>org.apache.iotdb.consensus.ratis.RatisConsensus,org.apache.iotdb.consensus.simple.SimpleConsensus</options>
+        <options>org.apache.iotdb.consensus.ratis.RatisConsensus,org.apache.iotdb.consensus.simple.SimpleConsensus
+        </options>
         <default>org.apache.iotdb.consensus.ratis.RatisConsensus</default>
         <defaultShowValue>org.apache.iotdb.consensus.ratis.RatisConsensus</defaultShowValue>
         <showValue>org.apache.iotdb.consensus.ratis.RatisConsensus</showValue>
@@ -1337,13 +1416,15 @@
     </flag>
     <flag>
         <name>schema_region_consensus_protocol_class</name>
-        <meaning>SchemaRegion consensus protocol type. This parameter is unmodifiable after ConfigNode starts for the first time. These consensus protocols are currently supported: 1. org.apache.iotdb.consensus.ratis.RatisConsensus 2. org.apache.iotdb.consensus.simple.SimpleConsensus Datatype: string</meaning>
+        <meaning>SchemaRegion consensus protocol type. This parameter is unmodifiable after ConfigNode starts for the first time. These consensus protocols are currently supported: 1. org.apache.iotdb.consensus.ratis.RatisConsensus 2. org.apache.iotdb.consensus.simple.SimpleConsensus Datatype: string
+        </meaning>
         <group>Replication configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
         <format>select</format>
-        <options>org.apache.iotdb.consensus.ratis.RatisConsensus,org.apache.iotdb.consensus.simple.SimpleConsensus</options>
+        <options>org.apache.iotdb.consensus.ratis.RatisConsensus,org.apache.iotdb.consensus.simple.SimpleConsensus
+        </options>
         <default>org.apache.iotdb.consensus.ratis.RatisConsensus</default>
         <defaultShowValue>org.apache.iotdb.consensus.ratis.RatisConsensus</defaultShowValue>
         <showValue>org.apache.iotdb.consensus.ratis.RatisConsensus</showValue>
@@ -1372,13 +1453,16 @@
     </flag>
     <flag>
         <name>data_region_consensus_protocol_class</name>
-        <meaning>DataRegion consensus protocol type. This parameter is unmodifiable after ConfigNode starts for the first time. These consensus protocols are currently supported: 1. org.apache.iotdb.consensus.simple.SimpleConsensus 2. org.apache.iotdb.consensus.iot.IoTConsensus 3. org.apache.iotdb.consensus.ratis.RatisConsensus Datatype: string</meaning>
+        <meaning>DataRegion consensus protocol type. This parameter is unmodifiable after ConfigNode starts for the first time. These consensus protocols are currently supported: 1. org.apache.iotdb.consensus.simple.SimpleConsensus 2. org.apache.iotdb.consensus.iot.IoTConsensus 3. org.apache.iotdb.consensus.ratis.RatisConsensus Datatype: string
+        </meaning>
         <group>Replication configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
         <format>select</format>
-        <options>org.apache.iotdb.consensus.ratis.RatisConsensus,org.apache.iotdb.consensus.simple.SimpleConsensus,org.apache.iotdb.consensus.iot.IoTConsensus</options>
+        <options>
+            org.apache.iotdb.consensus.ratis.RatisConsensus,org.apache.iotdb.consensus.simple.SimpleConsensus,org.apache.iotdb.consensus.iot.IoTConsensus
+        </options>
         <default>org.apache.iotdb.consensus.iot.IoTConsensus</default>
         <defaultShowValue>org.apache.iotdb.consensus.iot.IoTConsensus</defaultShowValue>
         <showValue>org.apache.iotdb.consensus.iot.IoTConsensus</showValue>
@@ -1390,7 +1474,8 @@
     </flag>
     <flag>
         <name>series_slot_num</name>
-        <meaning>Load balancing configuration All parameters in Partition configuration is unmodifiable after ConfigNode starts for the first time. And these parameters should be consistent within the ConfigNodeGroup. Number of SeriesPartitionSlots per Database Datatype: Integer</meaning>
+        <meaning>Load balancing configuration All parameters in Partition configuration is unmodifiable after ConfigNode starts for the first time. And these parameters should be consistent within the ConfigNodeGroup. Number of SeriesPartitionSlots per Database Datatype: Integer
+        </meaning>
         <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1407,7 +1492,8 @@
     </flag>
     <flag>
         <name>series_partition_executor_class</name>
-        <meaning>SeriesPartitionSlot executor class These hashing algorithms are currently supported: 1. BKDRHashExecutor(Default) 2. APHashExecutor 3. JSHashExecutor 4. SDBMHashExecutor Also, if you want to implement your own SeriesPartition executor, you can inherit the SeriesPartitionExecutor class and modify this parameter to correspond to your Java class Datatype: String</meaning>
+        <meaning>SeriesPartitionSlot executor class These hashing algorithms are currently supported: 1. BKDRHashExecutor(Default) 2. APHashExecutor 3. JSHashExecutor 4. SDBMHashExecutor Also, if you want to implement your own SeriesPartition executor, you can inherit the SeriesPartitionExecutor class and modify this parameter to correspond to your Java class Datatype: String
+        </meaning>
         <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1425,7 +1511,8 @@
     </flag>
     <flag>
         <name>schema_region_per_data_node</name>
-        <meaning>The maximum number of SchemaRegions expected to be managed by each DataNode. Notice: Since each Database requires at least one SchemaRegionGroup to manage its schema, this parameter doesn't limit the number of SchemaRegions when there are too many Databases. Default is equal to the schema_replication_factor. Datatype: Double</meaning>
+        <meaning>The maximum number of SchemaRegions expected to be managed by each DataNode. Notice: Since each Database requires at least one SchemaRegionGroup to manage its schema, this parameter doesn't limit the number of SchemaRegions when there are too many Databases. Default is equal to the schema_replication_factor. Datatype: Double
+        </meaning>
         <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1442,7 +1529,8 @@
     </flag>
     <flag>
         <name>schema_region_group_extension_policy</name>
-        <meaning>The policy of extension SchemaRegionGroup for each Database. These policies are currently supported: 1. CUSTOM(Each Database will allocate schema_region_group_per_database RegionGroups as soon as created) 2. AUTO(Each Database will automatically extend SchemaRegionGroups based on the data it has) Datatype: String</meaning>
+        <meaning>The policy of extension SchemaRegionGroup for each Database. These policies are currently supported: 1. CUSTOM(Each Database will allocate schema_region_group_per_database RegionGroups as soon as created) 2. AUTO(Each Database will automatically extend SchemaRegionGroups based on the data it has) Datatype: String
+        </meaning>
         <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1459,7 +1547,8 @@
     </flag>
     <flag>
         <name>schema_region_group_per_database</name>
-        <meaning>The number of SchemaRegionGroups for each Database when using CUSTOM schema_region_group_extension_policy. Notice: Each Database will allocate schema_region_group_per_database SchemaRegionGroups as soon as created. Datatype: Integer</meaning>
+        <meaning>The number of SchemaRegionGroups for each Database when using CUSTOM schema_region_group_extension_policy. Notice: Each Database will allocate schema_region_group_per_database SchemaRegionGroups as soon as created. Datatype: Integer
+        </meaning>
         <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1476,7 +1565,8 @@
     </flag>
     <flag>
         <name>data_region_group_extension_policy</name>
-        <meaning>The policy of extension DataRegionGroup for each Database. These policies are currently supported: 1. CUSTOM(Each Database will allocate data_region_group_per_database DataRegionGroups as soon as created) 2. AUTO(Each Database will automatically extend DataRegionGroups based on the data it has) Datatype: String</meaning>
+        <meaning>The policy of extension DataRegionGroup for each Database. These policies are currently supported: 1. CUSTOM(Each Database will allocate data_region_group_per_database DataRegionGroups as soon as created) 2. AUTO(Each Database will automatically extend DataRegionGroups based on the data it has) Datatype: String
+        </meaning>
         <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1493,7 +1583,8 @@
     </flag>
     <flag>
         <name>data_region_group_per_database</name>
-        <meaning>The number of DataRegionGroups for each Database when using CUSTOM data_region_group_extension_policy. Notice: Each Database will allocate data_region_group_per_database DataRegionGroups as soon as created. Datatype: Integer</meaning>
+        <meaning>The number of DataRegionGroups for each Database when using CUSTOM data_region_group_extension_policy. Notice: Each Database will allocate data_region_group_per_database DataRegionGroups as soon as created. Datatype: Integer
+        </meaning>
         <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1510,7 +1601,8 @@
     </flag>
     <flag>
         <name>data_region_per_processor</name>
-        <meaning>The maximum number of DataRegions expected to be managed by each processor when using AUTO data_region_group_extension_policy. Notice: Since each Database requires at least two DataRegionGroups to manage its data, this parameter doesn't limit the number of DataRegions when there are too many Databases. Datatype: Double</meaning>
+        <meaning>The maximum number of DataRegions expected to be managed by each processor when using AUTO data_region_group_extension_policy. Notice: Since each Database requires at least two DataRegionGroups to manage its data, this parameter doesn't limit the number of DataRegions when there are too many Databases. Datatype: Double
+        </meaning>
         <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1527,7 +1619,8 @@
     </flag>
     <flag>
         <name>least_data_region_group_num</name>
-        <meaning>The least number of DataRegionGroup for each StorageGroup. The ConfigNode-leader will create a DataRegionGroup for each newborn SeriesPartitionSlot for the newly created StorageGroup until the number of DataRegionGroup is equal to this parameter. Notice: In order to ensure the efficiency of concurrent write, this parameter should greater than 1. Datatype: int</meaning>
+        <meaning>The least number of DataRegionGroup for each StorageGroup. The ConfigNode-leader will create a DataRegionGroup for each newborn SeriesPartitionSlot for the newly created StorageGroup until the number of DataRegionGroup is equal to this parameter. Notice: In order to ensure the efficiency of concurrent write, this parameter should greater than 1. Datatype: int
+        </meaning>
         <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1544,7 +1637,8 @@
     </flag>
     <flag>
         <name>enable_data_partition_inherit_policy</name>
-        <meaning>Whether to enable the DataPartition inherit policy. DataPartition within the same SeriesPartitionSlot will inherit the allocation result of the previous TimePartitionSlot if set true Datatype: Boolean</meaning>
+        <meaning>Whether to enable the DataPartition inherit policy. DataPartition within the same SeriesPartitionSlot will inherit the allocation result of the previous TimePartitionSlot if set true Datatype: Boolean
+        </meaning>
         <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1562,7 +1656,8 @@
     </flag>
     <flag>
         <name>leader_distribution_policy</name>
-        <meaning>The policy of cluster RegionGroups' leader distribution. E.g. we should balance cluster RegionGroups' leader distribution when some DataNodes are shutdown or re-connected. These policies are currently supported: 1. GREEDY(Distribute leader through a simple greedy algorithm, might cause unbalance) 2. MIN_COST_FLOW(Default, distribute leader through min cost flow algorithm) Datatype: String</meaning>
+        <meaning>The policy of cluster RegionGroups' leader distribution. E.g. we should balance cluster RegionGroups' leader distribution when some DataNodes are shutdown or re-connected. These policies are currently supported: 1. GREEDY(Distribute leader through a simple greedy algorithm, might cause unbalance) 2. MIN_COST_FLOW(Default, distribute leader through min cost flow algorithm) Datatype: String
+        </meaning>
         <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1579,7 +1674,8 @@
     </flag>
     <flag>
         <name>enable_auto_leader_balance_for_ratis_consensus</name>
-        <meaning>Whether to enable auto leader balance for Ratis consensus protocol. The ConfigNode-leader will balance the leader of Ratis-RegionGroups by leader_distribution_policy if set true. Notice: Default is false because the Ratis is unstable for this function. Datatype: Boolean</meaning>
+        <meaning>Whether to enable auto leader balance for Ratis consensus protocol. The ConfigNode-leader will balance the leader of Ratis-RegionGroups by leader_distribution_policy if set true. Notice: Default is false because the Ratis is unstable for this function. Datatype: Boolean
+        </meaning>
         <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1597,7 +1693,8 @@
     </flag>
     <flag>
         <name>enable_auto_leader_balance_for_iot_consensus</name>
-        <meaning>Whether to enable auto leader balance for IoTConsensus protocol. The ConfigNode-leader will balance the leader of IoTConsensus-RegionGroups by leader_distribution_policy if set true. Notice: Default is true because the IoTConsensus depends on this function to distribute leader. Datatype: Boolean</meaning>
+        <meaning>Whether to enable auto leader balance for IoTConsensus protocol. The ConfigNode-leader will balance the leader of IoTConsensus-RegionGroups by leader_distribution_policy if set true. Notice: Default is true because the IoTConsensus depends on this function to distribute leader. Datatype: Boolean
+        </meaning>
         <group>Load balancing configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1615,7 +1712,8 @@
     </flag>
     <flag>
         <name>time_partition_interval</name>
-        <meaning>Cluster management Time partition interval in milliseconds, and partitioning data inside each data region, default is equal to one week Can not be changed after the first start Datatype: long</meaning>
+        <meaning>Cluster management Time partition interval in milliseconds, and partitioning data inside each data region, default is equal to one week Can not be changed after the first start Datatype: long
+        </meaning>
         <group>Cluster management</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1654,7 +1752,8 @@
     </flag>
     <flag>
         <name>disk_space_warning_threshold</name>
-        <meaning>Disk remaining threshold at which DataNode is set to ReadOnly status Datatype: double(percentage)</meaning>
+        <meaning>Disk remaining threshold at which DataNode is set to ReadOnly status Datatype: double(percentage)
+        </meaning>
         <group>Cluster management</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1689,7 +1788,8 @@
     </flag>
     <flag>
         <name>storage_query_schema_consensus_free_memory_proportion</name>
-        <meaning>Memory Allocation Ratio: StorageEngine, QueryEngine, SchemaEngine, Consensus and Free Memory. The parameter form is a:b:c:d:e, where a, b, c, d and e are integers. for example: 1:1:1:1:1 , 6:2:1:1:1 If you have high level of writing pressure and low level of reading pressure, please adjust it to for example 6:1:1:1:2</meaning>
+        <meaning>Memory Allocation Ratio: StorageEngine, QueryEngine, SchemaEngine, Consensus and Free Memory. The parameter form is a:b:c:d:e, where a, b, c, d and e are integers. for example: 1:1:1:1:1 , 6:2:1:1:1 If you have high level of writing pressure and low level of reading pressure, please adjust it to for example 6:1:1:1:2
+        </meaning>
         <group>Memory Control Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1706,7 +1806,8 @@
     </flag>
     <flag>
         <name>schema_memory_allocate_proportion</name>
-        <meaning>Schema Memory Allocation Ratio: SchemaRegion, SchemaCache, PartitionCache and LastCache. The parameter form is a:b:c:d, where a, b, c and d are integers. for example: 1:1:1:1 , 6:2:1:1 In cluster mode, we recommend 5:3:1:1. In standalone mode, we recommend 8:1:0:1</meaning>
+        <meaning>Schema Memory Allocation Ratio: SchemaRegion, SchemaCache, PartitionCache and LastCache. The parameter form is a:b:c:d, where a, b, c and d are integers. for example: 1:1:1:1 , 6:2:1:1 In cluster mode, we recommend 5:3:1:1. In standalone mode, we recommend 8:1:0:1
+        </meaning>
         <group>Memory Control Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1723,7 +1824,8 @@
     </flag>
     <flag>
         <name>storage_engine_memory_proportion</name>
-        <meaning>Memory allocation ratio in StorageEngine: Write, Compaction The parameter form is a:b:c:d, where a, b, c and d are integers. for example: 8:2 , 7:3</meaning>
+        <meaning>Memory allocation ratio in StorageEngine: Write, Compaction The parameter form is a:b:c:d, where a, b, c and d are integers. for example: 8:2 , 7:3
+        </meaning>
         <group>Memory Control Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1740,7 +1842,8 @@
     </flag>
     <flag>
         <name>write_memory_proportion</name>
-        <meaning>Memory allocation ratio in writing: Memtable, TimePartitionInfo Memtable is the total memory size of all memtables TimePartitionInfo is the total memory size of last flush time of all data regions</meaning>
+        <meaning>Memory allocation ratio in writing: Memtable, TimePartitionInfo Memtable is the total memory size of all memtables TimePartitionInfo is the total memory size of last flush time of all data regions
+        </meaning>
         <group>Memory Control Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1757,7 +1860,8 @@
     </flag>
     <flag>
         <name>concurrent_writing_time_partition</name>
-        <meaning>Max number of concurrent writing time partitions in one database This parameter is used to control total memTable number when memory control is disabled The max number of memTable is 4 * concurrent_writing_time_partition * database number Datatype: long</meaning>
+        <meaning>Max number of concurrent writing time partitions in one database This parameter is used to control total memTable number when memory control is disabled The max number of memTable is 4 * concurrent_writing_time_partition * database number Datatype: long
+        </meaning>
         <group>Memory Control Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1808,7 +1912,8 @@
     </flag>
     <flag>
         <name>flush_proportion</name>
-        <meaning>Ratio of write memory for invoking flush disk, 0.4 by default If you have extremely high write load (like batch=1000), it can be set lower than the default value like 0.2 Datatype: double</meaning>
+        <meaning>Ratio of write memory for invoking flush disk, 0.4 by default If you have extremely high write load (like batch=1000), it can be set lower than the default value like 0.2 Datatype: double
+        </meaning>
         <group>Memory Control Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1842,7 +1947,8 @@
     </flag>
     <flag>
         <name>reject_proportion</name>
-        <meaning>Ratio of write memory for rejecting insertion, 0.8 by default If you have extremely high write load (like batch=1000) and the physical memory size is large enough, it can be set higher than the default value like 0.9 Datatype: double</meaning>
+        <meaning>Ratio of write memory for rejecting insertion, 0.8 by default If you have extremely high write load (like batch=1000) and the physical memory size is large enough, it can be set higher than the default value like 0.9 Datatype: double
+        </meaning>
         <group>Memory Control Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1859,7 +1965,8 @@
     </flag>
     <flag>
         <name>write_memory_variation_report_proportion</name>
-        <meaning>If memory cost of data region increased more than proportion of allocated memory for write, report to system. The default value is 0.001 Datatype: double</meaning>
+        <meaning>If memory cost of data region increased more than proportion of allocated memory for write, report to system. The default value is 0.001 Datatype: double
+        </meaning>
         <group>Memory Control Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1876,7 +1983,8 @@
     </flag>
     <flag>
         <name>check_period_when_insert_blocked</name>
-        <meaning>When an inserting is rejected, waiting period (in ms) to check system again, 50 by default. If the insertion has been rejected and the read load is low, it can be set larger. Datatype: int</meaning>
+        <meaning>When an inserting is rejected, waiting period (in ms) to check system again, 50 by default. If the insertion has been rejected and the read load is low, it can be set larger. Datatype: int
+        </meaning>
         <group>Memory Control Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1915,7 +2023,8 @@
     </flag>
     <flag>
         <name>enable_query_memory_estimation</name>
-        <meaning>If true, we will estimate each query's possible memory footprint before executing it and deny it if its estimated memory exceeds current free memory Datatype: bool</meaning>
+        <meaning>If true, we will estimate each query's possible memory footprint before executing it and deny it if its estimated memory exceeds current free memory Datatype: bool
+        </meaning>
         <group>Memory Control Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1933,7 +2042,8 @@
     </flag>
     <flag>
         <name>schema_region_device_node_cache_size</name>
-        <meaning>Schema Engine Configuration cache size for SchemaRegion. This cache is used to improve insert speed where all path check and TSDataType will be cached in SchemaRegion with corresponding Path. Datatype: int</meaning>
+        <meaning>Schema Engine Configuration cache size for SchemaRegion. This cache is used to improve insert speed where all path check and TSDataType will be cached in SchemaRegion with corresponding Path. Datatype: int
+        </meaning>
         <group>Schema Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -1984,7 +2094,8 @@
     </flag>
     <flag>
         <name>partition_cache_size</name>
-        <meaning>cache size for partition. This cache is used to improve partition fetch from config node. Datatype: int</meaning>
+        <meaning>cache size for partition. This cache is used to improve partition fetch from config node. Datatype: int
+        </meaning>
         <group>Schema Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2001,7 +2112,8 @@
     </flag>
     <flag>
         <name>mlog_buffer_size</name>
-        <meaning>Size of log buffer in each metadata operation plan(in byte). If the size of a metadata operation plan is larger than this parameter, then it will be rejected by SchemaRegion If it sets a value smaller than 0, use the default value 1024*1024 Datatype: int</meaning>
+        <meaning>Size of log buffer in each metadata operation plan(in byte). If the size of a metadata operation plan is larger than this parameter, then it will be rejected by SchemaRegion If it sets a value smaller than 0, use the default value 1024*1024 Datatype: int
+        </meaning>
         <group>Schema Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2023,7 +2135,8 @@
     </flag>
     <flag>
         <name>sync_mlog_period_in_ms</name>
-        <meaning>The cycle when metadata log is periodically forced to be written to disk(in milliseconds) If sync_mlog_period_in_ms=0 it means force metadata log to be written to disk after each refreshment Set this parameter to 0 may slow down the operation on slow disk.</meaning>
+        <meaning>The cycle when metadata log is periodically forced to be written to disk(in milliseconds) If sync_mlog_period_in_ms=0 it means force metadata log to be written to disk after each refreshment Set this parameter to 0 may slow down the operation on slow disk.
+        </meaning>
         <group>Schema Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2045,7 +2158,8 @@
     </flag>
     <flag>
         <name>tag_attribute_flush_interval</name>
-        <meaning>interval num for tag and attribute records when force flushing to disk When a certain amount of tag and attribute records is reached, they will be force flushed to disk It is possible to lose at most tag_attribute_flush_interval records</meaning>
+        <meaning>interval num for tag and attribute records when force flushing to disk When a certain amount of tag and attribute records is reached, they will be force flushed to disk It is possible to lose at most tag_attribute_flush_interval records
+        </meaning>
         <group>Schema Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2084,7 +2198,8 @@
     </flag>
     <flag>
         <name>max_measurement_num_of_internal_request</name>
-        <meaning>max measurement num of internal request When creating timeseries with Session.createMultiTimeseries, the user input plan, the timeseries num of which exceeds this num, will be split to several plans with timeseries no more than this num.</meaning>
+        <meaning>max measurement num of internal request When creating timeseries with Session.createMultiTimeseries, the user input plan, the timeseries num of which exceeds this num, will be split to several plans with timeseries no more than this num.
+        </meaning>
         <group>Schema Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2101,7 +2216,8 @@
     </flag>
     <flag>
         <name>enable_auto_create_schema</name>
-        <meaning>Configurations for creating schema automatically Whether creating schema automatically is enabled If true, then create database and timeseries automatically when not exists in insertion Or else, user need to create database and timeseries before insertion. Datatype: boolean</meaning>
+        <meaning>Configurations for creating schema automatically Whether creating schema automatically is enabled If true, then create database and timeseries automatically when not exists in insertion Or else, user need to create database and timeseries before insertion. Datatype: boolean
+        </meaning>
         <group>Configurations for creating schema automatically</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2119,7 +2235,8 @@
     </flag>
     <flag>
         <name>default_storage_group_level</name>
-        <meaning>Database level when creating schema automatically is enabled e.g. root.sg0.d1.s2 we will set root.sg0 as the database if database level is 1 Datatype: int</meaning>
+        <meaning>Database level when creating schema automatically is enabled e.g. root.sg0.d1.s2 we will set root.sg0 as the database if database level is 1 Datatype: int
+        </meaning>
         <group>Configurations for creating schema automatically</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2136,7 +2253,8 @@
     </flag>
     <flag>
         <name>boolean_string_infer_type</name>
-        <meaning>ALL data types: BOOLEAN, INT32, INT64, FLOAT, DOUBLE, TEXT register time series as which type when receiving boolean string "true" or "false" Datatype: TSDataType</meaning>
+        <meaning>ALL data types: BOOLEAN, INT32, INT64, FLOAT, DOUBLE, TEXT register time series as which type when receiving boolean string "true" or "false" Datatype: TSDataType
+        </meaning>
         <group>Configurations for creating schema automatically</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2170,7 +2288,8 @@
     </flag>
     <flag>
         <name>long_string_infer_type</name>
-        <meaning>register time series as which type when receiving an integer string and using float may lose precision num &gt; 2 ^ 24 Datatype: TSDataType</meaning>
+        <meaning>register time series as which type when receiving an integer string and using float may lose precision num > 2 ^ 24 Datatype: TSDataType
+        </meaning>
         <group>Configurations for creating schema automatically</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2187,7 +2306,8 @@
     </flag>
     <flag>
         <name>floating_string_infer_type</name>
-        <meaning>register time series as which type when receiving a floating number string "6.7" Datatype: TSDataType</meaning>
+        <meaning>register time series as which type when receiving a floating number string "6.7" Datatype: TSDataType
+        </meaning>
         <group>Configurations for creating schema automatically</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2204,7 +2324,8 @@
     </flag>
     <flag>
         <name>nan_string_infer_type</name>
-        <meaning>register time series as which type when receiving the Literal NaN. Values can be DOUBLE, FLOAT or TEXT Datatype: TSDataType</meaning>
+        <meaning>register time series as which type when receiving the Literal NaN. Values can be DOUBLE, FLOAT or TEXT Datatype: TSDataType
+        </meaning>
         <group>Configurations for creating schema automatically</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2323,7 +2444,8 @@
     </flag>
     <flag>
         <name>read_consistency_level</name>
-        <meaning>Query Configurations The read consistency level These consistency levels are currently supported: 1. strong(Default, read from the leader replica) 2. weak(Read from a random replica) Datatype: string</meaning>
+        <meaning>Query Configurations The read consistency level These consistency levels are currently supported: 1. strong(Default, read from the leader replica) 2. weak(Read from a random replica) Datatype: string
+        </meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2340,7 +2462,8 @@
     </flag>
     <flag>
         <name>meta_data_cache_enable</name>
-        <meaning>Whether to cache meta data(BloomFilter, ChunkMetadata and TimeSeriesMetadata) or not. Datatype: boolean</meaning>
+        <meaning>Whether to cache meta data(BloomFilter, ChunkMetadata and TimeSeriesMetadata) or not. Datatype: boolean
+        </meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2358,7 +2481,8 @@
     </flag>
     <flag>
         <name>chunk_timeseriesmeta_free_memory_proportion</name>
-        <meaning>Read memory Allocation Ratio: BloomFilterCache : ChunkCache : TimeSeriesMetadataCache : Coordinator : Operators : DataExchange : timeIndex in TsFileResourceList : others. The parameter form is a:b:c:d:e:f:g:h, where a, b, c, d, e, f, g and h are integers. for example: 1:1:1:1:1:1:1:1 , 1:100:200:50:200:200:200:50</meaning>
+        <meaning>Read memory Allocation Ratio: BloomFilterCache : ChunkCache : TimeSeriesMetadataCache : Coordinator : Operators : DataExchange : timeIndex in TsFileResourceList : others. The parameter form is a:b:c:d:e:f:g:h, where a, b, c, d, e, f, g and h are integers. for example: 1:1:1:1:1:1:1:1 , 1:100:200:50:200:200:200:50
+        </meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2393,7 +2517,8 @@
     </flag>
     <flag>
         <name>max_deduplicated_path_num</name>
-        <meaning>Allowed max numbers of deduplicated path in one query it's just an advised value, the real limitation will be the smaller one between this and the one we calculated Datatype: int</meaning>
+        <meaning>Allowed max numbers of deduplicated path in one query it's just an advised value, the real limitation will be the smaller one between this and the one we calculated Datatype: int
+        </meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2494,10 +2619,10 @@
         <showConstraint/>
         <constraint/>
         <format>int</format>
-        <default>1048576</default>
-        <defaultShowValue>1048576</defaultShowValue>
-        <showValue>1048576</showValue>
-        <current>1048576</current>
+        <default>131072</default>
+        <defaultShowValue>131072</defaultShowValue>
+        <showValue>131072</showValue>
+        <current>131072</current>
         <valueUnits>
             <options>B</options>
             <currentUnit>B</currentUnit>
@@ -2509,7 +2634,7 @@
         </userDefined>
     </flag>
     <flag>
-        <name>max_tsblock_line_numbers</name>
+        <name>max_tsblock_line_number</name>
         <meaning>The max number of lines in a single TsBlock Datatype: int</meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
@@ -2588,7 +2713,8 @@
     </flag>
     <flag>
         <name>query_thread_count</name>
-        <meaning>How many threads can concurrently execute query statement. When small= 0, use CPU core number. Datatype: int</meaning>
+        <meaning>How many threads can concurrently execute query statement. When small= 0, use CPU core number. Datatype: int
+        </meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2605,7 +2731,8 @@
     </flag>
     <flag>
         <name>batch_size</name>
-        <meaning>The amount of data iterate each time in server (the number of data strips, that is, the number of different timestamps.) Datatype: int</meaning>
+        <meaning>The amount of data iterate each time in server (the number of data strips, that is, the number of different timestamps.) Datatype: int
+        </meaning>
         <group>Query Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2622,7 +2749,8 @@
     </flag>
     <flag>
         <name>timestamp_precision</name>
-        <meaning>Storage Engine Configuration Use this value to set timestamp precision as "ms", "us" or "ns". Once the precision has been set, it can not be changed. Datatype: String</meaning>
+        <meaning>Storage Engine Configuration Use this value to set timestamp precision as "ms", "us" or "ns". Once the precision has been set, it can not be changed. Datatype: String
+        </meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2639,7 +2767,8 @@
     </flag>
     <flag>
         <name>default_ttl_in_ms</name>
-        <meaning>Default TTL for databases that are not set TTL by statements, If not set (default), the TTL will be unlimited. Notice: if this property is changed, previous created database which are not set TTL will also be affected. data. Datatype: long Unit: ms</meaning>
+        <meaning>Default TTL for databases that are not set TTL by statements, If not set (default), the TTL will be unlimited. Notice: if this property is changed, previous created database which are not set TTL will also be affected. data. Datatype: long Unit: ms
+        </meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2661,7 +2790,8 @@
     </flag>
     <flag>
         <name>max_waiting_time_when_insert_blocked</name>
-        <meaning>When the waiting time (in ms) of an inserting exceeds this, throw an exception. 10000 by default. If the insertion has been rejected and the read load is low, it can be set larger Datatype: int</meaning>
+        <meaning>When the waiting time (in ms) of an inserting exceeds this, throw an exception. 10000 by default. If the insertion has been rejected and the read load is low, it can be set larger Datatype: int
+        </meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2683,7 +2813,8 @@
     </flag>
     <flag>
         <name>enable_discard_out_of_order_data</name>
-        <meaning>Add a switch to drop ouf-of-order data Out-of-order data will impact the aggregation query a lot. Users may not care about discarding some out-of-order data. Datatype: boolean</meaning>
+        <meaning>Add a switch to drop ouf-of-order data Out-of-order data will impact the aggregation query a lot. Users may not care about discarding some out-of-order data. Datatype: boolean
+        </meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2701,7 +2832,8 @@
     </flag>
     <flag>
         <name>handle_system_error</name>
-        <meaning>What will the system do when unrecoverable error occurs. Datatype: String Optional strategies are as follows: 1. CHANGE_TO_READ_ONLY: set system status to read-only and the system only accepts query operations. 2. SHUTDOWN: the system will be shutdown.</meaning>
+        <meaning>What will the system do when unrecoverable error occurs. Datatype: String Optional strategies are as follows: 1. CHANGE_TO_READ_ONLY: set system status to read-only and the system only accepts query operations. 2. SHUTDOWN: the system will be shutdown.
+        </meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2719,7 +2851,8 @@
     </flag>
     <flag>
         <name>memtable_size_threshold</name>
-        <meaning>Only take effects when enable_mem_control is false. When a memTable's size (in byte) exceeds this, the memtable is flushed to disk. The default threshold is 1 GB. Datatype: long</meaning>
+        <meaning>Only take effects when enable_mem_control is false. When a memTable's size (in byte) exceeds this, the memtable is flushed to disk. The default threshold is 1 GB. Datatype: long
+        </meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2759,7 +2892,8 @@
     </flag>
     <flag>
         <name>seq_memtable_flush_interval_in_ms</name>
-        <meaning>If a memTable's created time is older than current time minus this, the memtable will be flushed to disk. Only check sequence tsfiles' memtables. The default flush interval is 3 * 60 * 60 * 1000. (unit: ms) Datatype: long</meaning>
+        <meaning>If a memTable's created time is older than current time minus this, the memtable will be flushed to disk. Only check sequence tsfiles' memtables. The default flush interval is 3 * 60 * 60 * 1000. (unit: ms) Datatype: long
+        </meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2781,7 +2915,8 @@
     </flag>
     <flag>
         <name>seq_memtable_flush_check_interval_in_ms</name>
-        <meaning>The interval to check whether sequence memtables need flushing. The default flush check interval is 10 * 60 * 1000. (unit: ms) Datatype: long</meaning>
+        <meaning>The interval to check whether sequence memtables need flushing. The default flush check interval is 10 * 60 * 1000. (unit: ms) Datatype: long
+        </meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2821,7 +2956,8 @@
     </flag>
     <flag>
         <name>unseq_memtable_flush_interval_in_ms</name>
-        <meaning>If a memTable's created time is older than current time minus this, the memtable will be flushed to disk. Only check unsequence tsfiles' memtables. The default flush interval is 3 * 60 * 60 * 1000. (unit: ms) Datatype: long</meaning>
+        <meaning>If a memTable's created time is older than current time minus this, the memtable will be flushed to disk. Only check unsequence tsfiles' memtables. The default flush interval is 3 * 60 * 60 * 1000. (unit: ms) Datatype: long
+        </meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2843,7 +2979,8 @@
     </flag>
     <flag>
         <name>unseq_memtable_flush_check_interval_in_ms</name>
-        <meaning>The interval to check whether unsequence memtables need flushing. The default flush check interval is 10 * 60 * 1000. (unit: ms) Datatype: long</meaning>
+        <meaning>The interval to check whether unsequence memtables need flushing. The default flush check interval is 10 * 60 * 1000. (unit: ms) Datatype: long
+        </meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2865,7 +3002,8 @@
     </flag>
     <flag>
         <name>tvlist_sort_algorithm</name>
-        <meaning>The sort algorithms used in the memtable's TVList TIM: default tim sort, QUICK: quick sort, BACKWARD: backward sort</meaning>
+        <meaning>The sort algorithms used in the memtable's TVList TIM: default tim sort, QUICK: quick sort, BACKWARD: backward sort
+        </meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2882,7 +3020,8 @@
     </flag>
     <flag>
         <name>avg_series_point_number_threshold</name>
-        <meaning>When the average point number of timeseries in memtable exceeds this, the memtable is flushed to disk. The default threshold is 100000. Datatype: int</meaning>
+        <meaning>When the average point number of timeseries in memtable exceeds this, the memtable is flushed to disk. The default threshold is 100000. Datatype: int
+        </meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2916,7 +3055,8 @@
     </flag>
     <flag>
         <name>enable_partial_insert</name>
-        <meaning>In one insert (one device, one timestamp, multiple measurements), if enable partial insert, one measurement failure will not impact other measurements Datatype: boolean</meaning>
+        <meaning>In one insert (one device, one timestamp, multiple measurements), if enable partial insert, one measurement failure will not impact other measurements Datatype: boolean
+        </meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2956,7 +3096,8 @@
     </flag>
     <flag>
         <name>upgrade_thread_count</name>
-        <meaning>When there exists old version(v2) TsFile, how many thread will be set up to perform upgrade tasks, 1 by default. Set to 1 when less than or equal to 0. Datatype: int</meaning>
+        <meaning>When there exists old version(v2) TsFile, how many thread will be set up to perform upgrade tasks, 1 by default. Set to 1 when less than or equal to 0. Datatype: int
+        </meaning>
         <group>Storage Engine Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -2973,7 +3114,8 @@
     </flag>
     <flag>
         <name>enable_seq_space_compaction</name>
-        <meaning>Compaction Configurations sequence space compaction: only compact the sequence files Datatype: boolean</meaning>
+        <meaning>Compaction Configurations sequence space compaction: only compact the sequence files Datatype: boolean
+        </meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3009,7 +3151,8 @@
     </flag>
     <flag>
         <name>enable_cross_space_compaction</name>
-        <meaning>cross space compaction: compact the unsequence files into the overlapped sequence files Datatype: boolean</meaning>
+        <meaning>cross space compaction: compact the unsequence files into the overlapped sequence files Datatype: boolean
+        </meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3044,7 +3187,8 @@
     </flag>
     <flag>
         <name>cross_performer</name>
-        <meaning>the compaction performer of cross space compaction task Options: read_point, fast (under test)</meaning>
+        <meaning>the compaction performer of cross space compaction task Options: read_point, fast (under test)
+        </meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3116,7 +3260,8 @@
     </flag>
     <flag>
         <name>inner_unseq_performer</name>
-        <meaning>the performer of inner unsequence space compaction task Options: read_point, fast (under test)</meaning>
+        <meaning>the performer of inner unsequence space compaction task Options: read_point, fast (under test)
+        </meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3134,7 +3279,8 @@
     </flag>
     <flag>
         <name>compaction_priority</name>
-        <meaning>The priority of compaction execution INNER_CROSS: prioritize inner space compaction, reduce the number of files first CROSS_INNER: prioritize cross space compaction, eliminate the unsequence files first BALANCE: alternate two compaction types</meaning>
+        <meaning>The priority of compaction execution INNER_CROSS: prioritize inner space compaction, reduce the number of files first CROSS_INNER: prioritize cross space compaction, eliminate the unsequence files first BALANCE: alternate two compaction types
+        </meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3173,7 +3319,8 @@
     </flag>
     <flag>
         <name>target_chunk_size</name>
-        <meaning>The target chunk size in compaction and when memtable reaches this threshold, flush the memtable to disk. default is 1MB Datatype: long, Unit: byte</meaning>
+        <meaning>The target chunk size in compaction and when memtable reaches this threshold, flush the memtable to disk. default is 1MB Datatype: long, Unit: byte
+        </meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3212,7 +3359,8 @@
     </flag>
     <flag>
         <name>chunk_size_lower_bound_in_compaction</name>
-        <meaning>If the chunk size is lower than this threshold, it will be deserialize into points, default is 128 byte Datatype: long, Unit:byte</meaning>
+        <meaning>If the chunk size is lower than this threshold, it will be deserialize into points, default is 128 byte Datatype: long, Unit:byte
+        </meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3234,7 +3382,8 @@
     </flag>
     <flag>
         <name>chunk_point_num_lower_bound_in_compaction</name>
-        <meaning>If the chunk point num is lower than this threshold, it will be deserialize into points Datatype: long</meaning>
+        <meaning>If the chunk point num is lower than this threshold, it will be deserialize into points Datatype: long
+        </meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3268,7 +3417,8 @@
     </flag>
     <flag>
         <name>max_cross_compaction_candidate_file_num</name>
-        <meaning>The max file when selecting cross space compaction candidate files At least one unseq file with it's overlapped seq files will be selected even exceeded this number Datatype: int</meaning>
+        <meaning>The max file when selecting cross space compaction candidate files At least one unseq file with it's overlapped seq files will be selected even exceeded this number Datatype: int
+        </meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3285,7 +3435,8 @@
     </flag>
     <flag>
         <name>max_cross_compaction_candidate_file_size</name>
-        <meaning>The max total size when selecting cross space compaction candidate files At least one unseq file with it's overlapped seq files will be selected even exceeded this number Datatype: long, Unit: byte</meaning>
+        <meaning>The max total size when selecting cross space compaction candidate files At least one unseq file with it's overlapped seq files will be selected even exceeded this number Datatype: long, Unit: byte
+        </meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3307,7 +3458,8 @@
     </flag>
     <flag>
         <name>cross_compaction_file_selection_time_budget</name>
-        <meaning>If one merge file selection runs for more than this time, it will be ended and its current selection will be used as final selection. When small 0, it means time is unbounded. Datatype: long, Unit: ms</meaning>
+        <meaning>If one merge file selection runs for more than this time, it will be ended and its current selection will be used as final selection. When small 0, it means time is unbounded. Datatype: long, Unit: ms
+        </meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3329,7 +3481,8 @@
     </flag>
     <flag>
         <name>compaction_thread_count</name>
-        <meaning>How many threads will be set up to perform compaction, 10 by default. Set to 1 when less than or equal to 0. Datatype: int</meaning>
+        <meaning>How many threads will be set up to perform compaction, 10 by default. Set to 1 when less than or equal to 0. Datatype: int
+        </meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3389,25 +3542,31 @@
         </userDefined>
     </flag>
     <flag>
-        <name>compaction_io_rate_per_sec</name>
-        <meaning>The limit of io rate can reach per second Datatype: int</meaning>
+        <name>compaction_write_throughput_mb_per_sec</name>
+        <meaning>The limit of write throughput merge can reach per second Datatype: int</meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
         <format>int</format>
-        <default>50</default>
-        <defaultShowValue>50</defaultShowValue>
-        <showValue>50</showValue>
-        <current>50</current>
-        <valueUnits/>
+        <default>16</default>
+        <defaultShowValue>16</defaultShowValue>
+        <showValue>16</showValue>
+        <current>16</current>
+        <valueUnits>
+            <options>s</options>
+            <currentUnit>s</currentUnit>
+            <unitType>time</unitType>
+            <minUnit>s</minUnit>
+        </valueUnits>
         <userDefined>
             <position>iotdb-common.properties</position>
         </userDefined>
     </flag>
     <flag>
         <name>sub_compaction_thread_count</name>
-        <meaning>The number of sub compaction threads to be set up to perform compaction. Currently only works for nonAligned data in cross space compaction and unseq inner space compaction. Set to 1 when less than or equal to 0. Datatype: int</meaning>
+        <meaning>The number of sub compaction threads to be set up to perform compaction. Currently only works for nonAligned data in cross space compaction and unseq inner space compaction. Set to 1 when less than or equal to 0. Datatype: int
+        </meaning>
         <group>Compaction Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3442,7 +3601,8 @@
     </flag>
     <flag>
         <name>wal_mode</name>
-        <meaning>Write Ahead Log Configuration Write mode of wal The details of these three modes are as follows: 1. DISABLE: the system will disable wal. 2. SYNC: the system will submit wal synchronously, write request will not return until its wal is fsynced to the disk successfully. 3. ASYNC: the system will submit wal asynchronously, write request will return immediately no matter its wal is fsynced to the disk successfully. The write performance order is DISABLE &gt; ASYNC &gt; SYNC, but only SYNC mode can ensure data durability.</meaning>
+        <meaning>Write Ahead Log Configuration Write mode of wal The details of these three modes are as follows: 1. DISABLE: the system will disable wal. 2. SYNC: the system will submit wal synchronously, write request will not return until its wal is fsynced to the disk successfully. 3. ASYNC: the system will submit wal asynchronously, write request will return immediately no matter its wal is fsynced to the disk successfully. The write performance order is DISABLE > ASYNC > SYNC, but only SYNC mode can ensure data durability.
+        </meaning>
         <group>Write Ahead Log Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3459,7 +3619,8 @@
     </flag>
     <flag>
         <name>max_wal_nodes_num</name>
-        <meaning>Max number of wal nodes, each node corresponds to one wal directory The default value 0 means the number is determined by the system. Notice: this value affects write performance significantly. For non-SSD disks, values between one third and half of databases number are recommended. Datatype: int</meaning>
+        <meaning>Max number of wal nodes, each node corresponds to one wal directory The default value 0 means the number is determined by the system. Notice: this value affects write performance significantly. For non-SSD disks, values between one third and half of databases number are recommended. Datatype: int
+        </meaning>
         <group>Write Ahead Log Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3476,7 +3637,8 @@
     </flag>
     <flag>
         <name>fsync_wal_delay_in_ms</name>
-        <meaning>Duration a wal flush operation will wait before calling fsync A duration greater than 0 batches multiple wal fsync calls into one. This is useful when disks are slow or WAL write contention exists. Notice: this value affects write performance significantly, values in the range of 0ms-10ms are recommended. Datatype: long</meaning>
+        <meaning>Duration a wal flush operation will wait before calling fsync A duration greater than 0 batches multiple wal fsync calls into one. This is useful when disks are slow or WAL write contention exists. Notice: this value affects write performance significantly, values in the range of 0ms-10ms are recommended. Datatype: long
+        </meaning>
         <group>Write Ahead Log Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3498,7 +3660,8 @@
     </flag>
     <flag>
         <name>wal_buffer_size_in_byte</name>
-        <meaning>Buffer size of each wal node If it's a value smaller than 0, use the default value 16 * 1024 * 1024 bytes (16MB). Datatype: int</meaning>
+        <meaning>Buffer size of each wal node If it's a value smaller than 0, use the default value 16 * 1024 * 1024 bytes (16MB). Datatype: int
+        </meaning>
         <group>Write Ahead Log Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3520,7 +3683,8 @@
     </flag>
     <flag>
         <name>wal_buffer_queue_capacity</name>
-        <meaning>Blocking queue capacity of each wal buffer, restricts maximum number of WALEdits cached in the blocking queue. Datatype: int</meaning>
+        <meaning>Blocking queue capacity of each wal buffer, restricts maximum number of WALEdits cached in the blocking queue. Datatype: int
+        </meaning>
         <group>Write Ahead Log Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3537,7 +3701,8 @@
     </flag>
     <flag>
         <name>wal_file_size_threshold_in_byte</name>
-        <meaning>Size threshold of each wal file When a wal file's size exceeds this, the wal file will be closed and a new wal file will be created. If it's a value smaller than 0, use the default value 10 * 1024 * 1024 (10MB). Datatype: long</meaning>
+        <meaning>Size threshold of each wal file When a wal file's size exceeds this, the wal file will be closed and a new wal file will be created. If it's a value smaller than 0, use the default value 10 * 1024 * 1024 (10MB). Datatype: long
+        </meaning>
         <group>Write Ahead Log Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3559,7 +3724,8 @@
     </flag>
     <flag>
         <name>wal_min_effective_info_ratio</name>
-        <meaning>Minimum ratio of effective information in wal files This value should be between 0.0 and 1.0 If effective information ratio is below this value, MemTable snapshot or flush will be triggered. Increase this value when wal occupies too much disk space. But, if this parameter is too large, the write performance may decline. Datatype: double</meaning>
+        <meaning>Minimum ratio of effective information in wal files This value should be between 0.0 and 1.0 If effective information ratio is below this value, MemTable snapshot or flush will be triggered. Increase this value when wal occupies too much disk space. But, if this parameter is too large, the write performance may decline. Datatype: double
+        </meaning>
         <group>Write Ahead Log Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3576,7 +3742,8 @@
     </flag>
     <flag>
         <name>wal_memtable_snapshot_threshold_in_byte</name>
-        <meaning>MemTable size threshold for triggering MemTable snapshot in wal When a memTable's size (in byte) exceeds this, wal can flush this memtable to disk, otherwise wal will snapshot this memtable in wal. If it's a value smaller than 0, use the default value 8 * 1024 * 1024 bytes (8MB). Datatype: long</meaning>
+        <meaning>MemTable size threshold for triggering MemTable snapshot in wal When a memTable's size (in byte) exceeds this, wal can flush this memtable to disk, otherwise wal will snapshot this memtable in wal. If it's a value smaller than 0, use the default value 8 * 1024 * 1024 bytes (8MB). Datatype: long
+        </meaning>
         <group>Write Ahead Log Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3598,7 +3765,8 @@
     </flag>
     <flag>
         <name>max_wal_memtable_snapshot_num</name>
-        <meaning>MemTable's max snapshot number in wal If one memTable's snapshot number in wal exceeds this value, it will be flushed to disk. Datatype: int</meaning>
+        <meaning>MemTable's max snapshot number in wal If one memTable's snapshot number in wal exceeds this value, it will be flushed to disk. Datatype: int
+        </meaning>
         <group>Write Ahead Log Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3615,7 +3783,8 @@
     </flag>
     <flag>
         <name>delete_wal_files_period_in_ms</name>
-        <meaning>The period when outdated wal files are periodically deleted If this value is too large, outdated wal files may not able to be deleted in time. If it's a value smaller than 0, use the default value 20 * 1000 ms (20 seconds). Datatype: long</meaning>
+        <meaning>The period when outdated wal files are periodically deleted If this value is too large, outdated wal files may not able to be deleted in time. If it's a value smaller than 0, use the default value 20 * 1000 ms (20 seconds). Datatype: long
+        </meaning>
         <group>Write Ahead Log Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3637,7 +3806,8 @@
     </flag>
     <flag>
         <name>iot_consensus_throttle_threshold_in_byte</name>
-        <meaning>The minimum size of wal files when throttle down in IoTConsensus If it's a value smaller than 0, use the default value 50 * 1024 * 1024 * 1024 bytes (50GB). Datatype: long</meaning>
+        <meaning>The minimum size of wal files when throttle down in IoTConsensus If it's a value smaller than 0, use the default value 50 * 1024 * 1024 * 1024 bytes (50GB). Datatype: long
+        </meaning>
         <group>Write Ahead Log Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3654,7 +3824,8 @@
     </flag>
     <flag>
         <name>iot_consensus_cache_window_time_in_ms</name>
-        <meaning>Maximum wait time of write cache in IoTConsensus If this value is less than or equal to 0, use the default value 10 * 1000 ms (10s) Datatype: long</meaning>
+        <meaning>Maximum wait time of write cache in IoTConsensus If this value is less than or equal to 0, use the default value 10 * 1000 ms (10s) Datatype: long
+        </meaning>
         <group>Write Ahead Log Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3783,7 +3954,8 @@
     </flag>
     <flag>
         <name>time_encoder</name>
-        <meaning>Encoder configuration Encoder of time series, supports TS_2DIFF, PLAIN and RLE(run-length encoding), REGULAR and default value is TS_2DIFF</meaning>
+        <meaning>Encoder configuration Encoder of time series, supports TS_2DIFF, PLAIN and RLE(run-length encoding), REGULAR and default value is TS_2DIFF
+        </meaning>
         <group>TsFile Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3800,7 +3972,8 @@
     </flag>
     <flag>
         <name>value_encoder</name>
-        <meaning>Encoder of value series. default value is PLAIN. For int, long data type, also supports TS_2DIFF and RLE(run-length encoding), GORILLA and ZIGZAG.</meaning>
+        <meaning>Encoder of value series. default value is PLAIN. For int, long data type, also supports TS_2DIFF and RLE(run-length encoding), GORILLA and ZIGZAG.
+        </meaning>
         <group>TsFile Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3817,7 +3990,8 @@
     </flag>
     <flag>
         <name>compressor</name>
-        <meaning>Compression configuration Data compression method, supports UNCOMPRESSED, SNAPPY or LZ4. Default value is SNAPPY</meaning>
+        <meaning>Compression configuration Data compression method, supports UNCOMPRESSED, SNAPPY or LZ4. Default value is SNAPPY
+        </meaning>
         <group>TsFile Configurations</group>
         <fill>0</fill>
         <showConstraint/>
@@ -3971,13 +4145,16 @@
     </flag>
     <flag>
         <name>authorizer_provider_class</name>
-        <meaning>Authorization Configuration which class to serve for authorization. By default, it is LocalFileAuthorizer. Another choice is org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer</meaning>
+        <meaning>Authorization Configuration which class to serve for authorization. By default, it is LocalFileAuthorizer. Another choice is org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer
+        </meaning>
         <group>Authorization Configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
         <format>select</format>
-        <options>org.apache.iotdb.commons.auth.authorizer.LocalFileAuthorizer,org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer</options>
+        <options>
+            org.apache.iotdb.commons.auth.authorizer.LocalFileAuthorizer,org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer
+        </options>
         <default>org.apache.iotdb.commons.auth.authorizer.LocalFileAuthorizer</default>
         <defaultShowValue>org.apache.iotdb.commons.auth.authorizer.LocalFileAuthorizer</defaultShowValue>
         <showValue>org.apache.iotdb.commons.auth.authorizer.LocalFileAuthorizer</showValue>
@@ -3989,7 +4166,8 @@
     </flag>
     <flag>
         <name>admin_name</name>
-        <meaning>If OpenIdAuthorizer is enabled, then openID_url must be set. openID_url= admin username, default is root Datatype: string</meaning>
+        <meaning>If OpenIdAuthorizer is enabled, then openID_url must be set. openID_url= admin username, default is root Datatype: string
+        </meaning>
         <group>Authorization Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4023,7 +4201,8 @@
     </flag>
     <flag>
         <name>admin_password</name>
-        <meaning>encryption provided class parameter iotdb_server_encrypt_decrypt_provider_parameter= admin password, default is root Datatype: string</meaning>
+        <meaning>encryption provided class parameter iotdb_server_encrypt_decrypt_provider_parameter= admin password, default is root Datatype: string
+        </meaning>
         <group>Authorization Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4079,7 +4258,8 @@
     </flag>
     <flag>
         <name>udf_initial_byte_array_length_for_memory_control</name>
-        <meaning>UDF Configuration Used to estimate the memory usage of text fields in a UDF query. It is recommended to set this value to be slightly larger than the average length of all text records. Datatype: int</meaning>
+        <meaning>UDF Configuration Used to estimate the memory usage of text fields in a UDF query. It is recommended to set this value to be slightly larger than the average length of all text records. Datatype: int
+        </meaning>
         <group>UDF Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4096,7 +4276,8 @@
     </flag>
     <flag>
         <name>udf_memory_budget_in_mb</name>
-        <meaning>How much memory may be used in ONE UDF query (in MB). The upper limit is 20% of allocated memory for read. Datatype: float</meaning>
+        <meaning>How much memory may be used in ONE UDF query (in MB). The upper limit is 20% of allocated memory for read. Datatype: float
+        </meaning>
         <group>UDF Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4130,7 +4311,8 @@
     </flag>
     <flag>
         <name>udf_lib_dir</name>
-        <meaning>UDF lib dir If this property is unset, system will save the data in the default relative path directory under the UDF folder(i.e., %CONFIGNODE_HOME%/ext/udf). If it is absolute, system will save the data in exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the UDF folder. Note: If data_dir is assigned an empty string(i.e.,zero-size), it will be handled as a relative path. For Window platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative. udf_lib_dir=ext\\udf For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.</meaning>
+        <meaning>UDF lib dir If this property is unset, system will save the data in the default relative path directory under the UDF folder(i.e., %CONFIGNODE_HOME%/ext/udf). If it is absolute, system will save the data in exact location it points to. If it is relative, system will save the data in the relative path directory it indicates under the UDF folder. Note: If data_dir is assigned an empty string(i.e.,zero-size), it will be handled as a relative path. For Window platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative. udf_lib_dir=ext\\udf For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.
+        </meaning>
         <group>UDF Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4147,7 +4329,8 @@
     </flag>
     <flag>
         <name>trigger_lib_dir</name>
-        <meaning>Trigger Configuration Uncomment the following field to configure the trigger lib directory. For Window platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative. trigger_lib_dir=ext\\trigger For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.</meaning>
+        <meaning>Trigger Configuration Uncomment the following field to configure the trigger lib directory. For Window platform If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative. trigger_lib_dir=ext\\trigger For Linux platform If its prefix is "/", then the path is absolute. Otherwise, it is relative.
+        </meaning>
         <group>Trigger Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4164,7 +4347,8 @@
     </flag>
     <flag>
         <name>stateful_trigger_retry_num_when_not_found</name>
-        <meaning>How many times will we retry to found an instance of stateful trigger on DataNodes 3 by default. Datatype: int</meaning>
+        <meaning>How many times will we retry to found an instance of stateful trigger on DataNodes 3 by default. Datatype: int
+        </meaning>
         <group>Trigger Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4181,7 +4365,8 @@
     </flag>
     <flag>
         <name>select_into_insert_tablet_plan_row_limit</name>
-        <meaning>Select-Into Configuration The maximum number of rows can be processed in insert-tablet-plan when executing select-into statements. When small= 0, use 10000. Datatype: int</meaning>
+        <meaning>Select-Into Configuration The maximum number of rows can be processed in insert-tablet-plan when executing select-into statements. When small= 0, use 10000. Datatype: int
+        </meaning>
         <group>Select-Into Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4215,7 +4400,8 @@
     </flag>
     <flag>
         <name>continuous_query_submit_thread_count</name>
-        <meaning>Continuous Query Configuration The number of threads in the scheduled thread pool that submit continuous query tasks periodically Datatype: int</meaning>
+        <meaning>Continuous Query Configuration The number of threads in the scheduled thread pool that submit continuous query tasks periodically Datatype: int
+        </meaning>
         <group>Continuous Query Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4254,7 +4440,8 @@
     </flag>
     <flag>
         <name>ip_white_list</name>
-        <meaning>PIPE Configuration White IP list of Sync client. Please use the form of IPv4 network segment to present the range of IP, for example: 192.168.0.0/16 If there are more than one IP segment, please separate them by commas The default is to reject all IP to sync except 127.0.0.1 Datatype: String</meaning>
+        <meaning>PIPE Configuration White IP list of Sync client. Please use the form of IPv4 network segment to present the range of IP, for example: 192.168.0.0/16 If there are more than one IP segment, please separate them by commas The default is to reject all IP to sync except 127.0.0.1 Datatype: String
+        </meaning>
         <group>PIPE Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -4288,7 +4475,8 @@
     </flag>
     <flag>
         <name>config_node_ratis_log_appender_buffer_size_max</name>
-        <meaning>RatisConsensus Configuration max payload size for a single log-sync-RPC from leader to follower</meaning>
+        <meaning>RatisConsensus Configuration max payload size for a single log-sync-RPC from leader to follower
+        </meaning>
         <group>RatisConsensus Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -5152,7 +5340,8 @@
     </flag>
     <flag>
         <name>procedure_completed_clean_interval</name>
-        <meaning>Default time interval of completed procedure cleaner work in, time unit is second Datatype: int</meaning>
+        <meaning>Default time interval of completed procedure cleaner work in, time unit is second Datatype: int
+        </meaning>
         <group>Procedure Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -5214,16 +5403,16 @@
     </flag>
     <flag>
         <name>mqtt_host</name>
-        <meaning>the mqtt service binding host. Datatype: String</meaning>
+        <meaning>Datatype: String the mqtt service binding host.</meaning>
         <group>MQTT Broker Configuration</group>
         <fill>0</fill>
         <showConstraint/>
         <constraint/>
         <format>ip</format>
-        <default>0.0.0.0</default>
-        <defaultShowValue>0.0.0.0</defaultShowValue>
-        <showValue>0.0.0.0</showValue>
-        <current>0.0.0.0</current>
+        <default>127.0.0.1</default>
+        <defaultShowValue>127.0.0.1</defaultShowValue>
+        <showValue>127.0.0.1</showValue>
+        <current>127.0.0.1</current>
         <valueUnits/>
         <userDefined>
             <position>iotdb-common.properties</position>
@@ -5232,8 +5421,8 @@
     <flag type="port">
         <name>mqtt_port</name>
         <meaning>the mqtt service binding port. Datatype: int</meaning>
-        <group>MQTT Broker Configuration,部署调整项</group>
-        <fill>1</fill>
+        <group>MQTT Broker Configuration</group>
+        <fill>0</fill>
         <showConstraint/>
         <constraint/>
         <format>port</format>
@@ -5339,7 +5528,8 @@
     </flag>
     <flag>
         <name>enable_swagger</name>
-        <meaning>Whether to display rest service interface information through swagger. eg: http://ip:port/swagger.json</meaning>
+        <meaning>Whether to display rest service interface information through swagger. eg: http://ip:port/swagger.json
+        </meaning>
         <group>REST Service Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -5357,7 +5547,8 @@
     </flag>
     <flag>
         <name>rest_query_default_row_size_limit</name>
-        <meaning>the default row limit to a REST query response when the rowSize parameter is not given in request</meaning>
+        <meaning>the default row limit to a REST query response when the rowSize parameter is not given in request
+        </meaning>
         <group>REST Service Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -5443,7 +5634,8 @@
     </flag>
     <flag>
         <name>client_auth</name>
-        <meaning>SSL key store path key_store_path= SSL key store password key_store_pwd= Is client authentication required</meaning>
+        <meaning>SSL key store path key_store_path= SSL key store password key_store_pwd= Is client authentication required
+        </meaning>
         <group>REST Service Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -5461,7 +5653,8 @@
     </flag>
     <flag>
         <name>idle_timeout_in_seconds</name>
-        <meaning>SSL trust store path trust_store_path= SSL trust store password. trust_store_pwd= SSL timeout (in seconds)</meaning>
+        <meaning>SSL trust store path trust_store_path= SSL trust store password. trust_store_pwd= SSL timeout (in seconds)
+        </meaning>
         <group>REST Service Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -5497,8 +5690,8 @@
     <flag type="port">
         <name>influxdb_rpc_port</name>
         <meaning>Datatype: int</meaning>
-        <group>InfluxDB RPC Service Configuration,部署调整项</group>
-        <fill>1</fill>
+        <group>InfluxDB RPC Service Configuration</group>
+        <fill>0</fill>
         <showConstraint/>
         <constraint/>
         <format>port</format>
@@ -5513,7 +5706,8 @@
     </flag>
     <flag>
         <name>quota_enable</name>
-        <meaning>Quota Configuration If enabled, we can set different quotas for storage groups Datatype: boolean</meaning>
+        <meaning>Quota Configuration If enabled, we can set different quotas for storage groups Datatype: boolean
+        </meaning>
         <group>Quota Configuration</group>
         <fill>0</fill>
         <showConstraint/>
@@ -5530,8 +5724,47 @@
         </userDefined>
     </flag>
     <flag>
+        <name>rate_limiter_type</name>
+        <meaning>Resource recovery method 1、FixedIntervalRateLimiter : With this limiter resources will be refilled only after a fixed interval of time. 2、AverageIntervalRateLimiter : This limiter will refill resources at every TimeUnit/resources interval.
+        </meaning>
+        <group>Quota Configuration</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>select</format>
+        <options>FixedIntervalRateLimiter,AverageIntervalRateLimiter</options>
+        <default>FixedIntervalRateLimiter</default>
+        <defaultShowValue>FixedIntervalRateLimiter</defaultShowValue>
+        <showValue>FixedIntervalRateLimiter</showValue>
+        <current>FixedIntervalRateLimiter</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
+        <name>cea_enable</name>
+        <meaning>CEA When set to true, it can take effect by modifying the configuration-cea.xml configuration file
+        </meaning>
+        <group>CEA</group>
+        <fill>0</fill>
+        <showConstraint/>
+        <constraint/>
+        <format>select</format>
+        <options>true,false</options>
+        <default>false</default>
+        <defaultShowValue>false</defaultShowValue>
+        <showValue>false</showValue>
+        <current>false</current>
+        <valueUnits/>
+        <userDefined>
+            <position>iotdb-common.properties</position>
+        </userDefined>
+    </flag>
+    <flag>
         <name>public_key_file_name</name>
-        <meaning>License LicenseV3 the public key file, the default path is under the IoTDB folder(i.e., %IOTDB_HOME%/conf).</meaning>
+        <meaning>License LicenseV3 the public key file, the default path is under the IoTDB folder(i.e., %IOTDB_HOME%/conf).
+        </meaning>
         <group>License</group>
         <fill>0</fill>
         <showConstraint/>
@@ -5673,6 +5906,10 @@
             <value>Metric Configuration</value>
         </dictionary>
         <dictionary>
+            <name>Cluster Configuration</name>
+            <value>Cluster Configuration</value>
+        </dictionary>
+        <dictionary>
             <name>Replication configuration</name>
             <value>Replication configuration</value>
         </dictionary>
@@ -5767,6 +6004,10 @@
         <dictionary>
             <name>Quota Configuration</name>
             <value>Quota Configuration</value>
+        </dictionary>
+        <dictionary>
+            <name>CEA</name>
+            <value>CEA</value>
         </dictionary>
         <dictionary>
             <name>License</name>
